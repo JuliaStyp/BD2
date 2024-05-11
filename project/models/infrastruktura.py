@@ -11,7 +11,7 @@ class ElementInfrastruktury(Base):
     lokalizacja = Column(Integer, ForeignKey("lokalizacje.id"), nullable=False)
     obiekt = Column(Integer, ForeignKey("obiekty.id"), nullable=False)
     status = Column(Integer, ForeignKey("statusy_elementow.id"), nullable=False)
-    opis = Column(String, nullable=False)
+    opis = Column(String(1024), nullable=False)
     max_interwal = Column(Integer, nullable= False)
 
 
@@ -19,14 +19,14 @@ class TypInfrastruktury(Base):
     __tablename__ = "typy_infrastruktury"
 
     id = Column(Integer, primary_key=True)
-    typ = Column(String, nullable=False)
+    typ = Column(String(32), nullable=False)
 
 
 class Obiekt(Base):
     __tablename__ = "obiekty"
 
     id = Column(Integer, primary_key=True)
-    typ = Column(String, nullable=False)
+    typ = Column(String(32), nullable=False)
     do_uzytku = Column(Boolean, nullable=False)
 
 
@@ -34,7 +34,7 @@ class StatusElementu(Base):
     __tablename__ = "statusy_elementow"
 
     id = Column(Integer, primary_key=True)
-    status = Column(String, nullable=False)
+    status = Column(String(32), nullable=False)
 
 
 class Lokalizacja(Base):
@@ -43,7 +43,7 @@ class Lokalizacja(Base):
     id = Column(Integer, primary_key=True)
     szerokosc_geo = Column(Float, nullable=False)
     dlugosc_geo = Column(Float, nullable=False)
-    nazwa_miejsca = Column(String, nullable=True)
+    nazwa_miejsca = Column(String(32), nullable=True)
 
 
 
