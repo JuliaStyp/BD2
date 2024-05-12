@@ -1,5 +1,15 @@
-from sqlalchemy import Column, Integer, String, Date, Float, ForeignKey, Boolean, CheckConstraint, Numeric
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Date,
+    Float,
+    ForeignKey,
+    Boolean,
+    CheckConstraint,
+    Numeric,
+)
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
@@ -13,7 +23,7 @@ class ElementInfrastruktury(Base):
     obiekt = Column(Integer, ForeignKey("obiekty.id"), nullable=False)
     status = Column(Integer, ForeignKey("statusy_elementow.id"), nullable=False)
     opis = Column(String(1024), nullable=False)
-    max_interwal = Column(Integer, nullable= False)
+    max_interwal = Column(Integer, nullable=False)
 
 
 class TypInfrastruktury(Base):
@@ -55,7 +65,9 @@ class Monitoring(Base):
     wartosc_pomiaru = Column(Float, nullable=False)
     czujnik_id = Column(Integer, ForeignKey("czujnik.id"), nullable=False)
     typ_pomiaru_id = Column(Integer, ForeignKey("typ_pomiaru.id"), nullable=False)
-    zgloszenie_id = Column(Integer, ForeignKey("zgloszenia_przegladow.id"), nullable=True)
+    zgloszenie_id = Column(
+        Integer, ForeignKey("zgloszenia_przegladow.id"), nullable=True
+    )
 
     # czujnik = relationship("Czujnik", back_populates="monitoring")
     # typ_pomiaru = relationship("TypPomiaru", back_populates="monitoring")
@@ -109,7 +121,9 @@ class Naprawa(Base):
 
 class PowodNaprawy(Base):
     __tablename__ = "powody_naprawy"
-    __table_args__ = (CheckConstraint("(przeglad_id IS NULL) <> (zgloszenie_id IS NULL)"),)
+    __table_args__ = (
+        CheckConstraint("(przeglad_id IS NULL) <> (zgloszenie_id IS NULL)"),
+    )
 
     id = Column(Integer, primary_key=True)
     przeglad_id = Column(Integer, ForeignKey("przeglady.id"), nullable=True)
@@ -124,7 +138,9 @@ class ZgloszenieNaprawy(Base):
     __tablename__ = "zgloszenia_naprawy"
 
     id = Column(Integer, primary_key=True)
-    element_id = Column(Integer, ForeignKey("elementy_infrastruktury.id"), nullable=False)
+    element_id = Column(
+        Integer, ForeignKey("elementy_infrastruktury.id"), nullable=False
+    )
     data = Column(Date, nullable=False)
     zglaszajacy = Column(String(64), nullable=False)
     uwagi = Column(String(128), nullable=True)
@@ -164,14 +180,18 @@ class PowodPrzegladu(Base):
 
     id = Column(Integer, primary_key=True)
     powod = Column(String(128), nullable=False)
-    zgloszenie_id = Column(Integer, ForeignKey("zgloszenia_przegladow.id"), unique=True, nullable=False)
+    zgloszenie_id = Column(
+        Integer, ForeignKey("zgloszenia_przegladow.id"), unique=True, nullable=False
+    )
 
 
 class SprawdzoneElementy(Base):
     __tablename__ = "sprawdzone_elementy"
 
     przeglad_fk = Column(Integer, ForeignKey("przeglady.id"), primary_key=True)
-    element_infrastruktury_fk = Column(Integer, ForeignKey("elementy_infrastruktury.id"), primary_key=True)
+    element_infrastruktury_fk = Column(
+        Integer, ForeignKey("elementy_infrastruktury.id"), primary_key=True
+    )
 
 
 class ZgloszeniePrzegladu(Base):
@@ -181,7 +201,9 @@ class ZgloszeniePrzegladu(Base):
     data = Column(Date, nullable=False)
     zglaszajacy = Column(String(32), nullable=False)
     uwagi = Column(String(128), nullable=True)
-    element_id = Column(Integer, ForeignKey("elementy_infrastruktury.id"), nullable=False)
+    element_id = Column(
+        Integer, ForeignKey("elementy_infrastruktury.id"), nullable=False
+    )
 
 
 class Uzytkownik(Base):

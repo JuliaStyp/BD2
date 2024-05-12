@@ -5,9 +5,14 @@ description = ""
 authors = []
 readme = "README.md"
 
+[tool.poetry.scripts]
+app = 'project:app:cli'
+
 [tool.poetry.dependencies]
 python = "^3.10"
 sqlalchemy = "^2.0.30"
+python-dotenv = "^1.0.1"
+structlog = "^24.1.0"
 
 
 [build-system]

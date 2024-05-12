@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from project.db.models import Rola, Uzytkownik
-from project.db.database import db
 
-auth_bp = Blueprint('auth_bp', __name__, url_prefix="/auth")
+from project.db import db, Rola, Uzytkownik
+
+auth_bp = Blueprint("auth_bp", __name__, url_prefix="/auth")
 
 
 @auth_bp.route("/")
@@ -20,7 +20,7 @@ def user_create():
             imie=request.form["imie"],
             nazwisko=request.form["nazwisko"],
             email=request.form["email"],
-            numer_tel=request.form["numer_tel"]
+            numer_tel=request.form["numer_tel"],
         )
         db.session.add(user)
         db.session.commit()
@@ -32,10 +32,7 @@ def user_create():
 @auth_bp.route("/role", methods=["GET", "POST"])
 def role_create():
     if request.method == "POST":
-        role = Rola(
-            id=request.form["id"],
-            rola=request.form["rola"]
-        )
+        role = Rola(id=request.form["id"], rola=request.form["rola"])
         db.session.add(role)
         db.session.commit()
         return redirect(url_for("auth"))

@@ -1,25 +1,33 @@
 import os
 
+import click
 from flask import Flask
+
+from project.db import db, init_db
 from routes.auth import auth_bp
-from project.db.database import db
 
-# create the extension
-
-# create the app
 app = Flask(__name__)
-# configure the SQLite db, relative to the app instance folder
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DB_URL"]
 # "postgresql://postgres:postgres@localhost:5432/postgres"
-db.init_app(app)
-
 app.register_blueprint(auth_bp)
 
-
-@app.route('/')
-def index():
-    return 'Hello, World!'
+db.init_app(app)
 
 
-if __name__ == '__main__':
+@click.group()
+def cli() -> None:
+    pass
+
+
+@cli.command("run")
+def run() -> None:
     app.run(debug=True)
+
+
+@cli.command("init-db")
+def initdb() -> None:
+    init_db()
+
+
+if __name__ == "__main__":
+    cli()
