@@ -6,7 +6,7 @@ authors = []
 readme = "README.md"
 
 [tool.poetry.scripts]
-app = 'project:cli'
+app = 'project:app:cli'
 
 [tool.poetry.dependencies]
 python = "^3.10"

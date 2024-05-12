@@ -9,7 +9,7 @@ from sqlalchemy import (
     CheckConstraint,
     Numeric,
 )
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
@@ -69,9 +69,9 @@ class Monitoring(Base):
         Integer, ForeignKey("zgloszenia_przegladow.id"), nullable=True
     )
 
-    czujnik = relationship("Czujnik", back_populates="monitoring")
-    typ_pomiaru = relationship("TypPomiaru", back_populates="monitoring")
-    zgloszenie = relationship("ZgloszeniePrzegladu", back_populates="monitoring")
+    # czujnik = relationship("Czujnik", back_populates="monitoring")
+    # typ_pomiaru = relationship("TypPomiaru", back_populates="monitoring")
+    # zgloszenie = relationship("ZgloszeniePrzegladu", back_populates="monitoring")
 
 
 class Czujnik(Base):
@@ -80,10 +80,8 @@ class Czujnik(Base):
     id = Column(Integer, primary_key=True)
     lokalizacja_id = Column(Integer, ForeignKey("lokalizacje.id"), nullable=False)
 
-    monitoring = relationship("Monitoring", back_populates="czujnik")
-    obslugiwane_typy_pomiarow = relationship(
-        "ObslugiwaneTypyPomiarow", back_populates="czujnik"
-    )
+    # monitoring = relationship("Monitoring", back_populates="czujnik")
+    # obslugiwane_typy_pomiarow = relationship("ObslugiwaneTypyPomiarow", back_populates="czujnik")
 
 
 class ObslugiwaneTypyPomiarow(Base):
@@ -92,8 +90,8 @@ class ObslugiwaneTypyPomiarow(Base):
     typ_pomiaru_fk = Column(Integer, ForeignKey("typ_pomiaru.id"), primary_key=True)
     czujnik_fk = Column(Integer, ForeignKey("czujnik.id"), primary_key=True)
 
-    typ_pomiaru = relationship("TypPomiaru", back_populates="obslugiwane_typy_pomiarow")
-    czujnik = relationship("Czujnik", back_populates="obslugiwane_typy_pomiarow")
+    # typ_pomiaru = relationship("TypPomiaru", back_populates="obslugiwane_typy_pomiarow")
+    # czujnik = relationship("Czujnik", back_populates="obslugiwane_typy_pomiarow")
 
 
 class TypPomiaru(Base):
@@ -103,10 +101,8 @@ class TypPomiaru(Base):
     typ = Column(String(32), nullable=False)
     jednostka = Column(String(16), nullable=False)
 
-    monitoring = relationship("Monitoring", back_populates="typ_pomiaru")
-    obslugiwane_typy_pomiarow = relationship(
-        "ObslugiwaneTypyPomiarow", back_populates="typ_pomiaru"
-    )
+    # monitoring = relationship("Monitoring", back_populates="typ_pomiaru")
+    # obslugiwane_typy_pomiarow = relationship("ObslugiwaneTypyPomiarow", back_populates="typ_pomiaru")
 
 
 class Naprawa(Base):
@@ -208,3 +204,21 @@ class ZgloszeniePrzegladu(Base):
     element_id = Column(
         Integer, ForeignKey("elementy_infrastruktury.id"), nullable=False
     )
+
+
+class Uzytkownik(Base):
+    __tablename__ = "uzytkownicy"
+
+    id = Column(Integer, primary_key=True)
+    rola_fk = Column(Integer, ForeignKey("rola.id"), nullable=False)
+    imie = Column(String(32), nullable=False)
+    nazwisko = Column(String(32), nullable=True)
+    email = Column(String(32), unique=True, nullable=False)
+    numer_tel = Column(String(32), nullable=True)
+
+
+class Rola(Base):
+    __tablename__ = "rola"
+
+    id = Column(Integer, primary_key=True)
+    rola = Column(String(32), nullable=False)

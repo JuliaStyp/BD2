@@ -1,9 +1,17 @@
+import os
+
 import click
-from dotenv import load_dotenv
+from flask import Flask
 
-import db
+from project.db import db, init_db
+from routes.auth import auth_bp
 
-load_dotenv()
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DB_URL"]
+# "postgresql://postgres:postgres@localhost:5432/postgres"
+app.register_blueprint(auth_bp)
+
+db.init_app(app)
 
 
 @click.group()
@@ -11,9 +19,14 @@ def cli() -> None:
     pass
 
 
+@cli.command("run")
+def run() -> None:
+    app.run(debug=True)
+
+
 @cli.command("init-db")
 def initdb() -> None:
-    db.init()
+    init_db()
 
 
 if __name__ == "__main__":
