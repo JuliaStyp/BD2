@@ -14,6 +14,7 @@ db_session = scoped_session(
 
 db = SQLAlchemy()
 
+
 def init() -> None:
     from project.db.models import Base
 

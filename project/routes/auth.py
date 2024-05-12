@@ -2,21 +2,16 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from project.db.models import Rola, Uzytkownik
 from project.db.database import db
 
-auth_bp = Blueprint('auth_bp', __name__)
+auth_bp = Blueprint('auth_bp', __name__, url_prefix="/auth")
 
 
-@auth_bp.route('/')
-def index():
-    return 'Hello, World!'
-
-
-@auth_bp.route("/auth")
+@auth_bp.route("/")
 def auth():
     users = db.session.execute(db.select(Uzytkownik).order_by(Uzytkownik.id)).scalars()
     return render_template("auth.html", users=users)
 
 
-@auth_bp.route("/auth/register", methods=["GET", "POST"])
+@auth_bp.route("/register", methods=["GET", "POST"])
 def user_create():
     if request.method == "POST":
         user = Uzytkownik(
@@ -34,7 +29,7 @@ def user_create():
     return render_template("register.html")
 
 
-@auth_bp.route("/auth/role", methods=["GET", "POST"])
+@auth_bp.route("/role", methods=["GET", "POST"])
 def role_create():
     if request.method == "POST":
         role = Rola(
