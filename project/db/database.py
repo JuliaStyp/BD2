@@ -16,7 +16,7 @@ db = SQLAlchemy()
 
 
 def init_db() -> None:
-    from project.db.models import Base
+    from db.models import Base
 
     Base.query = db_session.query_property()
     Base.metadata.create_all(engine)

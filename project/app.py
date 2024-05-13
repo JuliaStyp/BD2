@@ -3,7 +3,7 @@ import os
 import click
 from flask import Flask
 
-from project.db import db, init_db
+from db import db, init_db
 from routes.auth import auth_bp
 
 app = Flask(__name__)
