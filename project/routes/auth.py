@@ -9,7 +9,7 @@ auth_bp = Blueprint("auth_bp", __name__, url_prefix="/auth")
 @auth_bp.route("/")
 def auth():
     users = db.session.execute(db.select(Uzytkownik).order_by(Uzytkownik.id)).scalars()
-    return render_template("auth.html", users=users)
+    return render_template("auth/auth.html", users=users)
 
 
 @auth_bp.route("/register", methods=["GET", "POST"])
@@ -28,7 +28,7 @@ def user_create():
         db.session.commit()
         return redirect(url_for("auth_bp.auth"))
 
-    return render_template("register.html")
+    return render_template("auth/register.html")
 
 
 @auth_bp.route("/role", methods=["GET", "POST"])
@@ -39,7 +39,7 @@ def role_create():
         db.session.commit()
         return redirect(url_for("auth_bp.auth"))
 
-    return render_template("role.html")
+    return render_template("auth/role.html")
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
@@ -60,7 +60,7 @@ def login():
             error = "Invalid email or password"
             return render_template("login.html", error=error)
 
-    return render_template("login.html")
+    return render_template("auth/login.html")
 
 
 @auth_bp.route("/logout")
@@ -70,14 +70,4 @@ def logout():
     return redirect(url_for("auth_bp.login"))
 
 
-@auth_bp.context_processor
-def inject_login_status():
-    if 'user_id' in session:
-        user_id = session['user_id']
-        role = session['role']
-        logged_in = True
-    else:
-        user_id = None
-        role = None
-        logged_in = False
-    return dict(logged_in=logged_in, user_id=user_id, role=role)
+

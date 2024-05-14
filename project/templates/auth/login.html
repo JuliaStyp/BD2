@@ -4,16 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
     <style>
-        .home-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: transparent;
-            border: none;
-            color: blue;
-            text-decoration: underline;
-        }
         body {
             display: flex;
             flex-direction: column;
@@ -40,8 +32,7 @@
     </style>
 </head>
 <body>
-
-    <a class="home-button" href="{{ url_for('auth_bp.auth') }}">Strona główna</a>
+    <a class="home-button" href="{{ url_for('index_bp.index') }}">Strona główna</a>
     <h1>Logowanie</h1>
     <form action="{{ url_for('auth_bp.login') }}" method="post">
         <div>
