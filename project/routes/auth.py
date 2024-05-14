@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from werkzeug.security import check_password_hash
 
 from db import db, Rola, Uzytkownik
@@ -51,11 +51,33 @@ def login():
         # Example logic for authentication (replace with your actual logic)
         user = db.session.query(Uzytkownik).filter_by(email=email).first()
         if user and check_password_hash(user.password_hash, password):
-            # Successful login, redirect to dashboard or home page
-            return redirect(url_for("dashboard"))  # Change "dashboard" to your actual endpoint
+            # Successful login, redirect to home page
+            session['user_id'] = user.id
+            session['role'] = user.rola_fk
+            return redirect(url_for("auth_bp.auth"))
         else:
             # Invalid credentials, show error message
             error = "Invalid email or password"
             return render_template("login.html", error=error)
 
     return render_template("login.html")
+
+
+@auth_bp.route("/logout")
+def logout():
+    # Clear session data (log out user)
+    session.clear()
+    return redirect(url_for("auth_bp.login"))
+
+
+@auth_bp.context_processor
+def inject_login_status():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        role = session['role']
+        logged_in = True
+    else:
+        user_id = None
+        role = None
+        logged_in = False
+    return dict(logged_in=logged_in, user_id=user_id, role=role)

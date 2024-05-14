@@ -4,8 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User List</title>
+    <style>
+    .login-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            color: green;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
+    {% if logged_in %}
+        <p>Zalogowany z rolą {{ role }}</p>
+        <a class="login-link" href="{{ url_for('auth_bp.logout') }}">Wyloguj</a>
+    {% else %}
+        <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
+    {% endif %}
     <h1>User List</h1>
     <ul>
         {% for user in users %}

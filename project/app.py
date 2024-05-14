@@ -6,10 +6,14 @@ from flask import Flask
 from db import db, init_db
 from routes.auth import auth_bp
 
+is_logged_in = False
+is_admin = False
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DB_URL"]
 # "postgresql://postgres:postgres@localhost:5432/postgres"
 app.register_blueprint(auth_bp)
+app.secret_key = 'random_string_of_characters'
 
 db.init_app(app)
 
