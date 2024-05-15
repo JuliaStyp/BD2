@@ -54,6 +54,7 @@ def login():
             # Successful login, redirect to home page
             session['user_id'] = user.id
             session['role'] = user.rola_fk
+            session['user_name'] = user.imie
             return redirect(url_for("auth_bp.auth"))
         else:
             # Invalid credentials, show error message

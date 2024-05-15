@@ -14,7 +14,25 @@
         <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
     {% endif %}
 
-    <h1>Strona główna</h1>
+    <a href="{{ url_for('index_bp.index') }}">
+    <img class="hyperloop_logo" src="{{ url_for('static', filename='img/hyperloop_logo.png') }}" alt="hyperloop_logo.png">
+    </a>
+    
+    <nav class="navigation">
+        <ul class="menu">
+            <li><a href="#">Przeglądy</a></li>
+            <li><a href="#">Naprawy</a></li>
+            <li><a href="#">Serwisanci</a></li>
+            <li><a href="#">Raporty</a></li>
+            <li><a href="#">Infrastruktura</a></li>
+        </ul>
+    </nav>
+    {% if logged_in %}
+    <div>
+        <p> Witaj, {{ user_name }}!</p>
+    </div>   
+    {% endif %}
+
     <a href="{{ url_for('auth_bp.auth') }}">Zarządzanie użytkownikami</a>
 
 
