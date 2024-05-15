@@ -6,6 +6,7 @@ from flask import Flask, session
 from db import db, init_db
 from routes.auth import auth_bp
 from routes.index import index_bp
+from routes.repairs import repairs_bp
 
 is_logged_in = False
 is_admin = False
@@ -17,6 +18,7 @@ app.secret_key = 'random_string_of_characters'
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(index_bp)
+app.register_blueprint(repairs_bp)
 
 db.init_app(app)
 

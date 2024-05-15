@@ -1,2 +1,2 @@
 from .database import db, init_db
-from .models import Rola, Uzytkownik
+from .models import Rola, Uzytkownik, PowodNaprawy, Przeglad, ZgloszenieNaprawy
