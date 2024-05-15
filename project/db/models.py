@@ -210,7 +210,7 @@ class ZgloszeniePrzegladu(Base):
 class Uzytkownik(Base):
     __tablename__ = "uzytkownicy"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     rola_fk = Column(Integer, ForeignKey("rola.id"), nullable=False)
     imie = Column(String(32), nullable=False)
     nazwisko = Column(String(32), nullable=True)
@@ -228,5 +228,5 @@ class Uzytkownik(Base):
 class Rola(Base):
     __tablename__ = "rola"
 
-    id = Column(Integer, primary_key=True)
-    rola = Column(String(32), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    rola = Column(String(32), nullable=False, unique=True)

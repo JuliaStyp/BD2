@@ -26,12 +26,14 @@ def inject_login_status():
     if 'user_id' in session:
         user_id = session['user_id']
         role = session['role']
+        role_name = session['role_name']
         logged_in = True
     else:
         user_id = None
         role = None
+        role_name = None
         logged_in = False
-    return dict(logged_in=logged_in, user_id=user_id, role=role)
+    return dict(logged_in=logged_in, user_id=user_id, role=role, role_name=role_name)
 
 
 @click.group()
