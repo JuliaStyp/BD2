@@ -4,12 +4,13 @@ import click
 from flask import Flask
 
 from project.db import db, init_db
-from routes.auth import auth_bp
+from project.routes import auth_bp, inspections_bp
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DB_URL"]
 # "postgresql://postgres:postgres@localhost:5432/postgres"
 app.register_blueprint(auth_bp)
+app.register_blueprint(inspections_bp)
 
 db.init_app(app)
 

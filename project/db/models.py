@@ -1,3 +1,5 @@
+from typing import Any
+
 from sqlalchemy import (
     Column,
     Integer,
@@ -12,6 +14,12 @@ from sqlalchemy import (
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
+
+
+class SerializedBase:
+
+    def to_dict(self) -> dict[str, Any]:
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class ElementInfrastruktury(Base):
@@ -155,7 +163,7 @@ class Serwisant(Base):
     adres_mail = Column(String(128), nullable=False)
 
 
-class Przeglad(Base):
+class Przeglad(Base, SerializedBase):
     __tablename__ = "przeglady"
 
     id = Column(Integer, primary_key=True)
@@ -168,11 +176,11 @@ class Przeglad(Base):
     koszt = Column(Numeric(precision=2), nullable=False)
 
 
-class TypPrzegladu(Base):
+class TypPrzegladu(Base, SerializedBase):
     __tablename__ = "typy_przegladow"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    typ = Column(String(128), nullable=False)
+    typ = Column(String(128), unique=True, nullable=False)
 
 
 class PowodPrzegladu(Base):
