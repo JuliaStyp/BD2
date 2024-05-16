@@ -1,7 +1,8 @@
 from wtforms import Form, BooleanField, StringField, PasswordField, IntegerField, TextAreaField,\
-                    DateField
+                    DateField, DecimalField
 from wtforms.validators import NumberRange, InputRequired, Length, Optional
-from db import db, Rola, Uzytkownik, ZgloszenieNaprawy, Przeglad, PowodNaprawy, ElementInfrastruktury
+from db import db, Rola, Uzytkownik, ZgloszenieNaprawy, Przeglad, PowodNaprawy, ElementInfrastruktury,\
+                    Serwisant
 
 class RepairReasonForm(Form):
     inspection_id = IntegerField("Id przeglądu", validators=[Optional()])
@@ -10,12 +11,13 @@ class RepairReasonForm(Form):
                             validators=[NumberRange(min=0, max=5, message="Priorytet musi być z zakresu <1,5>"),
                                         InputRequired()])
     remarks = TextAreaField("Uwagi",
-                            validators=[Length(min=0, max=1024, message="Uwagi mogą zawierać maksymalnie 1024 znaków")])
+                            validators=[Length(min=0, max=1024, message="Uwagi mogą zawierać maksymalnie 1024 znaków"),
+                                        Optional()])
 
 
     def validate_inspection_id(form, self):
         if self.data is not None:
-            if not db.session.query(Przeglad).filter_by(id=self.data).exists():
+            if not db.session.query(Przeglad).filter_by(id=self.data).first():
                 self.errors.append("Nie istnieje przegląd o podanym id")
                 return False
         return True
@@ -23,10 +25,10 @@ class RepairReasonForm(Form):
 
     def validate_repair_need_report_id(form, self):
         if self.data is not None:
-            if not db.session.query(ZgloszenieNaprawy).filter_by(id=self.data).exists():
+            if not db.session.query(ZgloszenieNaprawy).filter_by(id=self.data).first():
                 self.errors.append("Nie istnieje zgłoszenie potrzeby naprawy o podanym id")
                 return False
-            if db.session.query(PowodNaprawy).filter_by(zgloszenie_id=self.data).exists():
+            if db.session.query(PowodNaprawy).filter_by(zgloszenie_id=self.data).first():
                 self.errors.append(
                     "Zgłoszenie potrzeby naprawy o podanym id zostało już przypisane do istniejącej naprawy")
                 return False
@@ -45,7 +47,7 @@ class RepairReasonForm(Form):
 
 
 class RepairNeedReportForm(Form):
-    element_id = IntegerField("Id elementu infrastruktury, który potrzebuje naprawy",
+    element_id = IntegerField("Id elementu infrastruktury, który wymaga naprawy",
                               validators=[InputRequired()])
     date = DateField("Data zgłoszenia potrzeby naprawy",
                      validators=[InputRequired()])
@@ -56,15 +58,70 @@ class RepairNeedReportForm(Form):
                                            message="Osoba zgłaszająca może zawierać maksymalnie 64 znaków")])
     remarks = TextAreaField("Uwagi",
                             validators=
-                            [Length(min=0, max=128, message="Uwagi mogą zawierać maksymalnie 128 znaków")])
+                            [Length(min=0, max=128, message="Uwagi mogą zawierać maksymalnie 128 znaków"),
+                             Optional()])
 
 
     def validate_element_id(form, self):
-        if not db.session.query(ElementInfrastruktury).filter_by(id=self.data).exists():
+        if not db.session.query(ElementInfrastruktury).filter_by(id=self.data).first():
             self.errors.append("Nie istnieje element infrastruktury o podanym id")
             return False
         else:
             return True
+
+
+class RepairForm(Form):
+    reason_id = IntegerField("Id powodu naprawy",
+                             validators=[InputRequired()])
+    maintainer_id = IntegerField("Id serwisanta",
+                              validators=[InputRequired()])
+    element_id = IntegerField("Id elementu infrastruktury, który wymaga naprawy",
+                              validators=[InputRequired()])
+    date_start = DateField("Data rozpoczęcia naprawy",
+                           validators=[InputRequired()])
+    date_end = DateField("Data zakończenia naprawy",
+                         validators=[Optional()])
+    cost = DecimalField("Koszt naprawy",
+                        validators=[InputRequired()])
+
+    def validate(self):
+        super_succes = super().validate()
+        success = True
+        if self.date_end.data is not None and self.date_start.data is not None:
+            if self.date_end.data < self.date_start.data:
+                self.form_errors.append("Data zakończenia musi być poźniejsza od daty rozpoczęcia")
+                success = False
+        return super_succes and success
+
+
+    def validate_reason_id(form, self):
+        if not db.session.query(PowodNaprawy).filter_by(id=self.data).first():
+            self.errors.append("Nie istnieje podód naprawy o podanym id")
+            return False
+        else:
+            return True
+
+
+    def validate_maintainer_id(form, self):
+        if not db.session.query(Serwisant).filter_by(id=self.data).first():
+            self.errors.append("Nie istnieje serwisant o podanym id")
+            return False
+        else:
+            return True
+
+
+    def validate_element_id(form, self):
+        if not db.session.query(ElementInfrastruktury).filter_by(id=self.data).first():
+            self.errors.append("Nie istnieje element infrastruktury o podanym id")
+            return False
+        else:
+            return True
+
+
+
+
+
+
 
 
 
