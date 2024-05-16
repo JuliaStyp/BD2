@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+    h1 {
+        margin-top: 40px;
+    }
+    </style>
+</head>
+<body>
+    <a class="home-button" href="{{ url_for('index_bp.index') }}">Strona główna</a>
+    {% if logged_in %}
+        <a class="logged-in-text"> Zalogowany z rolą {{ role_name }}</a>
+        <a class="logout-link" href="{{ url_for('auth_bp.logout') }}">Wyloguj</a>
+    {% else %}
+        <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
+    {% endif %}
+    <h1>Lista użytkowników</h1>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.imie }} {{ user.nazwisko }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('auth_bp.user_create') }}">Stwórz nowego użytkownika</a><br>
+    <a href="{{ url_for('auth_bp.role_create') }}">Stwórz nową rolę</a>
+</body>
+</html>
