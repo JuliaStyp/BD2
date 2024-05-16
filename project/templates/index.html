@@ -22,37 +22,40 @@
         <ul class="menu">
             <li><a href="#">Przeglądy</a></li>
             <li><a href="#">Naprawy</a></li>
-            <li><a href="#">Serwisanci</a></li>
+            <li><a href="{{ url_for('service_bp.service') }}">Serwisanci</a></li>
             <li><a href="#">Raporty</a></li>
             <li><a href="#">Infrastruktura</a></li>
         </ul>
     </nav>
-    {% if logged_in %}
-    <div>
-        <p> Witaj, {{ user_name }}!</p>
-    </div>   
-    {% endif %}
 
-    <div class="last-elements">
-        <ol class="last-inspections">
-            Ostatnie przeglądy:
-            {% for inspection in inspections %}
-            <a href="#"> <!-- dodać linki do podstrony przeglądu -->
-                <li>ID: {{ inspection.id }}</li>
-            </a>
-            {% endfor %}
-        </ol>
-        <ol class="last-repairs">
-            Ostatnie naprawy:
-            {% for repair in repairs %}
-            <a href="#"> <!-- dodać linki do podstrony przeglądu -->
-                <li>ID: {{ repair.id }}</li>
-            </a>
-            {% endfor %}
-        </ol>
-    </div>
+    {% block content %}
+        {% if logged_in %}
+        <div>
+            <p> Witaj, {{ user_name }}!</p>
+        </div>   
+        {% endif %}
 
-    <a href="{{ url_for('auth_bp.auth') }}">Zarządzanie użytkownikami</a>
+        <div class="last-elements">
+            <ol class="last-inspections">
+                Ostatnie przeglądy:
+                {% for inspection in inspections %}
+                <a href="#"> <!-- dodać linki do podstrony przeglądu -->
+                    <li>ID: {{ inspection.id }}</li>
+                </a>
+                {% endfor %}
+            </ol>
+            <ol class="last-repairs">
+                Ostatnie naprawy:
+                {% for repair in repairs %}
+                <a href="#"> <!-- dodać linki do podstrony przeglądu -->
+                    <li>ID: {{ repair.id }}</li>
+                </a>
+                {% endfor %}
+            </ol>
+        </div>
+
+        <a href="{{ url_for('auth_bp.auth') }}">Zarządzanie użytkownikami</a>
+    {% endblock %}
 
 
 
