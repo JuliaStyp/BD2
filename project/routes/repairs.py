@@ -86,6 +86,18 @@ def create_report():
     return render_template("repairs/create_report.html", **context)
 
 
+@repairs_bp.route("/repair-need-reports/delete/<id>", methods=["POST"])
+def delete_report(id):
+    try:
+        repair_need_report = db.session.query(ZgloszenieNaprawy).filter_by(id=id).first()
+        db.session.delete(repair_need_report)
+        db.session.commit()
+        flash("Pomyślnie usunięto zgłoszenie potrzeby naprawy")
+    except:
+        flash("Ups, coś poszło nie tak")
+    return redirect(url_for("repairs_bp.list_reports"))
+
+
 # REPAIRS
 
 @repairs_bp.route("", methods=["GET"])
