@@ -3,7 +3,7 @@ import os
 import click
 from flask import Flask, session
 
-from db import db, init_db
+from db import db, init_db, insert_data, clear_db
 from routes.auth import auth_bp
 from routes.index import index_bp
 
@@ -49,6 +49,18 @@ def run() -> None:
 @cli.command("init-db")
 def initdb() -> None:
     init_db()
+
+
+@cli.command("insert-data")
+def insertdata() -> None:
+    with app.app_context():
+        insert_data()
+
+
+@cli.command("clear-db")
+def cleardb() -> None:
+    with app.app_context():
+        clear_db()
 
 
 if __name__ == "__main__":
