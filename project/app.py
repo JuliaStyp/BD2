@@ -3,9 +3,9 @@ import os
 import click
 from flask import Flask, session
 
-from db import db, init_db, insert_data, clear_db
-from routes.auth import auth_bp
-from routes.index import index_bp
+from project.db import db, init_db, clear_db
+from project.routes.auth import auth_bp
+from project.routes.index import index_bp
 
 is_logged_in = False
 is_admin = False
@@ -13,7 +13,7 @@ is_admin = False
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DB_URL"]
 # "postgresql://postgres:postgres@localhost:5432/postgres"
-app.secret_key = 'random_string_of_characters'
+app.secret_key = "random_string_of_characters"
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(index_bp)
@@ -23,10 +23,10 @@ db.init_app(app)
 
 @app.context_processor
 def inject_login_status():
-    if 'user_id' in session:
-        user_id = session['user_id']
-        role = session['role']
-        role_name = session['role_name']
+    if "user_id" in session:
+        user_id = session["user_id"]
+        role = session["role"]
+        role_name = session["role_name"]
         logged_in = True
     else:
         user_id = None
@@ -49,12 +49,6 @@ def run() -> None:
 @cli.command("init-db")
 def initdb() -> None:
     init_db()
-
-
-@cli.command("insert-data")
-def insertdata() -> None:
-    with app.app_context():
-        insert_data()
 
 
 @cli.command("clear-db")
