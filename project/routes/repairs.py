@@ -39,9 +39,22 @@ def list_repair_reasons():
     return render_template("repairs/list_repair_reasons.html", **context)
 
 
+@repairs_bp.route("/repair-reasons/delete/<id>", methods=["POST"])
+def delete_repair_reason(id):
+    try:
+        repair_reason = db.session.query(PowodNaprawy).filter_by(id=id).first()
+        db.session.delete(repair_reason)
+        db.session.commit()
+        flash("Pomyślnie usunięto powód naprawy")
+    except:
+        flash("Ups, coś poszło nie tak")
+    return redirect(url_for("repairs_bp.list_repair_reasons"))
+
+
+
 # REAPIR NEED REPORTS
 
-@repairs_bp.route("/repair-need-raports", methods=["GET"])
+@repairs_bp.route("/repair-need-reports", methods=["GET"])
 def list_reports():
     context = {}
     reports = db.session.query(ZgloszenieNaprawy).all()
@@ -50,7 +63,7 @@ def list_reports():
     return render_template("repairs/list_reports.html", **context)
 
 
-@repairs_bp.route("/repair-need-raports/create", methods=["GET, POST"])
+@repairs_bp.route("/repair-need-reports/create", methods=["GET", "POST"])
 def create_report():
     context = {}
     if request.method == "POST":

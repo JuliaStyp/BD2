@@ -1,0 +1,28 @@
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<div id="repair_reasons_container">
+
+  {% if reasons %}
+  <ul>
+    {% for reason in reasons %}
+      Id: {{reason.id}} <br>
+      Id przeglądu: {{ reason.przeglad_id }} <br>
+      Id przeglądu: {{ reason.zgloszenie_id }} <br>
+      Priorytet: {{ reason.priorytet }} <br>
+      Uwagi: {{ reason.uwagi }} <br>
+
+      <form method="post" action="{{ url_for('repairs_bp.delete_repair_reason', id=reason.id) }}">
+        <input type="submit" value="Usuń">
+      </form>
+    {% endfor %}
+  {% endif %}
+
+</div>
