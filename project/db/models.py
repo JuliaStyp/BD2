@@ -122,7 +122,7 @@ class Naprawa(Base):
     )
     data_rozpoczecia = Column(Date, nullable=False)
     data_zakonczenia = Column(Date, nullable=True)
-    koszt = Column(Numeric(precision=2), nullable=False)
+    koszt = Column(Numeric(precision=15, scale=2), nullable=False)
 
 
 class PowodNaprawy(Base):
@@ -181,7 +181,7 @@ class Przeglad(Base):
     opis_zakresu_prac = Column(String(1024), nullable=False)
     data_rozpoczecia = Column(Date, nullable=False)
     data_zakonczenia = Column(Date, nullable=True)
-    koszt = Column(Numeric(precision=2), nullable=False)
+    koszt = Column(Numeric(precision=15, scale=2), nullable=False)
 
 
 class TypPrzegladu(Base):

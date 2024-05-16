@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from werkzeug.security import check_password_hash
 
-from db import db, Rola, Uzytkownik
+from project.db import db, Rola, Uzytkownik
 
 auth_bp = Blueprint("auth_bp", __name__, url_prefix="/auth")
 
