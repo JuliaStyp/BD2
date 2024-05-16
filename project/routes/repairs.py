@@ -4,6 +4,9 @@ from forms import RepairReasonForm, RepairNeedReportForm, RepairForm
 
 repairs_bp = Blueprint("repairs_bp", __name__, url_prefix="/repairs")
 
+
+# REPAIR REASONS
+
 @repairs_bp.route("/repair-reasons/create", methods=["GET", "POST"])
 def create_repair_reason():
     context = {}
@@ -29,8 +32,48 @@ def create_repair_reason():
 
 @repairs_bp.route("/repair-reasons", methods=["GET"])
 def list_repair_reasons():
-    return render_template("repairs/list_repair_reasons.html")
+    context = {}
+    reasons = db.session.query(PowodNaprawy).all()
+    context['reasons'] = reasons
 
+    return render_template("repairs/list_repair_reasons.html", **context)
+
+
+# REAPIR NEED REPORTS
+
+@repairs_bp.route("/repair-need-raports", methods=["GET"])
+def list_reports():
+    context = {}
+    reports = db.session.query(ZgloszenieNaprawy).all()
+    context['reports'] = reports
+
+    return render_template("repairs/list_reports.html", **context)
+
+
+@repairs_bp.route("/repair-need-raports/create", methods=["GET, POST"])
+def create_report():
+    context = {}
+    if request.method == "POST":
+        form = RepairNeedReportForm(request.form)
+        if form.validate():
+            new_repair_reason = ZgloszenieNaprawy(
+                element_id=form.element_id.data,
+                data=form.date.data,
+                zglaszajacy=form.reporting_person.data,
+                uwagi=form.remarks.data
+            )
+            db.session.add(new_repair_reason)
+            db.session.commit()
+            flash("Pomyślnie dodano zgłoszenie potrzeby naprawy")
+            return redirect(url_for("repairs_bp.list_reports"))
+    else:
+        form = RepairNeedReportForm()
+    context['form'] = form
+
+    return render_template("repairs/create_report.html", **context)
+
+
+# REPAIRS
 
 @repairs_bp.route("", methods=["GET"])
 def list_repairs():
