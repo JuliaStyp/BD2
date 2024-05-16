@@ -41,8 +41,8 @@ class RepairReasonForm(Form):
         if ((self.inspection_id.data is not None and self.repair_need_report_id.data is not None) or
             (self.inspection_id.data is None and self.repair_need_report_id.data is None)):
             success = False
-            self.form_errors.append
-            ("Musisz wybrać id zgłoszenia potrzeby naprawy lub id przeglądu, nie możesz wybrać obu na raz")
+            self.form_errors.append(
+                "Musisz wybrać id zgłoszenia potrzeby naprawy lub id przeglądu, nie możesz wybrać obu na raz")
         return success and super_succes
 
 
@@ -81,7 +81,7 @@ class RepairForm(Form):
                            validators=[InputRequired()])
     date_end = DateField("Data zakończenia naprawy",
                          validators=[Optional()])
-    cost = DecimalField("Koszt naprawy",
+    cost = DecimalField("Koszt naprawy", places=2,
                         validators=[InputRequired()])
 
     def validate(self):
