@@ -3,6 +3,7 @@ from wtforms import Form, BooleanField, StringField, PasswordField, IntegerField
 from wtforms.validators import NumberRange, InputRequired, Length, Optional
 from db import db, Rola, Uzytkownik, ZgloszenieNaprawy, Przeglad, PowodNaprawy, ElementInfrastruktury,\
                     Serwisant
+from datetime import date
 
 class RepairReasonForm(Form):
     inspection_id = IntegerField("Id przeglądu", validators=[Optional()])
@@ -92,6 +93,16 @@ class RepairForm(Form):
                 self.form_errors.append("Data zakończenia musi być poźniejsza od daty rozpoczęcia")
                 success = False
         return super_succes and success
+
+
+    def validate_date_end(form, self):
+        if self.data is not None:
+            today_date = date.today()
+            if today_date < self.data:
+                self.errors.append("Data zakończenia nie może być w przyszłości")
+                return False
+        return True
+
 
 
     def validate_reason_id(form, self):
