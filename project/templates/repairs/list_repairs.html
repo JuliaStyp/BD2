@@ -8,8 +8,16 @@
   {% endif %}
 {% endwith %}
 
+<ul id="repair_navigation">
+    <li> <a href='{{ url_for("repairs_bp.list_repair_reasons") }}'> Powody napraw </a> </li>
+    <li> <a href='{{ url_for("repairs_bp.list_reports") }}'> Zgłoszenia potrzeby naprawy </a> </li>
+</ul>
+
+<a href='{{ url_for("repairs_bp.create_repair") }}'> Dodaj naprawę </a>
+<br>
+
+<h3> Naprawy: </h3>
 {% for repair in repairs %}
-    <br>
     Id: {{ repair.id }} <br>
     Id powodu naprawy: {{ repair.powod_id }} <br>
     Id serwisanta: {{ repair.serwisant_id }} <br>
@@ -21,4 +29,5 @@
     <form method="post" action="{{ url_for('repairs_bp.delete_repair', id=repair.id) }}">
         <input type="submit" value="Usuń">
     </form>
+    <br>
 {% endfor %}

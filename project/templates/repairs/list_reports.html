@@ -8,6 +8,10 @@
   {% endif %}
 {% endwith %}
 
+<a href='{{ url_for("repairs_bp.create_report") }}'> Dodaj naprawę </a>
+<br>
+
+<h3> Zgłoszenia potrzeby naprawy: </h3>
 {% for report in reports %}
     <br>
     Id: {{ report.id }} <br>
