@@ -70,6 +70,14 @@ class RepairNeedReportForm(Form):
         else:
             return True
 
+    def validate_date(form, self):
+        if self.data is not None:
+            today_date = date.today()
+            if today_date < self.data:
+                self.errors.append("Data zgłoszenia nie może być w przyszłości")
+                return False
+        return True
+
 
 class RepairForm(Form):
     reason_id = IntegerField("Id powodu naprawy",
