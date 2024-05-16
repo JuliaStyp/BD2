@@ -36,19 +36,19 @@
     <div class="last-elements">
         <ol class="last-inspections">
             Ostatnie przeglądy:
-            <li>aaaaa</li>
-            <li>aaaaa</li>
-            <li>aaaaa</li>
-            <li>aaaaa</li>
-            <li>aaaaa</li>
+            {% for inspection in inspections %}
+            <a href="#"> <!-- dodać linki do podstrony przeglądu -->
+                <li>ID: {{ inspection.id }}</li>
+            </a>
+            {% endfor %}
         </ol>
         <ol class="last-repairs">
             Ostatnie naprawy:
-            <li>bbbbb</li>
-            <li>bbbbb</li>
-            <li>bbbbb</li>
-            <li>bbbbb</li>
-            <li>bbbbb</li>
+            {% for repair in repairs %}
+            <a href="#"> <!-- dodać linki do podstrony przeglądu -->
+                <li>ID: {{ repair.id }}</li>
+            </a>
+            {% endfor %}
         </ol>
     </div>
 
