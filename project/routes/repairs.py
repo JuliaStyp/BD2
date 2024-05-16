@@ -132,3 +132,15 @@ def create_repair():
     context['form'] = form
 
     return render_template("repairs/create_repair.html", **context)
+
+
+@repairs_bp.route("/delete/<id>", methods=["POST"])
+def delete_repair(id):
+    try:
+        repair = db.session.query(Naprawa).filter_by(id=id).first()
+        db.session.delete(repair)
+        db.session.commit()
+        flash("Pomyślnie usunięto naprawę")
+    except:
+        flash("Ups, coś poszło nie tak")
+    return redirect(url_for("repairs_bp.list_reports"))

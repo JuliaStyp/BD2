@@ -1,0 +1,24 @@
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+{% for repair in repairs %}
+    <br>
+    Id: {{ repair.id }} <br>
+    Id powodu naprawy: {{ repair.powod_id }} <br>
+    Id serwisanta: {{ repair.serwisant_id }} <br>
+    Id elementu infrastruktury: {{ repair.element_id }} <br>
+    Data rozpoczęcia: {{ repair.data_rozpoczecia }} <br>
+    Data zakończenia: {{ repair.data_zakonczenia }} <br>
+    Koszt: {{ repair.koszt }} pln <br>
+
+    <form method="post" action="{{ url_for('repairs_bp.delete_repair', id=repair.id) }}">
+        <input type="submit" value="Usuń">
+    </form>
+{% endfor %}
