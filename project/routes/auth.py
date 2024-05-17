@@ -56,6 +56,7 @@ def login():
 
             session['user_id'] = user.id
             session['role'] = user.rola_fk
+            session['user_name'] = user.imie
             session['role_name'] = role.rola if role else "Unknown"
             return redirect(url_for("auth_bp.auth"))
         else:

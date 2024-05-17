@@ -6,6 +6,10 @@ from .models import (
     TypPrzegladu,
     PowodPrzegladu,
     ZgloszeniePrzegladu,
+    PowodNaprawy,
+    ZgloszenieNaprawy,
+    Naprawa,
+    Serwisant
 )
 
 __all__ = [

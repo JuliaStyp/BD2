@@ -4,7 +4,7 @@ import click
 from flask import Flask, session
 
 from project.db import db, init_db, clear_db
-from project.routes import auth_bp, inspections_bp, index_bp
+from project.routes import auth_bp, inspections_bp, index_bp, repairs_bp, service_bp
 
 is_logged_in = False
 is_admin = False
@@ -17,23 +17,28 @@ app.secret_key = "random_string_of_characters"
 app.register_blueprint(auth_bp)
 app.register_blueprint(inspections_bp)
 app.register_blueprint(index_bp)
+app.register_blueprint(repairs_bp)
+app.register_blueprint(service_bp)
 
 db.init_app(app)
 
 
 @app.context_processor
 def inject_login_status():
-    if "user_id" in session:
-        user_id = session["user_id"]
-        role = session["role"]
+    if 'user_id' in session:
+        user_id = session['user_id']
+        role = session['role']
+        user_name = session['user_name']
         role_name = session["role_name"]
         logged_in = True
     else:
         user_id = None
         role = None
+        user_name = None
         role_name = None
         logged_in = False
-    return dict(logged_in=logged_in, user_id=user_id, role=role, role_name=role_name)
+    return dict(logged_in=logged_in, user_id=user_id, role=role, user_name=user_name, role_name=role_name)
+
 
 
 @click.group()
