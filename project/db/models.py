@@ -120,7 +120,7 @@ class TypPomiaru(Base):
 class Naprawa(Base):
     __tablename__ = "naprawy"
     __table_args__ = (
-        CheckConstraint("data_zakonczenia < data_rozpoczecia", name="data_przeglądu_constraint"),
+        CheckConstraint("data_zakonczenia > data_rozpoczecia", name="data_przeglądu_constraint"),
         CheckConstraint("(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())",
                         name="zakończenie_przeglądu_constraint"),
     )
