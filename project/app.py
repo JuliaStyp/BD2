@@ -4,8 +4,7 @@ import click
 from flask import Flask, session
 
 from project.db import db, init_db, clear_db
-from project.routes.auth import auth_bp
-from project.routes.index import index_bp
+from project.routes import auth_bp, inspections_bp, index_bp
 
 is_logged_in = False
 is_admin = False
@@ -16,6 +15,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DB_URL"]
 app.secret_key = "random_string_of_characters"
 
 app.register_blueprint(auth_bp)
+app.register_blueprint(inspections_bp)
 app.register_blueprint(index_bp)
 
 db.init_app(app)
