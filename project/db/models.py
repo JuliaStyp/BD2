@@ -185,13 +185,8 @@ class Serwisant(Base):
 class Przeglad(Base, SerializedBase):
     __tablename__ = "przeglady"
     __table_args__ = (
-        CheckConstraint(
-            "data_zakonczenia < data_rozpoczecia", name="data_przeglądu_constraint"
-        ),
-        CheckConstraint(
-            "(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())",
-            name="zakończenie_przeglądu_constraint",
-        ),
+        CheckConstraint("data_zakonczenia < data_rozpoczecia", name="data_przeglądu_constraint"),
+        CheckConstraint("(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())", name="zakończenie_przeglądu_constraint"),
     )
 
     id = Column(Integer, primary_key=True)
@@ -201,7 +196,7 @@ class Przeglad(Base, SerializedBase):
     opis_zakresu_prac = Column(String(1024), nullable=False)
     data_rozpoczecia = Column(Date, nullable=False)
     data_zakonczenia = Column(Date, nullable=True)
-    koszt = Column(Numeric(precision=15, scale=2), nullable=False)
+    koszt = Column(Numeric(precision=20, scale=2), nullable=False)
 
     powod_ref = relationship("PowodPrzegladu", backref="przeglady")
     typ_ref = relationship("TypPrzegladu", backref="przeglady")
