@@ -30,6 +30,7 @@
             <li><a href="{{ url_for('service_bp.service') }}">Serwisanci</a></li>
             <li><a href="#">Raporty</a></li>
             <li><a href="#">Infrastruktura</a></li>
+            <li><a href="{{ url_for('auth_bp.auth') }}">Zarządzanie użytkownikami</a></li>
         </ul>
     </nav>
     {% endif %}
@@ -59,7 +60,6 @@
             </ol>
         </div>
         
-        <a href="{{ url_for('auth_bp.auth') }}">Zarządzanie użytkownikami</a>
         {% endif %}
     {% endblock %}
 
