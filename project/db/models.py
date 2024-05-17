@@ -133,7 +133,7 @@ class Naprawa(Base):
     )
     data_rozpoczecia = Column(Date, nullable=False)
     data_zakonczenia = Column(Date, nullable=True)
-    koszt = Column(Numeric(precision=15, scale=2), nullable=False)
+    koszt = Column(Numeric(precision=16, scale=2), nullable=False)
 
 
 class PowodNaprawy(Base):

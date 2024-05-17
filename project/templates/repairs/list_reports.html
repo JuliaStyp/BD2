@@ -1,0 +1,26 @@
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<a href='{{ url_for("repairs_bp.create_report") }}'> Dodaj naprawę </a>
+<br>
+
+<h3> Zgłoszenia potrzeby naprawy: </h3>
+{% for report in reports %}
+    <br>
+    Id: {{ report.id }} <br>
+    Id elementu infrastruktury: {{ report.element_id }} <br>
+    Data zgłoszenia: {{ report.data }} <br>
+    Zgłaszający: {{ report.zglaszajacy }} pln <br>
+    Uwagi: {{ report.uwagi }} pln <br>
+
+    <form method="post" action="{{ url_for('repairs_bp.delete_report', id=report.id) }}">
+        <input type="submit" value="Usuń">
+    </form>
+{% endfor %}

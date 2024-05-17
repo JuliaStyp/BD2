@@ -11,12 +11,14 @@
   </dd>
 {% endmacro %}
 
-<form method="post" action="{{ url_for('repairs_bp.create_repair_reason') }}">
+<form method="post" action="{{ url_for('repairs_bp.create_repair') }}">
     <dl>
-      {{ render_field(form.inspection_id) }}
-      {{ render_field(form.repair_need_report_id) }}
-      {{ render_field(form.priority ) }}
-      {{ render_field(form.remarks) }}
+      {{ render_field(form.reason_id) }}
+      {{ render_field(form.maintainer_id) }}
+      {{ render_field(form.element_id ) }}
+      {{ render_field(form.date_start) }}
+      {{ render_field(form.date_end) }}
+      {{ render_field(form.cost) }}
     </dl>
 
     {% if form.form_errors %}
@@ -27,5 +29,5 @@
     </ul>
   {% endif %}
 
-    <p><input type="submit" value="Dodaj powód naprawy">
+    <p><input type="submit" value="Dodaj naprawę">
 </form>
