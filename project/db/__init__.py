@@ -9,7 +9,8 @@ from .models import (
     PowodNaprawy,
     ZgloszenieNaprawy,
     Naprawa,
-    Serwisant
+    Serwisant,
+    ElementInfrastruktury
 )
 
 __all__ = [
