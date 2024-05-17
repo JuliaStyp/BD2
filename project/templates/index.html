@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
     {% block head %}
-    <title>Title</title>
+    <title>Strona główna</title>
     {% endblock %}
 
 </head>
@@ -20,7 +21,8 @@
     <a href="{{ url_for('index_bp.index') }}">
     <img class="hyperloop_logo" src="{{ url_for('static', filename='img/hyperloop_logo.png') }}" alt="hyperloop_logo.png">
     </a>
-    
+
+    {% if logged_in %}
     <nav class="navigation">
         <ul class="menu">
             <li><a href="#">Przeglądy</a></li>
@@ -30,14 +32,14 @@
             <li><a href="#">Infrastruktura</a></li>
         </ul>
     </nav>
+    {% endif %}
 
     {% block content %}
         {% if logged_in %}
         <div>
             <p> Witaj, {{ user_name }}!</p>
         </div>   
-        {% endif %}
-
+        
         <div class="last-elements">
             <ol class="last-inspections">
                 Ostatnie przeglądy:
@@ -56,8 +58,9 @@
                 {% endfor %}
             </ol>
         </div>
-
+        
         <a href="{{ url_for('auth_bp.auth') }}">Zarządzanie użytkownikami</a>
+        {% endif %}
     {% endblock %}
 
 
