@@ -12,6 +12,8 @@ from sqlalchemy import (
     Numeric,
 )
 from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import declarative_base
+from werkzeug.security import generate_password_hash, check_password_hash
 
 Base = declarative_base()
 
@@ -119,7 +121,7 @@ class TypPomiaru(Base):
 class Naprawa(Base):
     __tablename__ = "naprawy"
     __table_args__ = (
-        CheckConstraint("data_zakonczenia < data_rozpoczecia", name="data_przeglądu_constraint"),
+        CheckConstraint("data_zakonczenia > data_rozpoczecia", name="data_przeglądu_constraint"),
         CheckConstraint("(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())",
                         name="zakończenie_przeglądu_constraint"),
     )
@@ -132,7 +134,7 @@ class Naprawa(Base):
     )
     data_rozpoczecia = Column(Date, nullable=False)
     data_zakonczenia = Column(Date, nullable=True)
-    koszt = Column(Numeric(precision=2), nullable=False)
+    koszt = Column(Numeric(precision=15, scale=2), nullable=False)
 
 
 class PowodNaprawy(Base):
@@ -191,7 +193,7 @@ class Przeglad(Base, SerializedBase):
     opis_zakresu_prac = Column(String(1024), nullable=False)
     data_rozpoczecia = Column(Date, nullable=False)
     data_zakonczenia = Column(Date, nullable=True)
-    koszt = Column(Numeric(precision=20, scale=2), nullable=False)
+    koszt = Column(Numeric(precision=15, scale=2), nullable=False)
 
     powod_ref = relationship("PowodPrzegladu", backref="przeglady")
     typ_ref = relationship("TypPrzegladu", backref="przeglady")
@@ -219,9 +221,6 @@ class Przeglad(Base, SerializedBase):
 
 class TypPrzegladu(Base, SerializedBase):
     __tablename__ = "typy_przegladow"
-    __table_args__ = (
-        CheckConstraint("typ >= 1 AND typ <= 4", name="poziom_constraint"),
-    )
 
     id = Column(Integer, primary_key=True, nullable=False)
     typ = Column(String(128), unique=True, nullable=False)
@@ -261,16 +260,23 @@ class ZgloszeniePrzegladu(Base, SerializedBase):
 class Uzytkownik(Base):
     __tablename__ = "uzytkownicy"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     rola_fk = Column(Integer, ForeignKey("rola.id"), nullable=False)
     imie = Column(String(32), nullable=False)
     nazwisko = Column(String(32), nullable=True)
     email = Column(String(32), unique=True, nullable=False)
+    password_hash = Column(String(512), nullable=False)
     numer_tel = Column(String(32), nullable=True)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 
 class Rola(Base):
     __tablename__ = "rola"
 
-    id = Column(Integer, primary_key=True)
-    rola = Column(String(32), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    rola = Column(String(32), nullable=False, unique=True)
