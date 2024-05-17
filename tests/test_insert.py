@@ -15,6 +15,9 @@ from project.db.models import (
     ZgloszeniePrzegladu,
     PowodPrzegladu,
     Przeglad,
+    ZgloszenieNaprawy,
+    PowodNaprawy,
+    Naprawa,
 )
 
 
@@ -304,10 +307,107 @@ def insert_data() -> None:
         ),
     ]
 
+    items += [
+        ZgloszenieNaprawy(
+            element_id=1,
+            data='2024-04-13',
+            zglaszajacy="Mechanik1",
+            uwagi="Uszczelka pod głowicą chyba"
+        ),
+
+        ZgloszenieNaprawy(
+            element_id=2,
+            data='2024-03-13',
+            zglaszajacy="Mechanik1",
+            uwagi="Pękła rura"
+        ),
+
+        ZgloszenieNaprawy(
+            element_id=3,
+            data='2024-04-18',
+            zglaszajacy="Mechanik2",
+            uwagi="Łożysko wydaje dziwne dźwięki"
+        ),
+
+        ZgloszenieNaprawy(
+            element_id=4,
+            data='2024-05-12',
+            zglaszajacy="Mechanik3",
+            uwagi="Chwieje się podczas pracy"
+        ),
+
+        ZgloszenieNaprawy(
+            element_id=5,
+            data='2024-05-10',
+            zglaszajacy="Mechanik4",
+            uwagi="Przecieka"
+        ),
+    ]
+
+    items += [
+        PowodNaprawy(
+            przeglad_id=1,
+            priorytet=5,
+            uwagi="Zagraża integralności systemu przy dalszej eksploatacji"
+        ),
+
+        PowodNaprawy(
+            przeglad_id=2,
+            priorytet=1,
+            uwagi="Zagraża integralności systemu przy dalszej eksploatacji"
+        ),
+
+        PowodNaprawy(
+            przeglad_id=4,
+            priorytet=2,
+            uwagi="Zagraża integralności systemu przy dalszej eksploatacji"
+        ),
+
+        PowodNaprawy(
+            zgloszenie_id=1,
+            priorytet=4,
+            uwagi="Zagraża integralności systemu przy dalszej eksploatacji"
+        ),
+
+        PowodNaprawy(
+            zgloszenie_id=2,
+            priorytet=3,
+            uwagi="Zagraża integralności systemu przy dalszej eksploatacji"
+        ),
+    ]
+
+    items += [
+        Naprawa(
+            powod_id=4,
+            serwisant_id=1,
+            element_id=1,
+            data_rozpoczecia='2024-05-10',
+            data_zakonczenia=None,
+            koszt=7312,
+        ),
+
+        Naprawa(
+            powod_id=5,
+            serwisant_id=2,
+            element_id=2,
+            data_rozpoczecia='2024-04-10',
+            data_zakonczenia='2024-05-11',
+            koszt=3345,
+        ),
+
+        Naprawa(
+            powod_id=3,
+            serwisant_id=2,
+            element_id=3,
+            data_rozpoczecia='2024-03-12',
+            data_zakonczenia='2024-04-10',
+            koszt=43891,
+        ),
+    ]
+
     for item in items:
         db.session.add(item)
         db.session.commit()
-
     print("Data inserted successfully")
 
 
