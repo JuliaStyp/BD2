@@ -26,11 +26,5 @@ def init_db() -> None:
 
 def clear_db() -> None:
     db.reflect()
-
     db.drop_all()
-
-    print("All tables dropped successfully.")
-
-
-
-
+    log.info("All tables dropped successfully.")

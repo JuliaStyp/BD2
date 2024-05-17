@@ -54,9 +54,9 @@ def login():
             # Successful login, redirect to home page
             role = db.session.query(Rola).filter_by(id=user.rola_fk).first()
 
-            session['user_id'] = user.id
-            session['role'] = user.rola_fk
-            session['role_name'] = role.rola if role else "Unknown"
+            session["user_id"] = user.id
+            session["role"] = user.rola_fk
+            session["role_name"] = role.rola if role else "Unknown"
             return redirect(url_for("auth_bp.auth"))
         else:
             # Invalid credentials, show error message
@@ -71,6 +71,3 @@ def logout():
     # Clear session data (log out user)
     session.clear()
     return redirect(url_for("auth_bp.login"))
-
-
-

@@ -4,8 +4,8 @@ import click
 from flask import Flask, session
 
 from project.db import db, init_db, clear_db
-from project.routes import auth_bp, inspections_bp, manage_inspections_bp
-from project.routes.index import index_bp
+from project.routes import auth_bp, index_bp, inspections_bp, manage_inspections_bp
+
 
 is_logged_in = False
 is_admin = False

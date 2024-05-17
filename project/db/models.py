@@ -12,7 +12,6 @@ from sqlalchemy import (
     Numeric,
 )
 from sqlalchemy.orm import declarative_base, relationship
-from sqlalchemy.orm import declarative_base
 from werkzeug.security import generate_password_hash, check_password_hash
 
 Base = declarative_base()
@@ -121,9 +120,13 @@ class TypPomiaru(Base):
 class Naprawa(Base):
     __tablename__ = "naprawy"
     __table_args__ = (
-        CheckConstraint("data_zakonczenia > data_rozpoczecia", name="data_przeglądu_constraint"),
-        CheckConstraint("(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())",
-                        name="zakończenie_przeglądu_constraint"),
+        CheckConstraint(
+            "data_zakonczenia > data_rozpoczecia", name="data_przeglądu_constraint"
+        ),
+        CheckConstraint(
+            "(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())",
+            name="zakończenie_przeglądu_constraint",
+        ),
     )
 
     id = Column(Integer, primary_key=True)
@@ -182,8 +185,13 @@ class Serwisant(Base):
 class Przeglad(Base, SerializedBase):
     __tablename__ = "przeglady"
     __table_args__ = (
-        CheckConstraint("data_zakonczenia < data_rozpoczecia", name="data_przeglądu_constraint"),
-        CheckConstraint("(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())", name="zakończenie_przeglądu_constraint"),
+        CheckConstraint(
+            "data_zakonczenia < data_rozpoczecia", name="data_przeglądu_constraint"
+        ),
+        CheckConstraint(
+            "(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())",
+            name="zakończenie_przeglądu_constraint",
+        ),
     )
 
     id = Column(Integer, primary_key=True)

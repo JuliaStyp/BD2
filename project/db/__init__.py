@@ -11,6 +11,7 @@ from .models import (
 __all__ = [
     "db",
     "init_db",
+    "clear_db",
     "Rola",
     "Uzytkownik",
     "Przeglad",
