@@ -118,6 +118,11 @@ class TypPomiaru(Base):
 
 class Naprawa(Base):
     __tablename__ = "naprawy"
+    __table_args__ = (
+        CheckConstraint("data_zakonczenia < data_rozpoczecia", name="data_przeglądu_constraint"),
+        CheckConstraint("(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())",
+                        name="zakończenie_przeglądu_constraint"),
+    )
 
     id = Column(Integer, primary_key=True)
     powod_id = Column(Integer, ForeignKey("powody_naprawy.id"), nullable=False)
@@ -133,7 +138,13 @@ class Naprawa(Base):
 class PowodNaprawy(Base):
     __tablename__ = "powody_naprawy"
     __table_args__ = (
-        CheckConstraint("(przeglad_id IS NULL) <> (zgloszenie_id IS NULL)"),
+        CheckConstraint(
+            "(przeglad_id IS NULL) <> (zgloszenie_id IS NULL)",
+            name="przegląd_zgłoszenie_constraint",
+        ),
+        CheckConstraint(
+            "priorytet >= 1 AND priorytet <= 5", name="priorytet_constraint"
+        ),
     )
 
     id = Column(Integer, primary_key=True)
@@ -168,6 +179,10 @@ class Serwisant(Base):
 
 class Przeglad(Base, SerializedBase):
     __tablename__ = "przeglady"
+    __table_args__ = (
+        CheckConstraint("data_zakonczenia < data_rozpoczecia", name="data_przeglądu_constraint"),
+        CheckConstraint("(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())", name="zakończenie_przeglądu_constraint"),
+    )
 
     id = Column(Integer, primary_key=True)
     typ_przegladu_id = Column(Integer, ForeignKey("typy_przegladow.id"), nullable=False)
@@ -204,6 +219,9 @@ class Przeglad(Base, SerializedBase):
 
 class TypPrzegladu(Base, SerializedBase):
     __tablename__ = "typy_przegladow"
+    __table_args__ = (
+        CheckConstraint("typ >= 1 AND typ <= 4", name="poziom_constraint"),
+    )
 
     id = Column(Integer, primary_key=True, nullable=False)
     typ = Column(String(128), unique=True, nullable=False)

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Inspections</title>
+    <link href="/static/css/inspections.css" rel="stylesheet">
+</head>
+<body>
+<div>
+    <h1>Przeglądy</h1>
+    <a href="{{ url_for('manage_inspections.inspections') }}" class="a-button">Przeglądy</a>
+    <a href="{{ url_for('manage_inspections.types') }}" class="a-button">Typy przeglądów</a>
+    <a href="{{ url_for('manage_inspections.causes') }}" class="a-button">Powody przeglądów</a>
+    <a href="{{ url_for('manage_inspections.requests') }}" class="a-button">Zgłoszenia przeglądów</a>
+</div>
+</body>
+</html>

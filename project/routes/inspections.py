@@ -5,7 +5,7 @@ from flask import Blueprint, request
 from project.db import db, Przeglad, TypPrzegladu, PowodPrzegladu, ZgloszeniePrzegladu
 from project.db.models import SerializedBase
 
-inspections_bp = Blueprint("inspections_bp", __name__, url_prefix="/inspections")
+inspections_bp = Blueprint("inspections_bp", __name__, url_prefix="/api/inspections")
 
 
 @inspections_bp.route("/", methods=["GET"])
