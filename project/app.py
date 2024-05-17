@@ -6,9 +6,6 @@ from flask import Flask, session
 from project.db import db, init_db, clear_db
 from project.routes import auth_bp, inspections_bp, index_bp, repairs_bp, service_bp
 
-is_logged_in = False
-is_admin = False
-
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DB_URL"]
 # "postgresql://postgres:postgres@localhost:5432/postgres"
@@ -31,13 +28,23 @@ def inject_login_status():
         user_name = session['user_name']
         role_name = session["role_name"]
         logged_in = True
+        is_admin = True
     else:
         user_id = None
         role = None
         user_name = None
         role_name = None
         logged_in = False
-    return dict(logged_in=logged_in, user_id=user_id, role=role, user_name=user_name, role_name=role_name)
+        is_admin = False
+
+    return dict (
+        is_admin = is_admin,
+        logged_in=logged_in,
+        user_id=user_id,
+        role=role,
+        user_name=user_name,
+        role_name=role_name
+    )
 
 
 
