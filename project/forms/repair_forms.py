@@ -1,7 +1,7 @@
 from wtforms import Form, BooleanField, StringField, PasswordField, IntegerField, TextAreaField,\
                     DateField, DecimalField
 from wtforms.validators import NumberRange, InputRequired, Length, Optional
-from db import db, Rola, Uzytkownik, ZgloszenieNaprawy, Przeglad, PowodNaprawy, ElementInfrastruktury,\
+from project.db import db, Rola, Uzytkownik, ZgloszenieNaprawy, Przeglad, PowodNaprawy, ElementInfrastruktury,\
                     Serwisant
 from datetime import date
 

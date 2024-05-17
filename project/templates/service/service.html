@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<ol class="service_list">
+    Serwisanci:
+    {% for service in services %}
+    <li class="service-elem">
+        <ul>
+            <li>Nazwa: {{ service.nazwa }}</li>
+            <li>Nr telefonu: {{ service.nr_telefonu }}</li>
+            <li>Adres e-mail: {{ service.adres_mail }}</li>
+        </ul>
+    </li>
+    {% endfor %}
+</ol>
+{% endblock %}

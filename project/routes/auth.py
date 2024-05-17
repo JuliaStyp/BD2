@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from werkzeug.security import check_password_hash
 
-from db import db, Rola, Uzytkownik
+from project.db import db, Rola, Uzytkownik
 
 auth_bp = Blueprint("auth_bp", __name__, url_prefix="/auth")
 
@@ -16,7 +16,7 @@ def auth():
 def user_create():
     if request.method == "POST":
         user = Uzytkownik(
-            id=request.form["id"],
+            # id=request.form["id"],
             rola_fk=request.form["rola_fk"],
             imie=request.form["imie"],
             nazwisko=request.form["nazwisko"],
@@ -34,7 +34,7 @@ def user_create():
 @auth_bp.route("/role", methods=["GET", "POST"])
 def role_create():
     if request.method == "POST":
-        role = Rola(id=request.form["id"], rola=request.form["rola"])
+        role = Rola(rola=request.form["rola"])
         db.session.add(role)
         db.session.commit()
         return redirect(url_for("auth_bp.auth"))
@@ -52,13 +52,17 @@ def login():
         user = db.session.query(Uzytkownik).filter_by(email=email).first()
         if user and check_password_hash(user.password_hash, password):
             # Successful login, redirect to home page
+            role = db.session.query(Rola).filter_by(id=user.rola_fk).first()
+
             session['user_id'] = user.id
             session['role'] = user.rola_fk
+            session['user_name'] = user.imie
+            session['role_name'] = role.rola if role else "Unknown"
             return redirect(url_for("auth_bp.auth"))
         else:
             # Invalid credentials, show error message
             error = "Invalid email or password"
-            return render_template("login.html", error=error)
+            return render_template("auth/login.html", error=error)
 
     return render_template("auth/login.html")
 

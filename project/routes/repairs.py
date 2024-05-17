@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
-from db import db, PowodNaprawy, ZgloszenieNaprawy, Naprawa
-from forms import RepairReasonForm, RepairNeedReportForm, RepairForm
+from project.db import db, PowodNaprawy, ZgloszenieNaprawy, Naprawa
+from project.forms import RepairReasonForm, RepairNeedReportForm, RepairForm
 
 repairs_bp = Blueprint("repairs_bp", __name__, url_prefix="/repairs")
 
