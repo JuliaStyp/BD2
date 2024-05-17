@@ -1,3 +1,5 @@
+from typing import Any
+
 from sqlalchemy import (
     Column,
     Integer,
@@ -9,10 +11,19 @@ from sqlalchemy import (
     CheckConstraint,
     Numeric,
 )
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 
 Base = declarative_base()
+
+
+class SerializedBase:
+
+    def column_names(self) -> list[str]:
+        return [c.name for c in self.__table__.columns]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {c: getattr(self, c) for c in self.column_names()}
 
 
 class ElementInfrastruktury(Base):
@@ -108,6 +119,11 @@ class TypPomiaru(Base):
 
 class Naprawa(Base):
     __tablename__ = "naprawy"
+    __table_args__ = (
+        CheckConstraint("data_zakonczenia > data_rozpoczecia", name="data_przeglądu_constraint"),
+        CheckConstraint("(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())",
+                        name="zakończenie_przeglądu_constraint"),
+    )
 
     id = Column(Integer, primary_key=True)
     powod_id = Column(Integer, ForeignKey("powody_naprawy.id"), nullable=False)
@@ -117,13 +133,19 @@ class Naprawa(Base):
     )
     data_rozpoczecia = Column(Date, nullable=False)
     data_zakonczenia = Column(Date, nullable=True)
-    koszt = Column(Numeric(precision=2), nullable=False)
+    koszt = Column(Numeric(precision=15, scale=2), nullable=False)
 
 
 class PowodNaprawy(Base):
     __tablename__ = "powody_naprawy"
     __table_args__ = (
-        CheckConstraint("(przeglad_id IS NULL) <> (zgloszenie_id IS NULL)"),
+        CheckConstraint(
+            "(przeglad_id IS NULL) <> (zgloszenie_id IS NULL)",
+            name="przegląd_zgłoszenie_constraint",
+        ),
+        CheckConstraint(
+            "priorytet >= 1 AND priorytet <= 5", name="priorytet_constraint"
+        ),
     )
 
     id = Column(Integer, primary_key=True)
@@ -156,8 +178,12 @@ class Serwisant(Base):
     adres_mail = Column(String(128), nullable=False)
 
 
-class Przeglad(Base):
+class Przeglad(Base, SerializedBase):
     __tablename__ = "przeglady"
+    __table_args__ = (
+        CheckConstraint("data_zakonczenia < data_rozpoczecia", name="data_przeglądu_constraint"),
+        CheckConstraint("(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())", name="zakończenie_przeglądu_constraint"),
+    )
 
     id = Column(Integer, primary_key=True)
     typ_przegladu_id = Column(Integer, ForeignKey("typy_przegladow.id"), nullable=False)
@@ -166,17 +192,40 @@ class Przeglad(Base):
     opis_zakresu_prac = Column(String(1024), nullable=False)
     data_rozpoczecia = Column(Date, nullable=False)
     data_zakonczenia = Column(Date, nullable=True)
-    koszt = Column(Numeric(precision=2), nullable=False)
+    koszt = Column(Numeric(precision=20, scale=2), nullable=False)
+
+    powod_ref = relationship("PowodPrzegladu", backref="przeglady")
+    typ_ref = relationship("TypPrzegladu", backref="przeglady")
+    serwisant_ref = relationship("Serwisant", backref="przeglady")
+
+    @property
+    def powod(self):
+        return self.powod_ref.powod
+
+    @property
+    def typ_przegladu(self):
+        return self.typ_ref.typ
+
+    @property
+    def serwisant(self):
+        return self.serwisant_ref.nazwa
+
+    def column_names(self):
+        return [c.name for c in self.__table__.columns] + [
+            "powod",
+            "typ_przegladu",
+            "serwisant",
+        ]
 
 
-class TypPrzegladu(Base):
+class TypPrzegladu(Base, SerializedBase):
     __tablename__ = "typy_przegladow"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    typ = Column(String(128), nullable=False)
+    typ = Column(String(128), unique=True, nullable=False)
 
 
-class PowodPrzegladu(Base):
+class PowodPrzegladu(Base, SerializedBase):
     __tablename__ = "powody_przegladow"
 
     id = Column(Integer, primary_key=True)
@@ -195,7 +244,7 @@ class SprawdzoneElementy(Base):
     )
 
 
-class ZgloszeniePrzegladu(Base):
+class ZgloszeniePrzegladu(Base, SerializedBase):
     __tablename__ = "zgloszenia_przegladow"
 
     id = Column(Integer, primary_key=True)
@@ -210,7 +259,7 @@ class ZgloszeniePrzegladu(Base):
 class Uzytkownik(Base):
     __tablename__ = "uzytkownicy"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     rola_fk = Column(Integer, ForeignKey("rola.id"), nullable=False)
     imie = Column(String(32), nullable=False)
     nazwisko = Column(String(32), nullable=True)
@@ -228,5 +277,5 @@ class Uzytkownik(Base):
 class Rola(Base):
     __tablename__ = "rola"
 
-    id = Column(Integer, primary_key=True)
-    rola = Column(String(32), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    rola = Column(String(32), nullable=False, unique=True)

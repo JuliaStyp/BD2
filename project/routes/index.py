@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from sqlalchemy import desc
-from db import db, Naprawa, Przeglad
+from project.db import db, Naprawa, Przeglad
 
 index_bp = Blueprint("index_bp", __name__)
 

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
-from db import db, Serwisant
+from project.db import db, Serwisant
 
 service_bp = Blueprint("service_bp", __name__, url_prefix="/service")
 

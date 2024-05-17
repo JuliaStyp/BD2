@@ -8,7 +8,7 @@
 <body>
 
     {% if logged_in %}
-        <a class="logged-in-text"> Zalogowany z rolą {{ role }}</a>
+        <a class="logged-in-text"> Zalogowany z rolą {{ role_name }}</a>
         <a class="logout-link" href="{{ url_for('auth_bp.logout') }}">Wyloguj</a>
     {% else %}
         <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>

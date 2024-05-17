@@ -1,6 +1,6 @@
 from wtforms import Form, BooleanField, StringField, PasswordField, IntegerField, TextAreaField
 from wtforms.validators import NumberRange, InputRequired, Length, Optional
-from db import db, Rola, Uzytkownik, ZgloszenieNaprawy, Przeglad, PowodNaprawy
+from project.db import db, Rola, Uzytkownik, ZgloszenieNaprawy, Przeglad, PowodNaprawy
 
 class RepairReasonForm(Form):
     inspection_id = IntegerField("Id przeglądu", validators=[Optional()])
