@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block head %}
+    <title>Title</title>
+    {% endblock %}
+
 </head>
 <body>
 
@@ -21,7 +24,7 @@
     <nav class="navigation">
         <ul class="menu">
             <li><a href="#">Przeglądy</a></li>
-            <li><a href="#">Naprawy</a></li>
+            <li><a href="{{ url_for('repairs_bp.list_repairs') }}">Naprawy</a></li>
             <li><a href="{{ url_for('service_bp.service') }}">Serwisanci</a></li>
             <li><a href="#">Raporty</a></li>
             <li><a href="#">Infrastruktura</a></li>

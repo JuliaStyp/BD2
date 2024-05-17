@@ -1,3 +1,7 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul class=flashes>
@@ -31,3 +35,5 @@
     </form>
     <br>
 {% endfor %}
+
+{% endblock %}
