@@ -58,6 +58,11 @@ def login():
             session['role'] = user.rola_fk
             session['user_name'] = user.imie
             session['role_name'] = role.rola if role else "Unknown"
+            session['logged_in'] = True
+            if user.rola_fk == 1:
+                session['is_admin'] = True
+            else:
+                session['is_admin'] = False
             return redirect(url_for("auth_bp.auth"))
         else:
             # Invalid credentials, show error message
