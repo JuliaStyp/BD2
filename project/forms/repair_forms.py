@@ -1,5 +1,5 @@
 from wtforms import Form, BooleanField, StringField, PasswordField, IntegerField, TextAreaField,\
-                    DateField, DecimalField
+                    DateField, DecimalField, SelectField
 from wtforms.validators import NumberRange, InputRequired, Length, Optional
 from project.db import db, Rola, Uzytkownik, ZgloszenieNaprawy, Przeglad, PowodNaprawy, ElementInfrastruktury,\
                     Serwisant
@@ -80,11 +80,13 @@ class RepairNeedReportForm(Form):
 
 
 class RepairForm(Form):
-    reason_id = IntegerField("Id powodu naprawy",
-                             validators=[InputRequired()])
-    maintainer_id = IntegerField("Id serwisanta",
+    # reason_id = IntegerField("Id powodu naprawy",
+    #                          validators=[InputRequired()])
+    reason_id = SelectField("Id powodu naprawy",
+                            validators=[InputRequired()], coerce=int)
+    maintainer_id = SelectField("Id serwisanta",
                               validators=[InputRequired()])
-    element_id = IntegerField("Id elementu infrastruktury, który wymaga naprawy",
+    element_id = SelectField("Id elementu infrastruktury, który wymaga naprawy",
                               validators=[InputRequired()])
     date_start = DateField("Data rozpoczęcia naprawy",
                            validators=[InputRequired()])
