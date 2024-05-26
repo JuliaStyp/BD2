@@ -80,8 +80,6 @@ class RepairNeedReportForm(Form):
 
 
 class RepairForm(Form):
-    # reason_id = IntegerField("Id powodu naprawy",
-    #                          validators=[InputRequired()])
     reason_id = SelectField("Id powodu naprawy",
                             validators=[InputRequired()], coerce=int)
     maintainer_id = SelectField("Id serwisanta",
