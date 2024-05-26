@@ -1,19 +1,7 @@
 {% extends 'index.html' %}
 
+{% from "./repairs/macros.html" import render_field with context %}
 
-{% macro render_field(field) %}
-<dt>{{ field.label }}
-  <dd>{{ field(**kwargs)|safe }}
-    {% if field.errors %}
-    <ul class="errors">
-      {% for error in field.errors %}
-      <li>{{ error }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </dd>
-  {% endmacro %}
-  
 {% block content %}
 
 <form method="post" action="{{ url_for('repairs_bp.create_repair_reason') }}">
