@@ -1,6 +1,7 @@
 from flask import render_template, session
 from functools import wraps
 
+
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):

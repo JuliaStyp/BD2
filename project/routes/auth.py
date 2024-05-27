@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from werkzeug.security import check_password_hash
 from sqlalchemy.exc import IntegrityError
 
+from project.utils import admin_required, login_required
 from project.db import db, Rola, Uzytkownik
 from project.forms import UzytkownikForm, RolaForm
 
@@ -9,12 +10,16 @@ auth_bp = Blueprint("auth_bp", __name__, url_prefix="/auth")
 
 
 @auth_bp.route("/")
+@login_required
+@admin_required
 def auth():
     users = db.session.execute(db.select(Uzytkownik).order_by(Uzytkownik.id)).scalars()
     return render_template("auth/auth.html", users=users)
 
 
 @auth_bp.route("/register", methods=["GET", "POST"])
+@login_required
+@admin_required
 def user_create():
     form = UzytkownikForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -57,8 +62,9 @@ def roles():
     role_list = db.session.execute(db.select(Rola).order_by(Rola.id)).scalars()
     return render_template("auth/role.html", roles=role_list)
 
-
-@auth_bp.route('/roles/create', methods=['GET', 'POST'])
+@auth_bp.route('/roles/create', methods=["GET", "POST"])
+@login_required
+@admin_required
 def role_create():
     form = RolaForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -97,7 +103,6 @@ def login():
         email = request.form["email"]
         password = request.form["password"]
 
-        # Example logic for authentication (replace with your actual logic)
         user = db.session.query(Uzytkownik).filter_by(email=email).first()
         if user and check_password_hash(user.password_hash, password):
             # Successful login, redirect to home page
