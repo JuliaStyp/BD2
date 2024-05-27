@@ -5,7 +5,7 @@
         margin-top: 40px;
     }
     </style>
-    <title>User List</title>
+    <title>Obiekty Infrastruktury</title>
 {% endblock %}
 
 {% block content %}
@@ -15,18 +15,20 @@
     {% else %}
         <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
     {% endif %}
-    <h1>Lista użytkowników</h1>
+    <h1>Lista obiektów infrastruktury</h1>
     <ul>
          <div class="list-container">
             <div class="list-legend">
-                <span>Imie</span>
-                <span>Nazwisko</span>
+                <span>ID</span>
+                <span>Typ</span>
+                <span>Do Użytku</span>
             </div>
             <ul class="formatted-list">
-                {% for user in users %}
+                {% for object in objects %}
                     <li>
-                        <span>{{ user.imie }}</span>
-                        <span>{{ user.nazwisko }}</span>
+                        <span>{{ object.id }}</span>
+                        <span>{{ object.typ }}</span>
+                        <span>{{ object.do_uzytku }}</span>
                     </li>
                 {% endfor %}
             </ul>

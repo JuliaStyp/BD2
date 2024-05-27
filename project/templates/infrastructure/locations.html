@@ -5,7 +5,7 @@
         margin-top: 40px;
     }
     </style>
-    <title>User List</title>
+    <title>Lokalizacje</title>
 {% endblock %}
 
 {% block content %}
@@ -15,18 +15,22 @@
     {% else %}
         <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
     {% endif %}
-    <h1>Lista użytkowników</h1>
+    <h1>Lista lokalizacji</h1>
     <ul>
          <div class="list-container">
             <div class="list-legend">
-                <span>Imie</span>
-                <span>Nazwisko</span>
+                <span>ID</span>
+                <span>Nazwa lokalizacji</span>
+                <span>Szerokość geograficzna</span>
+                <span>Długość geograficzna</span>
             </div>
             <ul class="formatted-list">
-                {% for user in users %}
+                {% for location in locations %}
                     <li>
-                        <span>{{ user.imie }}</span>
-                        <span>{{ user.nazwisko }}</span>
+                        <span>{{ location.id }}</span>
+                        <span>{{ location.nazwa }}</span>
+                        <span>{{ location.szerokosc_geo }}</span>
+                        <span>{{ location.dlugosc_geo }}</span>
                     </li>
                 {% endfor %}
             </ul>

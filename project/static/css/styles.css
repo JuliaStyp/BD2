@@ -87,3 +87,43 @@ h1 {
 .service-elem {
     margin-bottom: 30px;
 }
+
+.list-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0; /* Remove auto margin to align left */
+}
+
+.list-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    font-weight: bold;
+    padding: 10px;
+    background-color: #efefef;
+    border-bottom: 2px solid #ccc;
+}
+
+.formatted-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.formatted-list li {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.formatted-list li span {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Additional styling for better visual */
+.formatted-list li:nth-child(even) {
+    background-color: #f9f9f9;
+}
