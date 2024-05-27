@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+{% block head %}
+  <title>Error</title>
+{% endblock %}
+
+
+{% block content %}
+  <h1>Error</h1>
+  <p>{{ message }}</p>
+  <button onclick="goBack()">Poprzednia strona</button>
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+{% endblock %}
