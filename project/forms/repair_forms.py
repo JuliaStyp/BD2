@@ -6,8 +6,8 @@ from project.db import db, Rola, Uzytkownik, ZgloszenieNaprawy, Przeglad, PowodN
 from datetime import date
 
 class RepairReasonForm(Form):
-    inspection_id = IntegerField("Id przeglądu", validators=[Optional()])
-    repair_need_report_id = IntegerField("Id zgłoszenia potrzeby naprawy", validators=[Optional()])
+    inspection_id = SelectField("Id przeglądu", validators=[Optional()])
+    repair_need_report_id = SelectField("Id zgłoszenia potrzeby naprawy", validators=[Optional()])
     priority = IntegerField("Priorytet",
                             validators=[NumberRange(min=0, max=5, message="Priorytet musi być z zakresu <1,5>"),
                                         InputRequired()])
