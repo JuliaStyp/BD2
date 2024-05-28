@@ -9,7 +9,7 @@
 
 <link href="{{ url_for('static', filename='css/repairs.css') }}" rel="stylesheet">
 
-<div id=report_create_form_div class=create_form_div>
+<div id=repair_reason_create_form_div class=create_form_div>
   <form method="post" action="{{ url_for('repairs_bp.create_repair_reason') }}">
       <dl>
         {{ render_field(form.inspection_id) }}
