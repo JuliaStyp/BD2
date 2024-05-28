@@ -22,6 +22,7 @@
                 <span>ID</span>
                 <span>Typ</span>
                 <span>Do Użytku</span>
+                <span>Usuwanie obiektu</span>
             </div>
             <ul class="formatted-list">
                 {% for object in objects %}
@@ -29,11 +30,11 @@
                         <span>{{ object.id }}</span>
                         <span>{{ object.typ }}</span>
                         <span>{{ object.do_uzytku }}</span>
+                        <span><a href="{{ url_for('infr_bp.delete_object', id=object.id) }}">Usuń</a></span>
                     </li>
                 {% endfor %}
             </ul>
         </div>
     </ul>
-    <a href="{{ url_for('auth_bp.user_create') }}">Stwórz nowego użytkownika</a><br>
-    <a href="{{ url_for('auth_bp.role_create') }}">Stwórz nową rolę</a>
+    <a href="{{ url_for('infr_bp.create_object') }}">Dodaj nowy obiekt</a><br>
 {% endblock %}

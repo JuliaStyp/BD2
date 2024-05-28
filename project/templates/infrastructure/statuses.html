@@ -21,18 +21,19 @@
             <div class="list-legend">
                 <span>ID</span>
                 <span>Status</span>
+                <span>Usuwanie statusu</span>
             </div>
             <ul class="formatted-list">
                 {% for status in statuses %}
                     <li>
                         <span>{{ status.id }}</span>
                         <span>{{ status.status }}</span>
+                        <span><a href="{{ url_for('infr_bp.delete_status', id=status.id) }}">Usuń</a></span>
                     </li>
                 {% endfor %}
             </ul>
         </div>
     </ul>
 
-    <a href="{{ url_for('auth_bp.user_create') }}">Stwórz nowego użytkownika</a><br>
-    <a href="{{ url_for('auth_bp.role_create') }}">Stwórz nową rolę</a>
+    <a href="{{ url_for('infr_bp.create_status') }}">Stwórz nowy status</a><br>
 {% endblock %}

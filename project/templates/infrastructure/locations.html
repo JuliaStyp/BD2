@@ -23,19 +23,20 @@
                 <span>Nazwa lokalizacji</span>
                 <span>Szerokość geograficzna</span>
                 <span>Długość geograficzna</span>
+                <span>Usuwanie lokalizacji</span>
             </div>
             <ul class="formatted-list">
                 {% for location in locations %}
                     <li>
                         <span>{{ location.id }}</span>
-                        <span>{{ location.nazwa }}</span>
+                        <span>{{ location.nazwa_miejsca }}</span>
                         <span>{{ location.szerokosc_geo }}</span>
                         <span>{{ location.dlugosc_geo }}</span>
+                        <span><a href="{{ url_for('infr_bp.delete_location', id=location.id) }}">Usuń</a></span>
                     </li>
                 {% endfor %}
             </ul>
         </div>
     </ul>
-    <a href="{{ url_for('auth_bp.user_create') }}">Stwórz nowego użytkownika</a><br>
-    <a href="{{ url_for('auth_bp.role_create') }}">Stwórz nową rolę</a>
+    <a href="{{ url_for('infr_bp.create_location') }}">Dodaj nową lokalizację</a><br>
 {% endblock %}

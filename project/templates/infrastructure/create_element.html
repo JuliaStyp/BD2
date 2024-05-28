@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+
+{% macro render_field(field) %}
+<dt>{{ field.label }}
+  <dd>{{ field(**kwargs)|safe }}
+    {% if field.errors %}
+    <ul class="errors">
+      {% for error in field.errors %}
+      <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </dd>
+{% endmacro %}
+  
+{% block content %}
+
+<form method="post" action="{{ url_for('infr_bp.create_element') }}">
+  <dl>
+    {{ render_field(form.typ) }}
+    {{ render_field(form.obiekt) }}
+    {{ render_field(form.status) }}
+    {{ render_field(form.lokalizacja) }}
+    {{ render_field(form.max_interwal) }}
+    {{ render_field(form.opis) }}
+  </dl>
+  
+  {% if form.form_errors %}
+  <ul class="form_errors">
+    {% for error in form.form_errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  
+  <p><input type="submit" value="Dodaj Element">
+  </form>
+{% endblock %}
