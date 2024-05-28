@@ -166,37 +166,41 @@ def set_form_choices(forms_fields_and_models: list):
 
 # GET RENDERED DATA
 
-@repairs_bp.route("/get-data/maintainers/<id>", methods=['GET'])
-def get_maintainer_data(id):
-    maintainer = db.session.query(Serwisant).filter_by(id=id).first()
-    if maintainer is not None:
+def get_object_by_id_with_status(model, id):
+    object = db.session.query(model).filter_by(id=id).first()
+    if object is not None:
         status = 'ok'
     else:
         status = 'error'
+    return (object, status)
+
+@repairs_bp.route("/get-data/maintainers/<id>", methods=['GET'])
+def get_rendered_maintainer(id):
+    maintainer, status = get_object_by_id_with_status(Serwisant, id)
     rendered_data = render_template('repairs/maintainer_data.html', maintainer=maintainer)
     return jsonify({'status': status,
                     'data': rendered_data})
 
 
 @repairs_bp.route("/get-data/repair-reasons/<id>", methods=['GET'])
-def get_repair_reason_data(id):
-    repair_reason = db.session.query(PowodNaprawy).filter_by(id=id).first()
-    if repair_reason is not None:
-        status = 'ok'
-    else:
-        status = 'error'
+def get_rendered_repair_reason(id):
+    repair_reason, status = get_object_by_id_with_status(PowodNaprawy, id)
     rendered_data = render_template('repairs/repair_reason_data.html', reason=repair_reason)
     return jsonify({'status': status,
                     'data': rendered_data})
 
 
 @repairs_bp.route("/get-data/elements/<id>", methods=['GET'])
-def get_element_data(id):
-    element = db.session.query(ElementInfrastruktury).filter_by(id=id).first()
-    if element is not None:
-        status = 'ok'
-    else:
-        status = 'error'
+def get_rendered_element(id):
+    element, status = get_object_by_id_with_status(ElementInfrastruktury, id)
     rendered_data = render_template('repairs/element_data.html', element=element)
+    return jsonify({'status': status,
+                    'data': rendered_data})
+
+
+@repairs_bp.route("/get-data/inspection/<id>", methods=['GET'])
+def get_rendered_inspection(id):
+    inspection, status = get_object_by_id_with_status(Przeglad, id)
+    rendered_data = render_template('repairs/inspection_data.html', inspection=inspection)
     return jsonify({'status': status,
                     'data': rendered_data})

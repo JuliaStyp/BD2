@@ -55,7 +55,7 @@
   reason_select.clear();
 
   function on_reason_change(value){
-    const url = '{{ url_for('repairs_bp.get_repair_reason_data', id='') }}' + value;
+    const url = '{{ url_for('repairs_bp.get_rendered_repair_reason', id='') }}' + value;
     var options = {
         method: 'GET',
         mode: 'same-origin'
@@ -82,7 +82,7 @@
   maintainer_select.clear();
 
   function on_maintainer_change(value){
-    const url = '{{ url_for('repairs_bp.get_maintainer_data', id='') }}' + value;
+    const url = '{{ url_for('repairs_bp.get_rendered_maintainer', id='') }}' + value;
     var options = {
         method: 'GET',
         mode: 'same-origin'
@@ -109,7 +109,7 @@
   element_select.clear();
 
   function on_element_change(value){
-    const url = '{{ url_for('repairs_bp.get_element_data', id='') }}' + value;
+    const url = '{{ url_for('repairs_bp.get_rendered_element', id='') }}' + value;
     var options = {
         method: 'GET',
         mode: 'same-origin'
