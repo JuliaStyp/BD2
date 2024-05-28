@@ -48,7 +48,7 @@ class RepairReasonForm(Form):
 
 
 class RepairNeedReportForm(Form):
-    element_id = IntegerField("Id elementu infrastruktury, który wymaga naprawy",
+    element_id = SelectField("Id elementu infrastruktury, który wymaga naprawy",
                               validators=[InputRequired()])
     date = DateField("Data zgłoszenia potrzeby naprawy",
                      validators=[InputRequired()])
@@ -84,7 +84,7 @@ class RepairForm(Form):
                             validators=[InputRequired()], coerce=int)
     maintainer_id = SelectField("Id serwisanta",
                               validators=[InputRequired()])
-    element_id = SelectField("Id elementu infrastruktury, który wymaga naprawy",
+    element_id = SelectField("Id elementu infrastruktury poddawanego naprawie",
                               validators=[InputRequired()])
     date_start = DateField("Data rozpoczęcia naprawy",
                            validators=[InputRequired()])
