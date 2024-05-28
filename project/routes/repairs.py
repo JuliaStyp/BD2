@@ -146,42 +146,6 @@ def create_repair():
     return render_template("repairs/create_repair.html", **context)
 
 
-@repairs_bp.route("maintainers/get-data/<id>", methods=['GET'])
-def get_maintainer_data(id):
-    maintainer = db.session.query(Serwisant).filter_by(id=id).first()
-    if maintainer is not None:
-        status = 'ok'
-    else:
-        status = 'error'
-    rendered_data = render_template('repairs/maintainer_data.html', maintainer=maintainer)
-    return jsonify({'status': status,
-                    'data': rendered_data})
-
-
-@repairs_bp.route("repair-reasons/get-data/<id>", methods=['GET'])
-def get_repair_reason_data(id):
-    repair_reason = db.session.query(PowodNaprawy).filter_by(id=id).first()
-    if repair_reason is not None:
-        status = 'ok'
-    else:
-        status = 'error'
-    rendered_data = render_template('repairs/repair_reason_data.html', reason=repair_reason)
-    return jsonify({'status': status,
-                    'data': rendered_data})
-
-
-@repairs_bp.route("elements/get-data/<id>", methods=['GET'])
-def get_element_data(id):
-    element = db.session.query(ElementInfrastruktury).filter_by(id=id).first()
-    if element is not None:
-        status = 'ok'
-    else:
-        status = 'error'
-    rendered_data = render_template('repairs/element_data.html', element=element)
-    return jsonify({'status': status,
-                    'data': rendered_data})
-
-
 @repairs_bp.route("/delete/<id>", methods=["POST"])
 def delete_repair(id):
     try:
@@ -198,3 +162,41 @@ def set_form_choices(forms_fields_and_models: list):
     for form_field, model in forms_fields_and_models:
         objects = db.session.query(model).order_by(model.id.desc()).all()
         form_field.choices = [obj.id for obj in objects]
+
+
+# GET RENDERED DATA
+
+@repairs_bp.route("/get-data/maintainers/<id>", methods=['GET'])
+def get_maintainer_data(id):
+    maintainer = db.session.query(Serwisant).filter_by(id=id).first()
+    if maintainer is not None:
+        status = 'ok'
+    else:
+        status = 'error'
+    rendered_data = render_template('repairs/maintainer_data.html', maintainer=maintainer)
+    return jsonify({'status': status,
+                    'data': rendered_data})
+
+
+@repairs_bp.route("/get-data/repair-reasons/<id>", methods=['GET'])
+def get_repair_reason_data(id):
+    repair_reason = db.session.query(PowodNaprawy).filter_by(id=id).first()
+    if repair_reason is not None:
+        status = 'ok'
+    else:
+        status = 'error'
+    rendered_data = render_template('repairs/repair_reason_data.html', reason=repair_reason)
+    return jsonify({'status': status,
+                    'data': rendered_data})
+
+
+@repairs_bp.route("/get-data/elements/<id>", methods=['GET'])
+def get_element_data(id):
+    element = db.session.query(ElementInfrastruktury).filter_by(id=id).first()
+    if element is not None:
+        status = 'ok'
+    else:
+        status = 'error'
+    rendered_data = render_template('repairs/element_data.html', element=element)
+    return jsonify({'status': status,
+                    'data': rendered_data})
