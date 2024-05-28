@@ -5,6 +5,6 @@
     Powód: {{inspection.powod}}, id: {{inspection.powod_id}} <br>
     Opis zakresu prac: {{inspection.opis_zakresu_prac}} <br>
     Data rozpoczęcia: {{inspection.data_rozpoczecia}} <br>
-    Data zakończenia: {{inspection.data_zakonczenia}} <br>
+    Data zakończenia: {% if inspection.data_zakonczenia %} {{inspection.data_zakonczenia}} {% else %} W trakcie {% endif %}<br>
     Koszt: {{inspection.koszt}} <br>
 </div>
