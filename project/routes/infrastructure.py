@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from sqlalchemy.exc import IntegrityError
 
 from project.db import db, ElementInfrastruktury, Lokalizacja, Obiekt, TypInfrastruktury, StatusElementu
 from project.forms import LocationForm, ObjectForm, TypeForm, StatusForm, ElementForm
@@ -44,16 +45,17 @@ def delete_element(id):
     location = db.session.query(ElementInfrastruktury).filter_by(id=id).first()
     if not location:
         flash('Nie znaleziono elementu infrastruktury o podanym ID.', 'error')
-        return redirect(url_for('infr_bp.locations'))
+        return redirect(url_for('infr_bp.infrastructure'))
 
     else:
         try:
             db.session.delete(location)
             db.session.commit()
             session['flash_message'] = 'Element infrastruktury został pomyślnie usunięty.'
-        except:
+        except IntegrityError:
             db.session.rollback()
-            session['flash_message'] = 'Błąd przy usuwaniu Elementu.'
+            session['flash_message'] = \
+                'Nie można usunąć elementu, ponieważ jest używany jako klucz obcy w innych tabelach.'
         return redirect(url_for('infr_bp.infrastructure'))
 
 
@@ -97,7 +99,7 @@ def delete_location(id):
             db.session.delete(location)
             db.session.commit()
             session['flash_message'] = 'Lokalizacja została pomyślnie usunięta.'
-        except:
+        except IntegrityError:
             db.session.rollback()
             session['flash_message'] = \
                 'Nie można usunąć lokalizacji, ponieważ jest używana jako klucz obcy w innych tabelach.'
@@ -142,7 +144,7 @@ def delete_object(id):
             db.session.delete(obj)
             db.session.commit()
             session['flash_message'] = 'Obiekt została pomyślnie usunięta.'
-        except:
+        except IntegrityError:
             db.session.rollback()
             session['flash_message'] = \
                 'Nie można usunąć obiektu, ponieważ jest używany jako klucz obcy w innych tabelach.'
@@ -189,9 +191,10 @@ def delete_type(id):
             db.session.commit()
 
             session['flash_message'] = 'Typ został pomyślnie usunięty'
-        except:
+        except IntegrityError:
             db.session.rollback()
-            session['flash_message'] = 'Nie można usunąć typu, ponieważ jest używany jako klucz obcy w innych tabelach.'
+            session['flash_message'] = \
+                'Nie można usunąć typu, ponieważ jest używany jako klucz obcy w innych tabelach.'
         return redirect(url_for('infr_bp.types'))
 
 
@@ -234,8 +237,9 @@ def delete_status(id):
             db.session.delete(status)
             db.session.commit()
             session['flash_message'] = 'Status został pomyślnie usunięty'
-        except:
+        except IntegrityError:
             db.session.rollback()
-            session['flash_message'] = 'Nie można usunąć statusu, ponieważ jest używany jako klucz obcy w innych tabelach.'
+            session['flash_message'] = \
+                'Nie można usunąć statusu, ponieważ jest używany jako klucz obcy w innych tabelach.'
         return redirect(url_for('infr_bp.statuses'))
 
