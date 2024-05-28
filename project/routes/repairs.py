@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, jsonify
-from project.db import db, PowodNaprawy, ZgloszenieNaprawy, Naprawa, Serwisant, ElementInfrastruktury
+from project.db import db, PowodNaprawy, ZgloszenieNaprawy, Naprawa, Serwisant, ElementInfrastruktury, \
+                        Przeglad
 from project.forms import RepairReasonForm, RepairNeedReportForm, RepairForm
 
 repairs_bp = Blueprint("repairs_bp", __name__, url_prefix="/repairs")
@@ -12,6 +13,8 @@ def create_repair_reason():
     context = {}
     if request.method == "POST":
         form = RepairReasonForm(request.form)
+        set_form_choices([(form.inspection_id, Przeglad),
+                          (form.repair_need_report_id, ZgloszenieNaprawy)])
         if form.validate():
             new_repair_reason = PowodNaprawy(
                 przeglad_id=form.inspection_id.data,
@@ -25,6 +28,9 @@ def create_repair_reason():
             return redirect(url_for("repairs_bp.list_repair_reasons"))
     else:
         form = RepairReasonForm()
+        set_form_choices([(form.inspection_id, Przeglad),
+                          (form.repair_need_report_id, ZgloszenieNaprawy)])
+
     context['form'] = form
 
     return render_template("repairs/create_repair_reason.html", **context)
