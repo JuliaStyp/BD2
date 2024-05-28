@@ -74,6 +74,7 @@ def create_report():
     context = {}
     if request.method == "POST":
         form = RepairNeedReportForm(request.form)
+        set_form_choices([(form.element_id, ElementInfrastruktury)])
         if form.validate():
             new_repair_reason = ZgloszenieNaprawy(
                 element_id=form.element_id.data,
@@ -87,6 +88,7 @@ def create_report():
             return redirect(url_for("repairs_bp.list_reports"))
     else:
         form = RepairNeedReportForm()
+        set_form_choices([(form.element_id, ElementInfrastruktury)])
     context['form'] = form
 
     return render_template("repairs/create_report.html", **context)
