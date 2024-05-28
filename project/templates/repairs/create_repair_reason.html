@@ -4,9 +4,18 @@
 
 {% block content %}
 
+<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+
+<link href="{{ url_for('static', filename='css/repairs.css') }}" rel="stylesheet">
+
 <form method="post" action="{{ url_for('repairs_bp.create_repair_reason') }}">
     <dl>
       {{ render_field(form.inspection_id) }}
+      <div class="chosen_field_wrapper">
+        <span class="chosen_field_description"> Wybrany przegląd </span>
+        <div id="chosen_inspection_div"> </div>
+      </div>
       {{ render_field(form.repair_need_report_id) }}
       {{ render_field(form.priority ) }}
       {{ render_field(form.remarks) }}
@@ -22,5 +31,34 @@
 
     <p><input type="submit" value="Dodaj powód naprawy">
 </form>
+
+<script>
+
+  var inspection_select = new TomSelect("#inspection_id",{
+    create: false,
+    sortField:[{field:'$order'},{field:'$score'}],
+    onChange: on_inspection_change
+  });
+  inspection_select.clear();
+
+  function on_inspection_change(value){
+    const url = '{{ url_for('repairs_bp.get_rendered_inspection', id='') }}' + value;
+    var options = {
+        method: 'GET',
+        mode: 'same-origin'
+    }
+
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+        if (data['status'] == 'ok'){
+          var chosen_field = document.querySelector('#chosen_inspection_div');
+          chosen_field.innerHTML = data['data'];
+        }
+    }
+    )
+  }
+
+</script>
 
 {% endblock %}
