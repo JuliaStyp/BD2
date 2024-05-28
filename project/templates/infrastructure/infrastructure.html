@@ -24,6 +24,11 @@
     <a href="{{ url_for('infr_bp.statuses') }}">Statusy</a><br>
 
     <h1>Lista elementów infrastruktury</h1>
+    {% if 'flash_message' in session %}
+        <div class="flash-message">
+            {{ session.pop('flash_message') }}
+        </div>
+    {% endif %}
     <ul>
          <div class="list-container">
             <div class="list-legend">

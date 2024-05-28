@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 
 from project.db import db, ElementInfrastruktury, Lokalizacja, Obiekt, TypInfrastruktury, StatusElementu
 from project.forms import LocationForm, ObjectForm, TypeForm, StatusForm, ElementForm
@@ -29,6 +29,7 @@ def create_element():
             )
             db.session.add(new_location)
             db.session.commit()
+            session['flash_message'] = 'Pomyślnie dodano element'
             flash("Pomyślnie dodano element")
             return redirect(url_for("infr_bp.infrastructure"))
     else:
@@ -49,10 +50,10 @@ def delete_element(id):
         try:
             db.session.delete(location)
             db.session.commit()
-            flash('Element infrastruktury został pomyślnie usunięty.', 'success')
+            session['flash_message'] = 'Element infrastruktury został pomyślnie usunięty.'
         except:
             db.session.rollback()
-            flash('Błąd przy usuwaniu Elementu.', 'error')
+            session['flash_message'] = 'Błąd przy usuwaniu Elementu.'
         return redirect(url_for('infr_bp.infrastructure'))
 
 
@@ -95,13 +96,12 @@ def delete_location(id):
         try:
             db.session.delete(location)
             db.session.commit()
-            flash('Lokalizacja została pomyślnie usunięta.', 'success')
+            session['flash_message'] = 'Lokalizacja została pomyślnie usunięta.'
         except:
             db.session.rollback()
-            flash('Nie można usunąć lokalizacji, ponieważ jest używana jako klucz obcy w innych tabelach.', 'error')
+            session['flash_message'] = \
+                'Nie można usunąć lokalizacji, ponieważ jest używana jako klucz obcy w innych tabelach.'
         return redirect(url_for('infr_bp.locations'))
-
-
 
 
 @infr_bp.route("/objects", methods=["GET", "POST"])
@@ -134,17 +134,18 @@ def create_object():
 def delete_object(id):
     obj = db.session.query(Obiekt).filter_by(id=id).first()
     if not obj:
-        flash('Nie znaleziono obiektu o podanym ID.', 'error')
+        session['flash_message'] = 'Nie znaleziono obiektu o podanym ID.'
         return redirect(url_for('infr_bp.objects'))
 
     else:
         try:
             db.session.delete(obj)
             db.session.commit()
-            flash('Obiekt został pomyślnie usunięty.', 'success')
+            session['flash_message'] = 'Obiekt została pomyślnie usunięta.'
         except:
             db.session.rollback()
-            flash('Nie można usunąć obiektu, ponieważ jest używany jako klucz obcy w innych tabelach.', 'error')
+            session['flash_message'] = \
+                'Nie można usunąć obiektu, ponieważ jest używany jako klucz obcy w innych tabelach.'
         return redirect(url_for('infr_bp.objects'))
 
 
@@ -186,10 +187,11 @@ def delete_type(id):
         try:
             db.session.delete(typ)
             db.session.commit()
-            flash('Typ został pomyślnie usunięty.', 'success')
+
+            session['flash_message'] = 'Typ został pomyślnie usunięty'
         except:
             db.session.rollback()
-            flash('Nie można usunąć typu, ponieważ jest używany jako klucz obcy w innych tabelach.', 'error')
+            session['flash_message'] = 'Nie można usunąć typu, ponieważ jest używany jako klucz obcy w innych tabelach.'
         return redirect(url_for('infr_bp.types'))
 
 
@@ -231,9 +233,9 @@ def delete_status(id):
         try:
             db.session.delete(status)
             db.session.commit()
-            flash('Status został pomyślnie usunięty.', 'success')
+            session['flash_message'] = 'Status został pomyślnie usunięty'
         except:
             db.session.rollback()
-            flash('Nie można usunąć statusu, ponieważ jest używany jako klucz obcy w innych tabelach.', 'error')
+            session['flash_message'] = 'Nie można usunąć statusu, ponieważ jest używany jako klucz obcy w innych tabelach.'
         return redirect(url_for('infr_bp.statuses'))
 

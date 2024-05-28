@@ -16,6 +16,11 @@
         <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
     {% endif %}
     <h1>Lista obiektów infrastruktury</h1>
+    {% if 'flash_message' in session %}
+        <div class="flash-message">
+            {{ session.pop('flash_message') }}
+        </div>
+    {% endif %}
     <ul>
          <div class="list-container">
             <div class="list-legend">
