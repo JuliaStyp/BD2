@@ -1,10 +1,12 @@
 <div id='inspection_data_div' class="chosen_field_data_inside_div">
-    Id: {{inspection.id}} <br>
-    Typ przeglądu: {{inspection.typ_przegladu}}, id: {{inspection.typ_przegladu_id}} <br>
-    Serwisant: {{inspection.serwisant}}, id: {{inspection.serwisant_id}} <br>
-    Powód: {{inspection.powod}}, id: {{inspection.powod_id}} <br>
-    Opis zakresu prac: {{inspection.opis_zakresu_prac}} <br>
-    Data rozpoczęcia: {{inspection.data_rozpoczecia}} <br>
-    Data zakończenia: {% if inspection.data_zakonczenia %} {{inspection.data_zakonczenia}} {% else %} W trakcie {% endif %}<br>
-    Koszt: {{inspection.koszt}} <br>
+    <b>Id:</b> {{inspection.id}} <br>
+    <b>Typ przeglądu:</b> {{inspection.typ_przegladu}} <br>
+    <b>Serwisant:</b> {{inspection.serwisant}} <br>
+    <b>Id serwisanta:</b> {{inspection.serwisant_id}} <br>
+    <b>Powód:</b> {{inspection.powod}} <br>
+    <b>Id powodu:</b> {{inspection.powod_id}} <br>
+    <b>Opis zakresu prac:</b> {{inspection.opis_zakresu_prac}} <br>
+    <b>Data rozpoczęcia:</b> {{inspection.data_rozpoczecia}} <br>
+    <b>Data zakończenia:</b> {% if inspection.data_zakonczenia %} {{inspection.data_zakonczenia}} {% else %} W trakcie {% endif %}<br>
+    <b>Koszt:</b> {{inspection.koszt}} <br>
 </div>
