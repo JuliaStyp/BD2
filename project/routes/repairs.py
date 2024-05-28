@@ -198,9 +198,17 @@ def get_rendered_element(id):
                     'data': rendered_data})
 
 
-@repairs_bp.route("/get-data/inspection/<id>", methods=['GET'])
+@repairs_bp.route("/get-data/inspections/<id>", methods=['GET'])
 def get_rendered_inspection(id):
     inspection, status = get_object_by_id_with_status(Przeglad, id)
     rendered_data = render_template('repairs/inspection_data.html', inspection=inspection)
+    return jsonify({'status': status,
+                    'data': rendered_data})
+
+
+@repairs_bp.route("/get-data/repair-need-reports/<id>", methods=['GET'])
+def get_rendered_repair_need_report(id):
+    report, status = get_object_by_id_with_status(ZgloszenieNaprawy, id)
+    rendered_data = render_template('repairs/inspection_data.html', inspection=report)
     return jsonify({'status': status,
                     'data': rendered_data})
