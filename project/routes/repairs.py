@@ -209,6 +209,6 @@ def get_rendered_inspection(id):
 @repairs_bp.route("/get-data/repair-need-reports/<id>", methods=['GET'])
 def get_rendered_repair_need_report(id):
     report, status = get_object_by_id_with_status(ZgloszenieNaprawy, id)
-    rendered_data = render_template('repairs/inspection_data.html', inspection=report)
+    rendered_data = render_template('repairs/inspection_data.html', report=report)
     return jsonify({'status': status,
                     'data': rendered_data})
