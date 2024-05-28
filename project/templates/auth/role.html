@@ -1,13 +1,43 @@
 {% extends 'index.html' %}
-{% block head %}
-    <title>Tworzenie Roli</title>
+{% block head %}    
+    <style>
+    h1 {
+        margin-top: 40px;
+    }
+    </style>
+    <title>Role</title>
 {% endblock %}
 
 {% block content %}
-    <h1>Tworzenie Roli</h1>
-    <form method="post">
-        <label for="rola">Rola:</label>
-        <input type="text" id="rola" name="rola" required><br>
-        <button type="submit">Stwórz rolę</button>
-    </form>
+    {% if logged_in %}
+        <a class="logged-in-text"> Zalogowany z rolą {{ role_name }}</a>
+        <a class="logout-link" href="{{ url_for('auth_bp.logout') }}">Wyloguj</a>
+    {% else %}
+        <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
+    {% endif %}
+    <h1>Lista ról</h1>
+    {% if 'flash_message' in session %}
+        <div class="flash-message">
+            {{ session.pop('flash_message') }}
+        </div>
+    {% endif %}
+    <ul>
+         <div class="list-container">
+            <div class="list-legend">
+                <span>ID</span>
+                <span>Nazwa roli</span>
+                <span>Usuwanie roli</span>
+            </div>
+            <ul class="formatted-list">
+                {% for role in roles %}
+                    <li>
+                        <span>{{ role.id }}</span>
+                        <span>{{ role.rola }}</span>
+                        <span><a href="{{ url_for('auth_bp.role_delete', id=role.id) }}">Usuń</a></span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </ul>
+    <a href="{{ url_for('auth_bp.role_create') }}">Dodaj nową rolę</a><br>
 {% endblock %}
