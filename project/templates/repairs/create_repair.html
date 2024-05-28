@@ -9,23 +9,23 @@
 
 <link href="{{ url_for('static', filename='css/repairs.css') }}" rel="stylesheet">
 
-<div id=repair_create_form_div>
+<div id="repair_create_form_div" class="create_form_div">
   <form method="post" action="{{ url_for('repairs_bp.create_repair') }}">
     <dl>
       {{ render_field(form.reason_id) }}
       <div class="chosen_field_wrapper">
         <span class="chosen_field_description"> Wybrany powód naprawy </span>
-        <div id="chosen_reason_div"> </div>
+        <div id="chosen_reason_div" class="chosen_field_data_wrapper"> </div>
       </div>
       {{ render_field(form.maintainer_id) }}
       <div class="chosen_field_wrapper">
         <span class="chosen_field_description"> Wybrany serwisant </span>
-        <div id="chosen_maintainer_div"> </div>
+        <div id="chosen_maintainer_div" class="chosen_field_data_wrapper"> </div>
       </div>
       {{ render_field(form.element_id ) }}
       <div class="chosen_field_wrapper">
         <span class="chosen_field_description"> Wybrany element infrastruktury </span>
-        <div id="chosen_element_div"> </div>
+        <div id="chosen_element_div" class="chosen_field_data_wrapper"> </div>
       </div>
       {{ render_field(form.date_start) }}
       {{ render_field(form.date_end) }}
