@@ -1,9 +1,13 @@
 <div id='element_data_div' class="chosen_field_data_inside_div">
     <b>Id:</b> {{element.id}} <br>
-    <b>Typ:</b> {{element.typ}} <br>
-    <b>Lokalizacja:</b> {{element.lokalizacja}} <br>
-    <b>Obiekt:</b> {{element.obiekt}} <br>
-    <b>Status:</b> {{element.status}} <br>
+    <b>Typ:</b> {{element.typ_ref.typ}} <br>
+    <b>Id typu:</b> {{element.typ}} <br>
+    <b>Lokalizacja:</b> {{element.lokalizacja_ref.nazwa_miejsca}} <br>
+    <b>Id lokalizacji:</b> {{element.lokalizacja}} <br>
+    <b>Obiekt:</b> {{element.obiekt_ref.typ}} <br>
+    <b>Id obiektu:</b> {{element.obiekt}} <br>
+    <b>Status:</b> {{element.status_ref.status}} <br>
+    <b>Id statusu:</b> {{element.status}} <br>
     <b>Opis:</b> {{element.opis}} <br>
     <b>Maksymalny interwał:</b> {{element.max_interwal}} dni <br>
 </div>
