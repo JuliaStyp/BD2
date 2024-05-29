@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from werkzeug.security import check_password_hash
+from sqlalchemy.exc import IntegrityError
 
 from project.db import db, Rola, Uzytkownik
 from project.forms import UzytkownikForm, RolaForm
@@ -44,7 +45,7 @@ def user_delete(id):
             db.session.delete(user)
             db.session.commit()
             session['flash_message'] = 'Użytkownik został pomyślnie usunięty.'
-        except:
+        except IntegrityError:
             db.session.rollback()
             session['flash_message'] = \
                 'Nie można usunąć Użytkownika, ponieważ jest używany jako klucz obcy w innych tabelach.'
@@ -83,7 +84,7 @@ def role_delete(id):
             db.session.delete(rola)
             db.session.commit()
             session['flash_message'] = 'Rola została pomyślnie usunięta.'
-        except:
+        except IntegrityError:
             db.session.rollback()
             session['flash_message'] = \
                 'Nie można usunąć Roli, ponieważ jest używana jako klucz obcy w innych tabelach.'
