@@ -1,7 +1,7 @@
 <div id='repair_reason_data_div' class="chosen_field_data_inside_div">
     <b>Id:</b> {{reason.id}} <br>
     <b>Id przeglądu:</b> {% if reason.przeglad_id %} {{ reason.przeglad_id }} {% else %} brak {% endif %} <br>
-    <b>Id przeglądu:</b> {% if reason.zgloszenie_id %} {{ reason.zgloszenie_id }} {% else %} brak {% endif %} <br>
+    <b>Id zgłoszenia potrzeby naprawy:</b> {% if reason.zgloszenie_id %} {{ reason.zgloszenie_id }} {% else %} brak {% endif %} <br>
     <b>Priorytet:</b> {{ reason.priorytet }} <br>
     <b>Uwagi:</b> {{ reason.uwagi }} <br>
 </div>
