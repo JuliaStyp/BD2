@@ -37,6 +37,11 @@ class ElementInfrastruktury(Base):
     opis = Column(String(1024), nullable=False)
     max_interwal = Column(Integer, nullable=False)
 
+    typ_ref = relationship("TypInfrastruktury", backref="elementy_infrastruktury")
+    lokalizacja_ref = relationship("Lokalizacja", backref="elementy_infrastruktury")
+    obiekt_ref = relationship("Obiekt", backref="elementy_infrastruktury")
+    status_ref = relationship("StatusElementu", backref="elementy_infrastruktury")
+
 
 class TypInfrastruktury(Base):
     __tablename__ = "typy_infrastruktury"
