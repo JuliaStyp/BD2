@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% block head %}    
+    <style>
+    h1 {
+        margin-top: 40px;
+    }
+    </style>
+    <title>Lokalizacje</title>
+{% endblock %}
+
+{% block content %}
+    {% if logged_in %}
+        <a class="logged-in-text"> Zalogowany z rolą {{ role_name }}</a>
+        <a class="logout-link" href="{{ url_for('auth_bp.logout') }}">Wyloguj</a>
+    {% else %}
+        <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
+    {% endif %}
+    <h1>Lista lokalizacji</h1>
+    {% if 'flash_message' in session %}
+        <div class="flash-message">
+            {{ session.pop('flash_message') }}
+        </div>
+    {% endif %}
+    <ul>
+         <div class="list-container">
+            <div class="list-legend">
+                <span>ID</span>
+                <span>Nazwa lokalizacji</span>
+                <span>Szerokość geograficzna</span>
+                <span>Długość geograficzna</span>
+                <span>Usuwanie lokalizacji</span>
+            </div>
+            <ul class="formatted-list">
+                {% for location in locations %}
+                    <li>
+                        <span>{{ location.id }}</span>
+                        <span>{{ location.nazwa_miejsca }}</span>
+                        <span>{{ location.szerokosc_geo }}</span>
+                        <span>{{ location.dlugosc_geo }}</span>
+                        <span><a href="{{ url_for('infr_bp.delete_location', id=location.id) }}">Usuń</a></span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </ul>
+    <a href="{{ url_for('infr_bp.create_location') }}">Dodaj nową lokalizację</a><br>
+{% endblock %}
