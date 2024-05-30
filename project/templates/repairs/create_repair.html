@@ -1,38 +1,131 @@
 {% extends 'index.html' %}
 
-{% macro render_field(field) %}
-<dt>{{ field.label }}
-  <dd>{{ field(**kwargs)|safe }}
-    {% if field.errors %}
-    <ul class="errors">
-      {% for error in field.errors %}
+{% from "./repairs/macros.html" import render_field with context %}
+
+{% block content %}
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+
+<link href="{{ url_for('static', filename='css/repairs.css') }}" rel="stylesheet">
+
+<div id="repair_create_form_div" class="create_form_div">
+  <form method="post" action="{{ url_for('repairs_bp.create_repair') }}">
+    <dl>
+      {{ render_field(form.reason_id) }}
+      <div class="chosen_field_wrapper">
+        <span class="chosen_field_description"> Wybrany powód naprawy </span>
+        <div id="chosen_reason_div" class="chosen_field_data_wrapper"> </div>
+      </div>
+      {{ render_field(form.maintainer_id) }}
+      <div class="chosen_field_wrapper">
+        <span class="chosen_field_description"> Wybrany serwisant </span>
+        <div id="chosen_maintainer_div" class="chosen_field_data_wrapper"> </div>
+      </div>
+      {{ render_field(form.element_id ) }}
+      <div class="chosen_field_wrapper">
+        <span class="chosen_field_description"> Wybrany element infrastruktury </span>
+        <div id="chosen_element_div" class="chosen_field_data_wrapper"> </div>
+      </div>
+      {{ render_field(form.date_start) }}
+      {{ render_field(form.date_end) }}
+      {{ render_field(form.cost) }}
+    </dl>
+
+    {% if form.form_errors %}
+    <ul class="form_errors">
+      {% for error in form.form_errors %}
       <li>{{ error }}</li>
       {% endfor %}
     </ul>
     {% endif %}
-  </dd>
-{% endmacro %}
-  
-{% block content %}
 
-<form method="post" action="{{ url_for('repairs_bp.create_repair') }}">
-  <dl>
-    {{ render_field(form.reason_id) }}
-    {{ render_field(form.maintainer_id) }}
-    {{ render_field(form.element_id ) }}
-    {{ render_field(form.date_start) }}
-    {{ render_field(form.date_end) }}
-    {{ render_field(form.cost) }}
-  </dl>
-  
-  {% if form.form_errors %}
-  <ul class="form_errors">
-    {% for error in form.form_errors %}
-    <li>{{ error }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-  
-  <p><input type="submit" value="Dodaj naprawę">
-  </form>
+    <p><input type="submit" value="Dodaj naprawę">
+    </form>
+</div>
+
+
+
+<script>
+  var reason_select = new TomSelect("#reason_id",{
+    create: false,
+    sortField:[{field:'$order'},{field:'$score'}],
+    onChange: on_reason_change
+  });
+  reason_select.clear();
+
+  function on_reason_change(value){
+    const url = '{{ url_for('repairs_bp.get_rendered_repair_reason', id='') }}' + value;
+    var options = {
+        method: 'GET',
+        mode: 'same-origin'
+    }
+
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+        if (data['status'] == 'ok'){
+          var chosen_field = document.querySelector('#chosen_reason_div');
+          chosen_field.innerHTML = data['data'];
+        }
+    }
+    )
+  }
+
+
+
+  var maintainer_select = new TomSelect("#maintainer_id",{
+    create: false,
+    sortField:[{field:'$order'},{field:'$score'}],
+    onChange: on_maintainer_change
+  });
+  maintainer_select.clear();
+
+  function on_maintainer_change(value){
+    const url = '{{ url_for('repairs_bp.get_rendered_maintainer', id='') }}' + value;
+    var options = {
+        method: 'GET',
+        mode: 'same-origin'
+    }
+
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+        if (data['status'] == 'ok'){
+          var chosen_field = document.querySelector('#chosen_maintainer_div');
+          chosen_field.innerHTML = data['data'];
+        }
+    }
+    )
+  }
+
+
+
+  var element_select = new TomSelect("#element_id",{
+    create: false,
+    sortField:[{field:'$order'},{field:'$score'}],
+    onChange: on_element_change
+  });
+  element_select.clear();
+
+  function on_element_change(value){
+    const url = '{{ url_for('repairs_bp.get_rendered_element', id='') }}' + value;
+    var options = {
+        method: 'GET',
+        mode: 'same-origin'
+    }
+
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+        if (data['status'] == 'ok'){
+          var chosen_field = document.querySelector('#chosen_element_div');
+          chosen_field.innerHTML = data['data'];
+        }
+    }
+    )
+  }
+
+</script>
+
 {% endblock %}

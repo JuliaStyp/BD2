@@ -1,6 +1,11 @@
 {% extends 'index.html' %}
 
+{% from "./repairs/macros.html" import render_pagination with context %}
+{% from "./repairs/macros.html" import better_none with context %}
+
 {% block content %}
+
+<link href="{{ url_for('static', filename='css/repairs.css') }}" rel="stylesheet">
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -12,25 +17,42 @@
 {% endif %}
 {% endwith %}
 
-<a href='{{ url_for("repairs_bp.create_repair_reason") }}'> Dodaj powód naprawy </a>
-<br>
+<div id="repair_reasons_container" class="elements_container">
 
-<h3> Powody napraw: </h3>
-<div id="repair_reasons_container">
-  {% if reasons %}
-  <ul>
-    {% for reason in reasons %}
-    Id: {{reason.id}} <br>
-    Id przeglądu: {{ reason.przeglad_id }} <br>
-    Id przeglądu: {{ reason.zgloszenie_id }} <br>
-    Priorytet: {{ reason.priorytet }} <br>
-    Uwagi: {{ reason.uwagi }} <br>
+    <div class="add_element_div">
+      <a href='{{ url_for("repairs_bp.create_repair_reason") }}'> Dodaj powód naprawy </a>
+    </div>
 
-    <form method="post" action="{{ url_for('repairs_bp.delete_repair_reason', id=reason.id) }}">
-      <input type="submit" value="Usuń">
-    </form>
-    {% endfor %}
-    {% endif %}
+    {% for reason in reasons.items %}
+    <div class="element">
+
+      <div class=element_data> <span class="element_description">Id:</span> <span class="element_value">{{reason.id}} </span> </div>
+      <div class=element_data> <span class="element_description">Id przeglądu:</span>  <span class="element_value">{{ better_none(reason.przeglad_id) }} </span> </div>
+      <div class=element_data> <span class="element_description">Id zgłoszenia potrzeby naprawy:</span> <span class="element_value">{{ better_none(reason.zgloszenie_id) }} </span> </div>
+      <div class=element_data> <span class="element_description">Priorytet:</span> <span class="element_value">{{ reason.priorytet }} </span> </div>
+      <div class=element_data> <span class="element_description">Uwagi:</span> <span class="element_value">{{ better_none(reason.uwagi) }} </span> </div>
+
+      <div class="delete_element_form">
+        <form method="post" action="{{ url_for('repairs_bp.delete_repair_reason', id=reason.id) }}">
+          <input type="submit" value="Usuń">
+        </form>
+      </div>
+
   </div>
 
-  {% endblock %}
+  {% else %}
+
+  <div class="no_elements">
+    Brak powodów napraw
+  </div>
+
+  {% endfor %}
+
+</div>
+
+<div class="pagination_container">
+  {{ render_pagination(reasons, "repairs_bp.list_repair_reasons") }}
+</div>
+
+
+{% endblock %}

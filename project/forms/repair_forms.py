@@ -1,13 +1,13 @@
 from wtforms import Form, BooleanField, StringField, PasswordField, IntegerField, TextAreaField,\
-                    DateField, DecimalField
+                    DateField, DecimalField, SelectField
 from wtforms.validators import NumberRange, InputRequired, Length, Optional
 from project.db import db, Rola, Uzytkownik, ZgloszenieNaprawy, Przeglad, PowodNaprawy, ElementInfrastruktury,\
                     Serwisant
 from datetime import date
 
 class RepairReasonForm(Form):
-    inspection_id = IntegerField("Id przeglądu", validators=[Optional()])
-    repair_need_report_id = IntegerField("Id zgłoszenia potrzeby naprawy", validators=[Optional()])
+    inspection_id = SelectField("Id przeglądu", validators=[Optional()])
+    repair_need_report_id = SelectField("Id zgłoszenia potrzeby naprawy", validators=[Optional()])
     priority = IntegerField("Priorytet",
                             validators=[NumberRange(min=0, max=5, message="Priorytet musi być z zakresu <1,5>"),
                                         InputRequired()])
@@ -39,6 +39,8 @@ class RepairReasonForm(Form):
     def validate(self):
         super_succes = super().validate()
         success = True
+        self.inspection_id.data = None if self.inspection_id.data == '' else self.inspection_id.data
+        self.repair_need_report_id.data = None if self.repair_need_report_id.data == '' else self.repair_need_report_id.data
         if ((self.inspection_id.data is not None and self.repair_need_report_id.data is not None) or
             (self.inspection_id.data is None and self.repair_need_report_id.data is None)):
             success = False
@@ -48,7 +50,7 @@ class RepairReasonForm(Form):
 
 
 class RepairNeedReportForm(Form):
-    element_id = IntegerField("Id elementu infrastruktury, który wymaga naprawy",
+    element_id = SelectField("Id elementu infrastruktury, który wymaga naprawy",
                               validators=[InputRequired()])
     date = DateField("Data zgłoszenia potrzeby naprawy",
                      validators=[InputRequired()])
@@ -80,11 +82,11 @@ class RepairNeedReportForm(Form):
 
 
 class RepairForm(Form):
-    reason_id = IntegerField("Id powodu naprawy",
-                             validators=[InputRequired()])
-    maintainer_id = IntegerField("Id serwisanta",
+    reason_id = SelectField("Id powodu naprawy",
+                            validators=[InputRequired()], coerce=int)
+    maintainer_id = SelectField("Id serwisanta",
                               validators=[InputRequired()])
-    element_id = IntegerField("Id elementu infrastruktury, który wymaga naprawy",
+    element_id = SelectField("Id elementu infrastruktury poddawanego naprawie",
                               validators=[InputRequired()])
     date_start = DateField("Data rozpoczęcia naprawy",
                            validators=[InputRequired()])
