@@ -14,22 +14,25 @@
 {% endmacro %}
   
 {% block content %}
+<link href="{{ url_for('static', filename='css/services.css') }}" rel="stylesheet">
 
-<form method="post" action="{{ url_for('service_bp.create_service') }}">
+<div id="service_create_form_div" class="create_form_div">
+  <form method="post" action="{{ url_for('service_bp.create_service') }}">
   <dl>
     {{ render_field(form.name) }}
     {{ render_field(form.phone_number ) }}
     {{ render_field(form.mail) }}
   </dl>
-<!--   
+  
   {% if form.form_errors %}
   <ul class="form_errors">
     {% for error in form.form_errors %}
     <li>{{ error }}</li>
     {% endfor %}
   </ul>
-  {% endif %} -->
+  {% endif %}
   
   <p><input type="submit" value="Dodaj serwisanta">
   </form>
+</div>
 {% endblock %}
