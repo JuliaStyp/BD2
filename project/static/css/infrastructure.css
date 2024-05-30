@@ -3,6 +3,7 @@
     margin-right: auto;
     margin-top: 20px;
     display: flex;
+    flex-direction: column; 
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -28,8 +29,7 @@
 }
 
 .create_form_div form dl dd input,
-.create_form_div form dl dd select,
-#name, #phone_number {
+.create_form_div form dl dd select {
     resize: none;
     width: 97%;
     padding: 10px;
@@ -190,4 +190,14 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+}
+
+#opis {
+    resize: none;
+    width: 97%;
+    height: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
 }
