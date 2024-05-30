@@ -5,6 +5,7 @@ from project.forms import RepairReasonForm, RepairNeedReportForm, RepairForm
 
 repairs_bp = Blueprint("repairs_bp", __name__, url_prefix="/repairs")
 
+ITEMS_PER_PAGE = 20
 
 # REPAIR REASONS
 
@@ -37,9 +38,13 @@ def create_repair_reason():
 
 
 @repairs_bp.route("/repair-reasons", methods=["GET"])
-def list_repair_reasons():
+@repairs_bp.route("/repair-reasons/<int:page>", methods=["GET"])
+def list_repair_reasons(page=1):
     context = {}
-    reasons = db.session.query(PowodNaprawy).all()
+    query = db.session.query(PowodNaprawy)
+    reasons = db.paginate(query, page=page, per_page=ITEMS_PER_PAGE, error_out=False)
+    if reasons.pages < page:
+        reasons = db.paginate(query, page=reasons.pages, per_page=ITEMS_PER_PAGE, error_out=False)
     context['reasons'] = reasons
 
     return render_template("repairs/list_repair_reasons.html", **context)
