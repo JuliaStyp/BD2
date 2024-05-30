@@ -21,14 +21,6 @@ def reports():
     return render_template("reports/reports.html", form=form)
 
 
-@reports_bp.route("/created", methods=["GET"])
-def report_created(form=None):
-    if not form:
-        return ""
-    else:
-        return "ebe ebe"
-
-
 def create_repairs_report(date_start, date_end):
     repairs = db.session.query(Naprawa).where(date_start <= Naprawa.data_rozpoczecia).where(
         Naprawa.data_rozpoczecia <= date_end).order_by(Naprawa.id.desc()).all()
