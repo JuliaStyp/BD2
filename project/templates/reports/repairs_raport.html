@@ -1,0 +1,36 @@
+{% from "./repairs/macros.html" import better_none with context %}
+<link href="{{ url_for('static', filename='css/reports.css') }}" rel="stylesheet">
+
+<h1> Raport napraw </h1> <br>
+<h3> Naprawy z okresu od {{date_start}} do {{date_end}} </h3> <br>
+
+<div class="list-container">
+    {% if repairs %}
+    <div class="list-legend">
+        <span>Id</span>
+        <span>Id powodu naprawy</span>
+        <span>Id serwisanta</span>
+        <span>Id elementu infrastruktury</span>
+        <span>Data rozpoczęcia</span>
+        <span>Data zakończenia</span>
+        <span>Koszt</span>
+
+    </div>
+    {% endif %}
+
+    <ul class="formatted-list">
+        {% for repair in repairs %}
+            <li>
+                <span>{{ repair.id }}</span>
+                <span>{{ repair.powod_id }}</span>
+                <span>{{ repair.serwisant_id }}</span>
+                <span>{{ repair.element_id }}</span>
+                <span>{{ repair.data_rozpoczecia }}</span>
+                <span>{{ better_none(repair.data_zakonczenia) }}</span>
+                <span>{{ repair.koszt }}</span>
+            </li>
+        {% else %}
+            <h3> Brak napraw w podanym okresie </h3>
+        {% endfor %}
+    </ul>
+</div>

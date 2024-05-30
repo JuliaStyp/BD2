@@ -41,7 +41,7 @@ def create_repair_reason():
 @repairs_bp.route("/repair-reasons/<int:page>", methods=["GET"])
 def list_repair_reasons(page=1):
     context = {}
-    query = db.session.query(PowodNaprawy)
+    query = db.session.query(PowodNaprawy).order_by(PowodNaprawy.id.desc())
     reasons = db.paginate(query, page=page, per_page=ITEMS_PER_PAGE, error_out=False)
     if reasons.pages < page:
         reasons = db.paginate(query, page=reasons.pages, per_page=ITEMS_PER_PAGE, error_out=False)
@@ -69,7 +69,7 @@ def delete_repair_reason(id):
 @repairs_bp.route("/repair-need-reports", methods=["GET"])
 def list_reports(page=1):
     context = {}
-    query = db.session.query(ZgloszenieNaprawy)
+    query = db.session.query(ZgloszenieNaprawy).order_by(ZgloszenieNaprawy.id.desc())
     reports = db.paginate(query, page=page, per_page=ITEMS_PER_PAGE, error_out=False)
     if reports.pages < page:
         reports = db.paginate(query, page=reports.pages, per_page=ITEMS_PER_PAGE, error_out=False)
@@ -121,7 +121,7 @@ def delete_report(id):
 @repairs_bp.route("/<int:page>", methods=["GET"])
 def list_repairs(page=1):
     context = {}
-    query = db.session.query(Naprawa)
+    query = db.session.query(Naprawa).order_by(Naprawa.id.desc())
     repairs = db.paginate(query, page=page, per_page=ITEMS_PER_PAGE, error_out=False)
     if repairs.pages < page:
         repairs = db.paginate(query, page=repairs.pages, per_page=ITEMS_PER_PAGE, error_out=False)
