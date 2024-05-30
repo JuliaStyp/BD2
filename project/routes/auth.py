@@ -62,6 +62,7 @@ def roles():
     role_list = db.session.execute(db.select(Rola).order_by(Rola.id)).scalars()
     return render_template("auth/role.html", roles=role_list)
 
+
 @auth_bp.route('/roles/create', methods=["GET", "POST"])
 @login_required
 @admin_required
@@ -117,7 +118,7 @@ def login():
                 session['is_admin'] = True
             else:
                 session['is_admin'] = False
-            return redirect(url_for("auth_bp.auth"))
+            return redirect(url_for("index_bp.index"))
         else:
             # Invalid credentials, show error message
             error = "Invalid email or password"

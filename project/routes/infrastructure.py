@@ -3,17 +3,20 @@ from sqlalchemy.exc import IntegrityError
 
 from project.db import db, ElementInfrastruktury, Lokalizacja, Obiekt, TypInfrastruktury, StatusElementu
 from project.forms import LocationForm, ObjectForm, TypeForm, StatusForm, ElementForm
+from project.utils import admin_required, login_required
 
 infr_bp = Blueprint("infr_bp", __name__, url_prefix="/infrastructure")
 
 
 @infr_bp.route("/")
+@login_required
 def infrastructure():
     element_list = db.session.execute(db.select(ElementInfrastruktury).order_by(ElementInfrastruktury.id)).scalars()
     return render_template("infrastructure/infrastructure.html", elements=element_list)
 
 
 @infr_bp.route("/create", methods=["GET", "POST"])
+@login_required
 def create_element():
     context = {}
     if request.method == "POST":
@@ -41,6 +44,8 @@ def create_element():
 
 
 @infr_bp.route('/delete/<int:id>', methods=['GET'])
+@login_required
+@admin_required
 def delete_element(id):
     location = db.session.query(ElementInfrastruktury).filter_by(id=id).first()
     if not location:
@@ -60,12 +65,14 @@ def delete_element(id):
 
 
 @infr_bp.route("/locations", methods=["GET", "POST"])
+@login_required
 def locations():
     location_list = db.session.execute(db.select(Lokalizacja).order_by(Lokalizacja.id)).scalars()
     return render_template("infrastructure/locations.html", locations=location_list)
 
 
 @infr_bp.route("/locations/create", methods=["GET", "POST"])
+@login_required
 def create_location():
     context = {}
     if request.method == "POST":
@@ -88,6 +95,8 @@ def create_location():
 
 
 @infr_bp.route('/locations/delete/<int:id>', methods=['GET'])
+@login_required
+@admin_required
 def delete_location(id):
     location = db.session.query(Lokalizacja).filter_by(id=id).first()
     if not location:
@@ -107,12 +116,14 @@ def delete_location(id):
 
 
 @infr_bp.route("/objects", methods=["GET", "POST"])
+@login_required
 def objects():
     object_list = db.session.execute(db.select(Obiekt).order_by(Obiekt.id)).scalars()
     return render_template("infrastructure/objects.html", objects=object_list)
 
 
 @infr_bp.route("/objects/create", methods=["GET", "POST"])
+@login_required
 def create_object():
     context = {}
     if request.method == "POST":
@@ -133,6 +144,8 @@ def create_object():
 
 
 @infr_bp.route('/objects/delete/<int:id>', methods=['GET'])
+@login_required
+@admin_required
 def delete_object(id):
     obj = db.session.query(Obiekt).filter_by(id=id).first()
     if not obj:
@@ -151,14 +164,15 @@ def delete_object(id):
         return redirect(url_for('infr_bp.objects'))
 
 
-
 @infr_bp.route("/types", methods=["GET", "POST"])
+@login_required
 def types():
     type_list = db.session.execute(db.select(TypInfrastruktury).order_by(TypInfrastruktury.id)).scalars()
     return render_template("infrastructure/types.html", types=type_list)
 
 
 @infr_bp.route("/types/create", methods=["GET", "POST"])
+@login_required
 def create_type():
     context = {}
     if request.method == "POST":
@@ -179,6 +193,8 @@ def create_type():
 
 
 @infr_bp.route('/types/delete/<int:id>', methods=['GET'])
+@login_required
+@admin_required
 def delete_type(id):
     typ = db.session.query(TypInfrastruktury).filter_by(id=id).first()
     if not typ:
@@ -198,14 +214,15 @@ def delete_type(id):
         return redirect(url_for('infr_bp.types'))
 
 
-
 @infr_bp.route("/statuses", methods=["GET", "POST"])
+@login_required
 def statuses():
     status_list = db.session.execute(db.select(StatusElementu).order_by(StatusElementu.id)).scalars()
     return render_template("infrastructure/statuses.html", statuses=status_list)
 
 
 @infr_bp.route("/statuses/create", methods=["GET", "POST"])
+@login_required
 def create_status():
     context = {}
     if request.method == "POST":
@@ -226,6 +243,8 @@ def create_status():
 
 
 @infr_bp.route('/statuses/delete/<int:id>', methods=['GET'])
+@login_required
+@admin_required
 def delete_status(id):
     status = db.session.query(StatusElementu).filter_by(id=id).first()
     if not status:
