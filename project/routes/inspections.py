@@ -1,6 +1,8 @@
+import re
 from typing import Any, Mapping
 
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify, Response
+from sqlalchemy.exc import IntegrityError
 
 from project.db import db, Przeglad, TypPrzegladu, PowodPrzegladu, ZgloszeniePrzegladu
 from project.db.models import SerializedBase
@@ -19,7 +21,7 @@ def create_inspection() -> dict[str, Any]:
 
 
 @inspections_bp.route("/<inspection_id>", methods=["DELETE"])
-def delete_inspection(inspection_id: int) -> str:
+def delete_inspection(inspection_id: int) -> Response:
     return delete_by_id(table=Przeglad, id=inspection_id)
 
 
@@ -35,14 +37,13 @@ def create_type() -> dict[str, Any]:
 
 
 @inspections_bp.route("/types/<type_id>", methods=["DELETE"])
-def delete_type(type_id: int) -> str:
+def delete_type(type_id: int) -> Response:
     return delete_by_id(table=TypPrzegladu, id=type_id)
 
 
-@inspections_bp.route("/causes/<cause_id>", methods=["GET"])
-def get_cause(cause_id: int) -> dict[str, Any]:
-    cause = db.session.query(PowodPrzegladu).where(PowodPrzegladu.id == cause_id).one()
-    return cause.to_dict()
+@inspections_bp.route("/causes", methods=["GET"])
+def get_cause() -> dict[str, Any]:
+    return select_by_page(table=PowodPrzegladu, orderby=PowodPrzegladu.id)
 
 
 @inspections_bp.route("/causes", methods=["POST"])
@@ -51,7 +52,7 @@ def create_cause() -> dict[str, Any]:
 
 
 @inspections_bp.route("/causes/<cause_id>", methods=["DELETE"])
-def delete_cause(cause_id: int) -> str:
+def delete_cause(cause_id: int) -> Response:
     return delete_by_id(table=PowodPrzegladu, id=cause_id)
 
 
@@ -66,7 +67,7 @@ def create_request() -> dict[str, Any]:
 
 
 @inspections_bp.route("/requests/<request_id>", methods=["DELETE"])
-def delete_request(request_id: int) -> str:
+def delete_request(request_id: int) -> Response:
     return delete_by_id(table=ZgloszeniePrzegladu, id=request_id)
 
 
@@ -85,8 +86,26 @@ def select_by_page(table: Any, orderby: Any) -> list[dict[str, Any]]:
     return [i.to_dict() for i in all_items[idx - page_size : idx]]
 
 
-def delete_by_id(table: Any, id: int) -> str:
+def delete_by_id(table: Any, id: int) -> Response:
     to_delete = db.session.query(table).where(table.id == id).one()
     db.session.delete(to_delete)
-    db.session.commit()
-    return "Deleted"
+    try:
+        db.session.commit()
+    except IntegrityError as err:
+        db.session.rollback()
+        return jsonify({"message": errorMessage(err.args[0])})
+    return jsonify({"message": "Obiekt pomyślnie usunięty"})
+
+
+ERROR_TABLE = re.compile(r'relation "([^"]+)"|from table "([^"]+)"')
+ERROR_ITEM = re.compile(r"Failing row contains \((\d+),")
+
+
+def errorMessage(error):
+    table = ERROR_TABLE.findall(error)[0]
+    if table[0] != "":
+        item_id = ERROR_ITEM.findall(error)[0]
+        return f"Nie można usunąć obiektu - odwołuje się do niego obiekt o ID: {item_id} z tabeli '{table[0]}'"
+    return (
+        f"Nie można usunąć obiektu - odwołuje się do niego obiekt z tabeli '{table[1]}'"
+    )

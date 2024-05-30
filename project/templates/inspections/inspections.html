@@ -3,7 +3,6 @@
 
     <title>Przeglądy</title>
     <link href="/static/css/inspections.css" rel="stylesheet">
-
 {% endblock %}
 
 {% block content %}
@@ -11,10 +10,10 @@
 
     <div class="container" >
         <h1>Przeglądy</h1>
-        <a href="#" class="a-button">Dodaj przegląd</a>
-        <div class="list" id="legend">
+        <a class="a-button" id="add-item">Dodaj przegląd</a>
+        <div class="header inspections" id="inspections-header">
             <span>Id</span>
-            <span>Typ przeglądu</span>
+            <span>Typ</span>
             <span>Serwisant</span>
             <span>Powód</span>
             <span>Opis</span>
@@ -24,9 +23,20 @@
             <span>Usuń</span>
         </div>
         <div id="list-container">
-            <ul class="list" id="values-list"></ul>
         </div>
     </div>
+    <div class="popup" id="popup">
+        <h3 id="popup-msg">MSG</h3>
+        <a class="a-button" id="popup-button">OK</a>
+    </div>
+
+    <script>
+        const API = "/api/inspections";
+        const CLASS = "inspections";
+        const FIELDS = ["id", "typ_przegladu", "serwisant", "powod", "opis_zakresu_prac", "data_rozpoczecia", "data_zakonczenia", "koszt"]
+        const NUMERIC_FIELDS = new Set(["koszt"]);
+    </script>
+    <script src="/static/js/inspections.js"></script>
 
 {% endif %}
 {% endblock %}

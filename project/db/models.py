@@ -13,17 +13,23 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import declarative_base, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import date
 
 Base = declarative_base()
 
 
 class SerializedBase:
-
     def column_names(self) -> list[str]:
         return [c.name for c in self.__table__.columns]
 
     def to_dict(self) -> dict[str, Any]:
-        return {c: getattr(self, c) for c in self.column_names()}
+        ret = {}
+        for c in self.column_names():
+            value = getattr(self, c)
+            if isinstance(value, date):
+                value = value.isoformat()
+            ret[c] = value
+        return ret
 
 
 class ElementInfrastruktury(Base):
@@ -158,7 +164,9 @@ class PowodNaprawy(Base):
     )
 
     id = Column(Integer, primary_key=True)
-    przeglad_id = Column(Integer, ForeignKey("przeglady.id"), nullable=True)
+    przeglad_id = Column(
+        Integer, ForeignKey("przeglady.id", ondelete="restrict"), nullable=True
+    )
     zgloszenie_id = Column(
         Integer, ForeignKey("zgloszenia_naprawy.id"), nullable=True, unique=True
     )
@@ -202,7 +210,9 @@ class Przeglad(Base, SerializedBase):
     id = Column(Integer, primary_key=True)
     typ_przegladu_id = Column(Integer, ForeignKey("typy_przegladow.id"), nullable=False)
     serwisant_id = Column(Integer, ForeignKey("serwisanci.id"), nullable=False)
-    powod_id = Column(Integer, ForeignKey("powody_przegladow.id"), nullable=False)
+    powod_id = Column(
+        Integer, ForeignKey("powody_przegladow.id", ondelete="CASCADE"), nullable=False
+    )
     opis_zakresu_prac = Column(String(1024), nullable=False)
     data_rozpoczecia = Column(Date, nullable=False)
     data_zakonczenia = Column(Date, nullable=True)
@@ -247,6 +257,8 @@ class PowodPrzegladu(Base, SerializedBase):
     zgloszenie_id = Column(
         Integer, ForeignKey("zgloszenia_przegladow.id"), unique=True, nullable=False
     )
+
+    zgloszenie_ref = relationship("ZgloszeniePrzegladu", backref="powody_przegladow")
 
 
 class SprawdzoneElementy(Base):

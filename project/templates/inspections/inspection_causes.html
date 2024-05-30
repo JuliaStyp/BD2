@@ -11,16 +11,28 @@
 
     <div class="container" >
         <h1>Powody przeglądów</h1>
-        <a href="#" class="a-button">Dodaj powod</a>
-        <div class="list" id="legend">
+        <a class="a-button">Dodaj powod</a>
+        <div class="header causes">
             <span>Id</span>
             <span>Powod</span>
-            <span>Zgloszenie ID</span>
+            <span>ID zgłoszenia</span>
             <span>Usuń</span>
         </div>
-        <div id="list-container">
-            <ul class="list" id="values-list"></ul>
+    <div id="list-container">
         </div>
+    </div>
+    <div class="popup" id="popup">
+        <h3 id="popup-msg">MSG</h3>
+        <a class="a-button" id="popup-button">OK</a>
+    </div>
+
+    <script>
+        const API = "/api/inspections/causes";
+        const CLASS = "causes";
+        const FIELDS = ["id", "powod", "zgloszenie_id"]
+        const NUMERIC_FIELDS = new Set([]);
+    </script>
+    <script src="/static/js/inspections.js"></script>
     </div>
 
 {% endif %}

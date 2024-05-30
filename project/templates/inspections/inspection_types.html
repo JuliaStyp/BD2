@@ -11,16 +11,27 @@
 
     <div class="container" >
         <h1>Typy przeglądów</h1>
-        <a href="#" class="a-button">Dodaj typ</a>
-        <div class="list" id="legend">
+        <a class="a-button" id="add-item">Dodaj typ</a>
+        <div class="header types" id="types-header">
             <span>Id</span>
             <span>Typ przeglądu</span>
             <span>Usuń</span>
         </div>
-        <div id="list-container">
-            <ul class="list" id="values-list"></ul>
+    <div id="list-container">
         </div>
     </div>
+    <div class="popup" id="popup">
+        <h3 id="popup-msg">MSG</h3>
+        <a class="a-button" id="popup-button">OK</a>
+    </div>
+
+    <script>
+        const API = "/api/inspections/types";
+        const CLASS = "types";
+        const FIELDS = ["id", "typ"]
+        const NUMERIC_FIELDS = new Set([]);
+    </script>
+    <script src="/static/js/inspections.js"></script>
 
 {% endif %}
 {% endblock %}
