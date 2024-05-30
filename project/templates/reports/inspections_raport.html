@@ -1,0 +1,22 @@
+{% from "./repairs/macros.html" import better_none with context %}
+<link href="{{ url_for('static', filename='css/reports.css') }}" rel="stylesheet">
+
+<h1> Raport przeglądów </h1> <br>
+<h3> Przeglądy z okresu od {{date_start}} do {{date_end}} </h3> <br>
+
+<div class="elements_container">
+    {% for inspection in inspections %}
+        <div class="element">
+            <b>Id:</b> {{inspection.id}} <br>
+            <b>Typ przeglądu:</b> {{inspection.typ_przegladu}} <br>
+            <b>Serwisant:</b> {{inspection.serwisant}} <br>
+            <b>Id serwisanta:</b> {{inspection.serwisant_id}} <br>
+            <b>Powód:</b> {{inspection.powod}} <br>
+            <b>Id powodu:</b> {{inspection.powod_id}} <br>
+            <b>Opis zakresu prac:</b> {{inspection.opis_zakresu_prac}} <br>
+            <b>Data rozpoczęcia:</b> {{inspection.data_rozpoczecia}} <br>
+            <b>Data zakończenia:</b> {% if inspection.data_zakonczenia %} {{inspection.data_zakonczenia}} {% else %} W trakcie {% endif %}<br>
+            <b>Koszt:</b> {{inspection.koszt}} <br>
+        </div>
+    {% endfor %}
+</div>

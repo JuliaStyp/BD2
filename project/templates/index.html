@@ -28,7 +28,7 @@
             <li><a href="#">Przeglądy</a></li>
             <li><a href="{{ url_for('repairs_bp.list_repairs') }}">Naprawy</a></li>
             <li><a href="{{ url_for('service_bp.service') }}">Serwisanci</a></li>
-            <li><a href="#">Raporty</a></li>
+            <li><a href="{{ url_for('reports_bp.reports') }}">Raporty</a></li>
             <li><a href="{{ url_for('infr_bp.infrastructure') }}">Infrastruktura</a></li>
             <li><a href="{{ url_for('auth_bp.auth') }}">Zarządzanie użytkownikami</a></li>
         </ul>
@@ -39,8 +39,8 @@
         {% if logged_in %}
         <div>
             <p> Witaj, {{ user_name }}!</p>
-        </div>   
-        
+        </div>
+
         <div class="last-elements">
             <ol class="last-inspections">
                 Ostatnie przeglądy:
@@ -59,7 +59,7 @@
                 {% endfor %}
             </ol>
         </div>
-        
+
         {% endif %}
     {% endblock %}
 

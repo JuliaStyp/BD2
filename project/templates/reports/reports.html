@@ -1,0 +1,32 @@
+{% macro render_field(field) %}
+<dt>{{ field.label }}
+  <dd>{{ field(**kwargs)|safe }}
+    {% if field.errors %}
+    <ul class="errors">
+      {% for error in field.errors %}
+      <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </dd>
+{% endmacro %}
+
+{% extends "index.html" %}
+
+{% block content %}
+
+<link href="{{ url_for('static', filename='css/reports.css') }}" rel="stylesheet">
+
+
+<div id="report_form_div">
+
+    <form method="post" action="{{ url_for('reports_bp.reports') }}" target="_blank">
+        {{ render_field(form.type) }}
+        {{ render_field(form.date_start) }}
+        {{ render_field(form.date_end) }}
+        <input type="submit" value="Stwórz raport">
+    </form>
+
+</div>
+
+{% endblock content %}
