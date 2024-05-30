@@ -9,37 +9,40 @@
 {% endblock %}
 
 {% block content %}
+    <link href="{{ url_for('static', filename='css/infrastructure.css') }}" rel="stylesheet">
     {% if logged_in %}
         <a class="logged-in-text"> Zalogowany z rolą {{ role_name }}</a>
         <a class="logout-link" href="{{ url_for('auth_bp.logout') }}">Wyloguj</a>
     {% else %}
         <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
     {% endif %}
-    <h1>Lista obiektów infrastruktury</h1>
-    {% if 'flash_message' in session %}
-        <div class="flash-message">
-            {{ session.pop('flash_message') }}
-        </div>
-    {% endif %}
-    <ul>
-         <div class="list-container">
-            <div class="list-legend">
-                <span>ID</span>
-                <span>Typ</span>
-                <span>Do Użytku</span>
-                <span>Usuwanie obiektu</span>
+    <div class="elements_container">
+        <h1 class="signature">Lista obiektów infrastruktury</h1>
+        {% if 'flash_message' in session %}
+            <div class="flash-message">
+                {{ session.pop('flash_message') }}
             </div>
-            <ul class="formatted-list">
-                {% for object in objects %}
-                    <li>
-                        <span>{{ object.id }}</span>
-                        <span>{{ object.typ }}</span>
-                        <span>{{ object.do_uzytku }}</span>
-                        <span><a href="{{ url_for('infr_bp.delete_object', id=object.id) }}">Usuń</a></span>
-                    </li>
-                {% endfor %}
-            </ul>
+        {% endif %}
+        <ul class="table">
+            <div class="list-container">
+                <div class="list-legend">
+                    <span>ID</span>
+                    <span>Typ</span>
+                    <span>Do Użytku</span>
+                    <span>Usuwanie obiektu</span>
+                </div>
+                <ul class="formatted-list">
+                    {% for object in objects %}
+                        <li>
+                            <span>{{ object.id }}</span>
+                            <span>{{ object.typ }}</span>
+                            <span>{{ object.do_uzytku }}</span>
+                            <span class="delete_button"><a href="{{ url_for('infr_bp.delete_object', id=object.id) }}">Usuń</a></span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </ul>
+        <a class="button" href="{{ url_for('infr_bp.create_object') }}">Dodaj nowy obiekt</a><br>
         </div>
-    </ul>
-    <a href="{{ url_for('infr_bp.create_object') }}">Dodaj nowy obiekt</a><br>
 {% endblock %}

@@ -9,36 +9,38 @@
 {% endblock %}
 
 {% block content %}
+    <link href="{{ url_for('static', filename='css/infrastructure.css') }}" rel="stylesheet">
     {% if logged_in %}
         <a class="logged-in-text"> Zalogowany z rolą {{ role_name }}</a>
         <a class="logout-link" href="{{ url_for('auth_bp.logout') }}">Wyloguj</a>
     {% else %}
         <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
     {% endif %}
-    <h1>Lista Statusów</h1>
-    {% if 'flash_message' in session %}
-        <div class="flash-message">
-            {{ session.pop('flash_message') }}
-        </div>
-    {% endif %}
-    <ul>
-         <div class="list-container">
-            <div class="list-legend">
-                <span>ID</span>
-                <span>Status</span>
-                <span>Usuwanie statusu</span>
+    <div class="elements_container">
+        <h1 class="signature">Lista Statusów</h1>
+        {% if 'flash_message' in session %}
+            <div class="flash-message">
+                {{ session.pop('flash_message') }}
             </div>
-            <ul class="formatted-list">
-                {% for status in statuses %}
-                    <li>
-                        <span>{{ status.id }}</span>
-                        <span>{{ status.status }}</span>
-                        <span><a href="{{ url_for('infr_bp.delete_status', id=status.id) }}">Usuń</a></span>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </ul>
-
-    <a href="{{ url_for('infr_bp.create_status') }}">Stwórz nowy status</a><br>
+        {% endif %}
+        <ul class="table">
+            <div class="list-container">
+                <div class="list-legend">
+                    <span>ID</span>
+                    <span>Status</span>
+                    <span>Usuwanie statusu</span>
+                </div>
+                <ul class="formatted-list">
+                    {% for status in statuses %}
+                        <li>
+                            <span>{{ status.id }}</span>
+                            <span>{{ status.status }}</span>
+                            <span class="delete_button"><a href="{{ url_for('infr_bp.delete_status', id=status.id) }}">Usuń</a></span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </ul>
+        <a class="button" href="{{ url_for('infr_bp.create_status') }}">Stwórz nowy status</a><br>
+    </div>
 {% endblock %}

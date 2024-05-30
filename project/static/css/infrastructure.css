@@ -168,7 +168,7 @@
 }
 
 .infrastructure_navigation a,
-#button {
+.button {
     padding: 10px 20px;
     border: 1px solid #007bff;
     border-radius: 4px;
@@ -185,7 +185,7 @@
 }
 
 .table,
-#signature {
+.signature {
     display: flex;
     justify-content: center;
     align-items: center;

@@ -27,7 +27,7 @@
             <a href="{{ url_for('infr_bp.types') }}">Typy Infrastruktury</a><br>
             <a href="{{ url_for('infr_bp.statuses') }}">Statusy</a><br>
         </nav>
-        <h1 id="signature">Lista elementów infrastruktury</h1>
+        <h1 class="signature">Lista elementów infrastruktury</h1>
         {% if 'flash_message' in session %}
             <div class="flash-message">
                 {{ session.pop('flash_message') }}
@@ -60,7 +60,7 @@
                 </ul>
             </div>
         </ul>
-        <a id="button" href="{{ url_for('infr_bp.create_element') }}">Dodaj element</a><br><br>
+        <a class="button" href="{{ url_for('infr_bp.create_element') }}">Dodaj element</a><br><br>
     </div>
 
     {% endif %}

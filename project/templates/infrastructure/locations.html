@@ -17,7 +17,7 @@
         <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
     {% endif %}
     <div class="elements_container">
-        <h1 id="signature">Lista lokalizacji</h1>
+        <h1 class="signature">Lista lokalizacji</h1>
         {% if 'flash_message' in session %}
             <div class="flash-message">
                 {{ session.pop('flash_message') }}
@@ -45,6 +45,6 @@
                 </ul>
             </div>
         </ul>
-        <a id="button" href="{{ url_for('infr_bp.create_location') }}">Dodaj nową lokalizację</a><br>
+        <a class="button" href="{{ url_for('infr_bp.create_location') }}">Dodaj nową lokalizację</a><br>
     </div>
 {% endblock %}
