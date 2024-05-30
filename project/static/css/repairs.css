@@ -100,3 +100,133 @@
 }
 
 
+/* CREATE */
+
+/* Stylizacja dla linku dodawania nowego powodu naprawy */
+.add_element_div {
+    text-align: left;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+.add_element_div a {
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.add_element_div a:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Stylizacja dla kontenera powodów naprawy */
+.elements_container {
+    /* margin: 20px 0; */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+}
+
+/* Stylizacja dla informacji o braku powodów naprawy */
+.no_elements {
+    font-size: 16px;
+    color: #777;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Stylizacja dla kontenera paginacji */
+.pagination_container {
+    margin: 20px 0;
+    align-items: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+}
+
+.page-items {
+    text-align: center;
+    align-items: center;
+    font-size: 14px;
+    color: #777;
+}
+
+.pagination {
+    text-align: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.pagination a {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+/* Stylizacja dla całego elementu */
+.element {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+/* Stylizacja dla danych elementu */
+.element_data {
+    margin-bottom: 10px;
+}
+
+.element_description {
+    font-weight: bold;
+    color: #333;
+}
+
+.element_value {
+    color: #555;
+}
+
+/* Stylizacja dla formularza usuwania elementu */
+.delete_element_form {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.delete_element_form form input[type="submit"] {
+    padding: 10px 20px;
+    border: 1px solid #dc3545;
+    border-radius: 4px;
+    background-color: #dc3545;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.delete_element_form form input[type="submit"]:hover {
+    background-color: #c82333;
+    border-color: #c82333;
+}
+
+
