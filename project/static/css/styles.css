@@ -1,0 +1,129 @@
+.home-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: transparent;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+}
+.login-link {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    color: green;
+    text-decoration: underline;
+}
+.logged-in-text {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.logout-link {
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    color: green;
+    text-decoration: underline;
+}
+h1 {
+    margin-top: 40px;
+}
+.hyperloop_logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+.navigation > .menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #efefef;
+}
+  
+.navigation > .menu >  li {
+    float: left;
+}
+  
+.navigation > .menu > li > a {
+    display: block;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+  
+.navigation > .menu > li > a:hover {
+    background-color: #9c9c9c;
+}
+
+.last-elements {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.last-inspections > li,
+.last-repairs > li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.last-inspections {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.last-repairs {
+    margin-left: auto;
+    margin-right: auto;
+}
+.service-elem {
+    margin-bottom: 30px;
+}
+
+.list-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0; /* Remove auto margin to align left */
+}
+
+.list-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    font-weight: bold;
+    padding: 10px;
+    background-color: #efefef;
+    border-bottom: 2px solid #ccc;
+}
+
+.formatted-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.formatted-list li {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.formatted-list li span {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Additional styling for better visual */
+.formatted-list li:nth-child(even) {
+    background-color: #f9f9f9;
+}
