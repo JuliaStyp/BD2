@@ -38,11 +38,13 @@
     <div class=element_data> <span class="element_description">Data zakończenia:</span> <span class="element_value"> {{ better_none(repair.data_zakonczenia) }} </span> </div>
     <div class=element_data> <span class="element_description">Koszt:</span> <span class="element_value"> {{ repair.koszt }} pln </span> </div>
 
-    <div class="delete_element_form">
-      <form method="post" action="{{ url_for('repairs_bp.delete_repair', id=repair.id) }}">
-          <input type="submit" value="Usuń">
-      </form>
-    </div>
+    {% if session['is_admin'] %}
+      <div class="delete_element_form">
+        <form method="post" action="{{ url_for('repairs_bp.delete_repair', id=repair.id) }}">
+            <input type="submit" value="Usuń">
+        </form>
+      </div>
+    {% endif %}
   </div>
 
   {% else %}

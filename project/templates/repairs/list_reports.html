@@ -31,12 +31,16 @@
     <div class=element_data> <span class="element_description">Zgłaszający:</span> <span class="element_value"> {{ report.zglaszajacy }} </span> </div>
     <div class=element_data> <span class="element_description">Uwagi:</span> <span class="element_value"> {{ better_none(report.uwagi) }} </span> </div>
 
-    <div class="delete_element_form">
-      <form method="post" action="{{ url_for('repairs_bp.delete_report', id=report.id) }}">
-        <input type="submit" value="Usuń">
-      </form>
+    {% if session['is_admin'] %}
+      <div class="delete_element_form">
+        <form method="post" action="{{ url_for('repairs_bp.delete_report', id=report.id) }}">
+          <input type="submit" value="Usuń">
+        </form>
+      </div>
+    {% endif %}
+
     </div>
-  </div>
+
 
   {% else %}
     <div class="no_elements">
