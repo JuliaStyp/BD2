@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+
+{% macro render_field(field) %}
+<dt>{{ field.label }}
+  <dd>{{ field(**kwargs)|safe }}
+    {% if field.errors %}
+    <ul class="errors">
+      {% for error in field.errors %}
+      <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </dd>
+{% endmacro %}
+  
+{% block content %}
+
+<form method="post" action="{{ url_for('service_bp.create_service') }}">
+  <dl>
+    {{ render_field(form.name) }}
+    {{ render_field(form.phone_number ) }}
+    {{ render_field(form.mail) }}
+  </dl>
+<!--   
+  {% if form.form_errors %}
+  <ul class="form_errors">
+    {% for error in form.form_errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %} -->
+  
+  <p><input type="submit" value="Dodaj serwisanta">
+  </form>
+{% endblock %}

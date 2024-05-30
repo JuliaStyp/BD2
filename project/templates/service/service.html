@@ -5,16 +5,35 @@
 {% endblock %}
 
 {% block content %}
-<ol class="service_list">
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<a href='{{ url_for("service_bp.create_service") }}'> Dodaj serwisanta </a>
+
+<ul class="service_list">
     Serwisanci:
     {% for service in services %}
     <li class="service-elem">
         <ul>
+            <li>Id: {{ service.id }}</li>
             <li>Nazwa: {{ service.nazwa }}</li>
             <li>Nr telefonu: {{ service.nr_telefonu }}</li>
             <li>Adres e-mail: {{ service.adres_mail }}</li>
         </ul>
+        <br>
+        <form method="post" action="{{ url_for('service_bp.delete_service', id=service.id) }}">
+            <input type="submit" value="Usuń">
+        </form>
+        <br>
     </li>
     {% endfor %}
-</ol>
+</ul>
 {% endblock %}
