@@ -1,0 +1,57 @@
+{% extends 'index.html' %}
+
+{% from "./repairs/macros.html" import render_pagination with context %}
+{% from "./repairs/macros.html" import better_none with context %}
+
+{% block content %}
+
+<link href="{{ url_for('static', filename='css/repairs.css') }}" rel="stylesheet">
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+  {% for message in messages %}
+  <li>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<div id="reports_container" class="elements_container">
+
+  <div class="add_element_div">
+    <a href='{{ url_for("repairs_bp.create_report") }}'> Dodaj zgłoszenie potrzeby naprawy </a>
+  </div>
+
+  {% for report in reports %}
+  <div class="element">
+    <div class=element_data> <span class="element_description">Id:</span> <span class="element_value"> {{ report.id }} </span> </div>
+    <div class=element_data> <span class="element_description">Id elementu infrastruktury:</span> <span class="element_value"> {{ report.element_id }} </span> </div>
+    <div class=element_data> <span class="element_description">Data zgłoszenia:</span> <span class="element_value"> {{ report.data }} </span> </div>
+    <div class=element_data> <span class="element_description">Zgłaszający:</span> <span class="element_value"> {{ report.zglaszajacy }} </span> </div>
+    <div class=element_data> <span class="element_description">Uwagi:</span> <span class="element_value"> {{ better_none(report.uwagi) }} </span> </div>
+
+    {% if session['is_admin'] %}
+      <div class="delete_element_form">
+        <form method="post" action="{{ url_for('repairs_bp.delete_report', id=report.id) }}">
+          <input type="submit" value="Usuń">
+        </form>
+      </div>
+    {% endif %}
+
+    </div>
+
+
+  {% else %}
+    <div class="no_elements">
+      Brak zgłoszeń potrzeby naprawy
+    </div>
+  {% endfor %}
+
+</div>
+
+<div class="pagination_container">
+  {{ render_pagination(reports, "repairs_bp.list_reports") }}
+</div>
+
+{% endblock %}

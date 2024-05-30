@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% block head %}
+
+    <title>Przeglądy</title>
+    <link href="/static/css/inspections.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+{% if logged_in %}
+
+    <div class="container" >
+        <h1>Przeglądy</h1>
+        <a href="{{ url_for('manage_inspections.inspections') }}" class="a-button">Przeglądy</a>
+        <a href="{{ url_for('manage_inspections.types') }}" class="a-button">Typy przeglądów</a>
+        <a href="{{ url_for('manage_inspections.causes') }}" class="a-button">Powody przeglądów</a>
+        <a href="{{ url_for('manage_inspections.requests') }}" class="a-button">Zgłoszenia przeglądów</a>
+    </div>
+
+{% endif %}
+{% endblock %}

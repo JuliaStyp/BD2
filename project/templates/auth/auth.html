@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User List</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+{% extends 'index.html' %}
+{% block head %}    
     <style>
+        .formatted-list li {
+        grid-template-columns: 1fr 1fr 1fr 1fr 2fr 1fr 1fr !important;
+    }
+    .list-legend {
+        grid-template-columns: 1fr 1fr 1fr 1fr 2fr 1fr 1fr !important;
+    }
     h1 {
         margin-top: 40px;
     }
     </style>
-</head>
-<body>
-    <a class="home-button" href="{{ url_for('index_bp.index') }}">Strona główna</a>
+    <title>Użytkownicy</title>
+{% endblock %}
+
+{% block content %}
     {% if logged_in %}
         <a class="logged-in-text"> Zalogowany z rolą {{ role_name }}</a>
         <a class="logout-link" href="{{ url_for('auth_bp.logout') }}">Wyloguj</a>
@@ -20,12 +22,37 @@
         <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
     {% endif %}
     <h1>Lista użytkowników</h1>
+    {% if 'flash_message' in session %}
+        <div class="flash-message">
+            {{ session.pop('flash_message') }}
+        </div>
+    {% endif %}
     <ul>
-        {% for user in users %}
-            <li>{{ user.imie }} {{ user.nazwisko }}</li>
-        {% endfor %}
+         <div class="list-container">
+            <div class="list-legend">
+                <span>ID</span>
+                <span>Rola</span>
+                <span>Imię</span>
+                <span>Nazwisko</span>
+                <span>Adres e-mail</span>
+                <span>Numer telefonu</span>
+                <span>Usuwanie</span>
+            </div>
+            <ul class="formatted-list">
+                {% for user in users %}
+                    <li>
+                        <span>{{ user.id }}</span>
+                        <span>{{ user.rola_fk }}</span>
+                        <span>{{ user.imie }}</span>
+                        <span>{{ user.nazwisko }}</span>
+                        <span>{{ user.email }}</span>
+                        <span>{{ user.numer_tel }}</span>
+                        <span><a href="{{ url_for('auth_bp.user_delete', id=user.id) }}">Usuń</a></span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </ul>
     <a href="{{ url_for('auth_bp.user_create') }}">Stwórz nowego użytkownika</a><br>
-    <a href="{{ url_for('auth_bp.role_create') }}">Stwórz nową rolę</a>
-</body>
-</html>
+    <a href="{{ url_for('auth_bp.roles') }}">Zarządzanie rolami</a>
+{% endblock %}

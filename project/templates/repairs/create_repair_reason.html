@@ -1,0 +1,97 @@
+{% extends 'index.html' %}
+
+{% from "./repairs/macros.html" import render_field with context %}
+
+{% block content %}
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+
+<link href="{{ url_for('static', filename='css/repairs.css') }}" rel="stylesheet">
+
+<div id=repair_reason_create_form_div class=create_form_div>
+  <form method="post" action="{{ url_for('repairs_bp.create_repair_reason') }}">
+      <dl>
+        {{ render_field(form.inspection_id) }}
+        <div class="chosen_field_wrapper">
+          <span class="chosen_field_description"> Wybrany przegląd </span>
+          <div id="chosen_inspection_div" class="chosen_field_data_wrapper"> </div>
+        </div>
+        {{ render_field(form.repair_need_report_id) }}
+        <div class="chosen_field_wrapper">
+          <span class="chosen_field_description"> Wybrane zgłoszenie potrzeby naprawy </span>
+          <div id="chosen_report_div" class="chosen_field_data_wrapper"> </div>
+        </div>
+        {{ render_field(form.priority ) }}
+        {{ render_field(form.remarks) }}
+      </dl>
+
+      {% if form.form_errors %}
+      <ul class="form_errors">
+      {% for error in form.form_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+
+      <p><input type="submit" value="Dodaj powód naprawy">
+  </form>
+</div>
+
+<script>
+
+  var inspection_select = new TomSelect("#inspection_id",{
+    create: false,
+    sortField:[{field:'$order'},{field:'$score'}],
+    onChange: on_inspection_change
+  });
+  inspection_select.clear();
+
+  function on_inspection_change(value){
+    const url = '{{ url_for('repairs_bp.get_rendered_inspection', id='') }}' + value;
+    var options = {
+        method: 'GET',
+        mode: 'same-origin'
+    }
+
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+        if (data['status'] == 'ok'){
+          var chosen_field = document.querySelector('#chosen_inspection_div');
+          chosen_field.innerHTML = data['data'];
+        }
+    }
+    )
+  }
+
+
+
+  var report_select = new TomSelect("#repair_need_report_id",{
+    create: false,
+    sortField:[{field:'$order'},{field:'$score'}],
+    onChange: on_report_change
+  });
+  report_select.clear();
+
+  function on_report_change(value){
+    const url = '{{ url_for('repairs_bp.get_rendered_repair_need_report', id='') }}' + value;
+    var options = {
+        method: 'GET',
+        mode: 'same-origin'
+    }
+
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+        if (data['status'] == 'ok'){
+          var chosen_field = document.querySelector('#chosen_report_div');
+          chosen_field.innerHTML = data['data'];
+        }
+    }
+    )
+  }
+
+</script>
+
+{% endblock %}

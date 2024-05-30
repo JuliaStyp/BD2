@@ -5,7 +5,7 @@
         margin-top: 40px;
     }
     </style>
-    <title>Role</title>
+    <title>Typy Elementów Infrastruktury</title>
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@
     {% else %}
         <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
     {% endif %}
-    <h1>Lista ról</h1>
+    <h1>Lista typów infrastruktury</h1>
     {% if 'flash_message' in session %}
         <div class="flash-message">
             {{ session.pop('flash_message') }}
@@ -25,19 +25,19 @@
          <div class="list-container">
             <div class="list-legend">
                 <span>ID</span>
-                <span>Nazwa roli</span>
-                <span>Usuwanie roli</span>
+                <span>Typ</span>
+                <span>Usuwanie typu</span>
             </div>
             <ul class="formatted-list">
-                {% for role in roles %}
+                {% for type in types %}
                     <li>
-                        <span>{{ role.id }}</span>
-                        <span>{{ role.rola }}</span>
-                        <span><a href="{{ url_for('auth_bp.role_delete', id=role.id) }}">Usuń</a></span>
+                        <span>{{ type.id }}</span>
+                        <span>{{ type.typ }}</span>
+                        <span><a href="{{ url_for('infr_bp.delete_type', id=type.id) }}">Usuń</a></span>
                     </li>
                 {% endfor %}
             </ul>
         </div>
     </ul>
-    <a href="{{ url_for('auth_bp.role_create') }}">Dodaj nową rolę</a><br>
+    <a href="{{ url_for('infr_bp.create_type') }}">Dodaj typ</a><br>
 {% endblock %}

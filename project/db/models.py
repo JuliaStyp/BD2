@@ -29,7 +29,7 @@ class SerializedBase:
 class ElementInfrastruktury(Base):
     __tablename__ = "elementy_infrastruktury"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     typ = Column(Integer, ForeignKey("typy_infrastruktury.id"), nullable=False)
     lokalizacja = Column(Integer, ForeignKey("lokalizacje.id"), nullable=False)
     obiekt = Column(Integer, ForeignKey("obiekty.id"), nullable=False)
@@ -37,18 +37,23 @@ class ElementInfrastruktury(Base):
     opis = Column(String(1024), nullable=False)
     max_interwal = Column(Integer, nullable=False)
 
+    typ_ref = relationship("TypInfrastruktury", backref="elementy_infrastruktury")
+    lokalizacja_ref = relationship("Lokalizacja", backref="elementy_infrastruktury")
+    obiekt_ref = relationship("Obiekt", backref="elementy_infrastruktury")
+    status_ref = relationship("StatusElementu", backref="elementy_infrastruktury")
+
 
 class TypInfrastruktury(Base):
     __tablename__ = "typy_infrastruktury"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     typ = Column(String(32), nullable=False)
 
 
 class Obiekt(Base):
     __tablename__ = "obiekty"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     typ = Column(String(32), nullable=False)
     do_uzytku = Column(Boolean, nullable=False)
 
@@ -56,14 +61,14 @@ class Obiekt(Base):
 class StatusElementu(Base):
     __tablename__ = "statusy_elementow"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     status = Column(String(32), nullable=False)
 
 
 class Lokalizacja(Base):
     __tablename__ = "lokalizacje"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     szerokosc_geo = Column(Float, nullable=False)
     dlugosc_geo = Column(Float, nullable=False)
     nazwa_miejsca = Column(String(32), nullable=True)
@@ -137,7 +142,7 @@ class Naprawa(Base):
     )
     data_rozpoczecia = Column(Date, nullable=False)
     data_zakonczenia = Column(Date, nullable=True)
-    koszt = Column(Numeric(precision=15, scale=2), nullable=False)
+    koszt = Column(Numeric(precision=16, scale=2), nullable=False)
 
 
 class PowodNaprawy(Base):

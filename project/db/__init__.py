@@ -6,6 +6,15 @@ from .models import (
     TypPrzegladu,
     PowodPrzegladu,
     ZgloszeniePrzegladu,
+    PowodNaprawy,
+    ZgloszenieNaprawy,
+    Naprawa,
+    Serwisant,
+    ElementInfrastruktury,
+    Lokalizacja,
+    Obiekt,
+    TypInfrastruktury,
+    StatusElementu,
 )
 
 __all__ = [
@@ -18,4 +27,13 @@ __all__ = [
     "TypPrzegladu",
     "PowodPrzegladu",
     "ZgloszeniePrzegladu",
+    "PowodNaprawy",
+    "ZgloszenieNaprawy",
+    "Naprawa",
+    "Serwisant",
+    "ElementInfrastruktury",
+    "Lokalizacja",
+    "Obiekt",
+    "TypInfrastruktury",
+    "StatusElementu",
 ]

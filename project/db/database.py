@@ -21,7 +21,7 @@ def init_db() -> None:
 
     Base.query = db_session.query_property()
     Base.metadata.create_all(engine)
-    log.info(f"Created {len(Base.metadata.tables)} tables")
+    log.info(f"Created %s tables", len(Base.metadata.tables))
 
 
 def clear_db() -> None:

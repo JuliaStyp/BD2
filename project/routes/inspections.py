@@ -78,8 +78,8 @@ def insert(table: Any, values: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def select_by_page(table: Any, orderby: Any) -> list[dict[str, Any]]:
-    page: int = request.args.get("page", 1)
-    page_size: int = request.args.get("page-size", 20)
+    page: int = int(request.args.get("page", 1))
+    page_size: int = int(request.args.get("page-size", 20))
     idx = page * page_size
     all_items = db.session.query(table).order_by(orderby)
     return [i.to_dict() for i in all_items[idx - page_size : idx]]

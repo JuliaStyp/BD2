@@ -1,0 +1,64 @@
+{% extends 'index.html' %}
+
+{% from "./repairs/macros.html" import render_pagination with context %}
+{% from "./repairs/macros.html" import better_none with context %}
+
+{% block content %}
+
+<link href="{{ url_for('static', filename='css/repairs.css') }}" rel="stylesheet">
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<div id="repairs_container" class="elements_container">
+
+  <div id="repair_nav_div">
+      <div id="go_to_reasons_div"> <a href='{{ url_for("repairs_bp.list_repair_reasons") }}'> Powody napraw </a> </div>
+      <div id="go_to_reports_div"> <a href='{{ url_for("repairs_bp.list_reports") }}'> Zgłoszenia potrzeby naprawy </a> </div>
+  </div>
+
+  <div class="add_element_div">
+    <a href='{{ url_for("repairs_bp.create_repair") }}'> Dodaj naprawę </a>
+  </div>
+
+  {% for repair in repairs %}
+  <div class="element">
+    <div class=element_data> <span class="element_description">Id:</span> <span class="element_value"> {{ repair.id }} </span> </div>
+    <div class=element_data> <span class="element_description">Id powodu naprawy:</span> <span class="element_value"> {{ repair.powod_id }} </span> </div>
+    <div class=element_data> <span class="element_description">Id serwisanta:</span> <span class="element_value"> {{ repair.serwisant_id }} </span> </div>
+    <div class=element_data> <span class="element_description">Id elementu infrastruktury: {{ repair.element_id }} </span> </div>
+    <div class=element_data> <span class="element_description">Data rozpoczęcia:</span> <span class="element_value"> {{ repair.data_rozpoczecia }} </span> </div>
+    <div class=element_data> <span class="element_description">Data zakończenia:</span> <span class="element_value"> {{ better_none(repair.data_zakonczenia) }} </span> </div>
+    <div class=element_data> <span class="element_description">Koszt:</span> <span class="element_value"> {{ repair.koszt }} pln </span> </div>
+
+    {% if session['is_admin'] %}
+      <div class="delete_element_form">
+        <form method="post" action="{{ url_for('repairs_bp.delete_repair', id=repair.id) }}">
+            <input type="submit" value="Usuń">
+        </form>
+      </div>
+    {% endif %}
+  </div>
+
+  {% else %}
+
+    <div class="no_elements">
+      Brak napraw
+    </div>
+
+  {% endfor %}
+
+</div>
+
+<div class="pagination_container">
+  {{ render_pagination(repairs, "repairs_bp.list_repairs") }}
+</div>
+
+{% endblock %}

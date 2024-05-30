@@ -12,27 +12,24 @@
     {% endif %}
   </dd>
 {% endmacro %}
-
+  
 {% block content %}
 
-<form method="post" action="{{ url_for('auth_bp.user_create') }}">
+<form method="post" action="{{ url_for('service_bp.create_service') }}">
   <dl>
-      {{ render_field(form.imie) }}
-      {{ render_field(form.nazwisko) }}
-      {{ render_field(form.rola_fk) }}
-      {{ render_field(form.numer_tel) }}
-      {{ render_field(form.email) }}
-      {{ render_field(form.password) }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.phone_number ) }}
+    {{ render_field(form.mail) }}
   </dl>
-
+<!--   
   {% if form.form_errors %}
   <ul class="form_errors">
     {% for error in form.form_errors %}
     <li>{{ error }}</li>
     {% endfor %}
   </ul>
-  {% endif %}
-
-  <p><input type="submit" value="Dodaj Użytkownika">
+  {% endif %} -->
+  
+  <p><input type="submit" value="Dodaj serwisanta">
   </form>
 {% endblock %}

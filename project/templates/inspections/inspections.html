@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% block head %}
+
+    <title>Przeglądy</title>
+    <link href="/static/css/inspections.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+{% if logged_in %}
+
+    <div class="container" >
+        <h1>Przeglądy</h1>
+        <a href="#" class="a-button">Dodaj przegląd</a>
+        <div class="list" id="legend">
+            <span>Id</span>
+            <span>Typ przeglądu</span>
+            <span>Serwisant</span>
+            <span>Powód</span>
+            <span>Opis</span>
+            <span>Rozpoczęcie</span>
+            <span>Zakończenie</span>
+            <span>Koszt</span>
+            <span>Usuń</span>
+        </div>
+        <div id="list-container">
+            <ul class="list" id="values-list"></ul>
+        </div>
+    </div>
+
+{% endif %}
+{% endblock %}

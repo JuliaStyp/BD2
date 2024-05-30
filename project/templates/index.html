@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block head %}
+    <title>Strona główna</title>
+    {% endblock %}
+
 </head>
 <body>
 
@@ -14,8 +18,50 @@
         <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
     {% endif %}
 
-    <h1>Strona główna</h1>
-    <a href="{{ url_for('auth_bp.auth') }}">Zarządzanie użytkownikami</a>
+    <a href="{{ url_for('index_bp.index') }}">
+    <img class="hyperloop_logo" src="{{ url_for('static', filename='img/hyperloop_logo.png') }}" alt="hyperloop_logo.png">
+    </a>
+
+    {% if logged_in %}
+    <nav class="navigation">
+        <ul class="menu">
+            <li><a href="{{ url_for('manage_inspections.root') }}">Przeglądy</a></li>
+            <li><a href="{{ url_for('repairs_bp.list_repairs') }}">Naprawy</a></li>
+            <li><a href="{{ url_for('service_bp.service') }}">Serwisanci</a></li>
+            <li><a href="#">Raporty</a></li>
+            <li><a href="{{ url_for('infr_bp.infrastructure') }}">Infrastruktura</a></li>
+            <li><a href="{{ url_for('auth_bp.auth') }}">Zarządzanie użytkownikami</a></li>
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% block content %}
+        {% if logged_in %}
+        <div>
+            <p> Witaj, {{ user_name }}!</p>
+        </div>   
+        
+        <div class="last-elements">
+            <ol class="last-inspections">
+                Ostatnie przeglądy:
+                {% for inspection in inspections %}
+                <a href="#"> <!-- dodać linki do podstrony przeglądu -->
+                    <li>ID: {{ inspection.id }}</li>
+                </a>
+                {% endfor %}
+            </ol>
+            <ol class="last-repairs">
+                Ostatnie naprawy:
+                {% for repair in repairs %}
+                <a href="#"> <!-- dodać linki do podstrony przeglądu -->
+                    <li>ID: {{ repair.id }}</li>
+                </a>
+                {% endfor %}
+            </ol>
+        </div>
+        
+        {% endif %}
+    {% endblock %}
 
 
 

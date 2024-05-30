@@ -12,6 +12,8 @@ app = 'project:app:cli'
 python = "^3.10"
 sqlalchemy = "^2.0.30"
 structlog = "^24.1.0"
+wtforms = "^3.1.2"
+email-validator = "^2.1.1"
 
 
 [build-system]
