@@ -30,11 +30,13 @@ def report_created(form=None):
 
 
 def create_repairs_report(date_start, date_end):
-    repairs = db.session.query(Naprawa).where(date_start <= Naprawa.data_rozpoczecia).where(Naprawa.data_rozpoczecia <= date_end).all()
+    repairs = db.session.query(Naprawa).where(date_start <= Naprawa.data_rozpoczecia).where(
+        Naprawa.data_rozpoczecia <= date_end).order_by(Naprawa.id.desc()).all()
     return render_template("reports/repairs_raport.html", repairs=repairs, date_start=date_start, date_end=date_end)
 
 
 def create_inspections_report(date_start, date_end):
-    inspections = db.session.query(Przeglad).where(date_start <= Przeglad.data_rozpoczecia).where(Przeglad.data_rozpoczecia <= date_end).all()
+    inspections = db.session.query(Przeglad).where(date_start <= Przeglad.data_rozpoczecia).where(
+        Przeglad.data_rozpoczecia <= date_end).order_by(Przeglad.id.desc()).all()
     return render_template("reports/inspections_raport.html", inspections=inspections, date_start=date_start, date_end=date_end)
 
