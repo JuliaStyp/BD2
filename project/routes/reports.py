@@ -2,11 +2,13 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from project.db import db, PowodNaprawy, ZgloszenieNaprawy, Naprawa, Serwisant, ElementInfrastruktury, \
                         Przeglad
 from project.forms import ReportForm
+from project.utils import login_required
 
 
 reports_bp = Blueprint("reports_bp", __name__, url_prefix="/reports")
 
 @reports_bp.route("", methods=["GET", "POST"])
+@login_required
 def reports():
     if request.method == "POST":
         form = ReportForm(request.form)

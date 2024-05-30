@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from project.db import db, PowodNaprawy, ZgloszenieNaprawy, Naprawa, Serwisant, ElementInfrastruktury, \
                         Przeglad
 from project.forms import RepairReasonForm, RepairNeedReportForm, RepairForm
+from project.utils import admin_required, login_required
 
 repairs_bp = Blueprint("repairs_bp", __name__, url_prefix="/repairs")
 
@@ -10,6 +11,7 @@ ITEMS_PER_PAGE = 20
 # REPAIR REASONS
 
 @repairs_bp.route("/repair-reasons/create", methods=["GET", "POST"])
+@login_required
 def create_repair_reason():
     context = {}
     if request.method == "POST":
@@ -39,6 +41,7 @@ def create_repair_reason():
 
 @repairs_bp.route("/repair-reasons", methods=["GET"])
 @repairs_bp.route("/repair-reasons/<int:page>", methods=["GET"])
+@login_required
 def list_repair_reasons(page=1):
     context = {}
     query = db.session.query(PowodNaprawy).order_by(PowodNaprawy.id.desc())
@@ -51,6 +54,8 @@ def list_repair_reasons(page=1):
 
 
 @repairs_bp.route("/repair-reasons/delete/<id>", methods=["POST"])
+@login_required
+@admin_required
 def delete_repair_reason(id):
     try:
         repair_reason = db.session.query(PowodNaprawy).filter_by(id=id).first()
@@ -67,6 +72,7 @@ def delete_repair_reason(id):
 
 @repairs_bp.route("/repair-need-reports/<int:page>", methods=["GET"])
 @repairs_bp.route("/repair-need-reports", methods=["GET"])
+@login_required
 def list_reports(page=1):
     context = {}
     query = db.session.query(ZgloszenieNaprawy).order_by(ZgloszenieNaprawy.id.desc())
@@ -79,6 +85,7 @@ def list_reports(page=1):
 
 
 @repairs_bp.route("/repair-need-reports/create", methods=["GET", "POST"])
+@login_required
 def create_report():
     context = {}
     if request.method == "POST":
@@ -104,6 +111,8 @@ def create_report():
 
 
 @repairs_bp.route("/repair-need-reports/delete/<id>", methods=["POST"])
+@login_required
+@admin_required
 def delete_report(id):
     try:
         repair_need_report = db.session.query(ZgloszenieNaprawy).filter_by(id=id).first()
@@ -119,6 +128,7 @@ def delete_report(id):
 
 @repairs_bp.route("", methods=["GET"])
 @repairs_bp.route("/<int:page>", methods=["GET"])
+@login_required
 def list_repairs(page=1):
     context = {}
     query = db.session.query(Naprawa).order_by(Naprawa.id.desc())
@@ -131,6 +141,7 @@ def list_repairs(page=1):
 
 
 @repairs_bp.route("/create", methods=["GET", "POST"])
+@login_required
 def create_repair():
     context = {}
     if request.method == "POST":
@@ -162,6 +173,8 @@ def create_repair():
 
 
 @repairs_bp.route("/delete/<id>", methods=["POST"])
+@login_required
+@admin_required
 def delete_repair(id):
     try:
         repair = db.session.query(Naprawa).filter_by(id=id).first()
@@ -190,6 +203,7 @@ def get_object_by_id_with_status(model, id):
     return (object, status)
 
 @repairs_bp.route("/get-data/maintainers/<id>", methods=['GET'])
+@login_required
 def get_rendered_maintainer(id):
     maintainer, status = get_object_by_id_with_status(Serwisant, id)
     rendered_data = render_template('repairs/maintainer_data.html', maintainer=maintainer)
@@ -198,6 +212,7 @@ def get_rendered_maintainer(id):
 
 
 @repairs_bp.route("/get-data/repair-reasons/<id>", methods=['GET'])
+@login_required
 def get_rendered_repair_reason(id):
     repair_reason, status = get_object_by_id_with_status(PowodNaprawy, id)
     rendered_data = render_template('repairs/repair_reason_data.html', reason=repair_reason)
@@ -206,6 +221,7 @@ def get_rendered_repair_reason(id):
 
 
 @repairs_bp.route("/get-data/elements/<id>", methods=['GET'])
+@login_required
 def get_rendered_element(id):
     element, status = get_object_by_id_with_status(ElementInfrastruktury, id)
     rendered_data = render_template('repairs/element_data.html', element=element)
@@ -214,6 +230,7 @@ def get_rendered_element(id):
 
 
 @repairs_bp.route("/get-data/inspections/<id>", methods=['GET'])
+@login_required
 def get_rendered_inspection(id):
     inspection, status = get_object_by_id_with_status(Przeglad, id)
     rendered_data = render_template('repairs/inspection_data.html', inspection=inspection)
@@ -222,6 +239,7 @@ def get_rendered_inspection(id):
 
 
 @repairs_bp.route("/get-data/repair-need-reports/<id>", methods=['GET'])
+@login_required
 def get_rendered_repair_need_report(id):
     report, status = get_object_by_id_with_status(ZgloszenieNaprawy, id)
     rendered_data = render_template('repairs/report_data.html', report=report)
