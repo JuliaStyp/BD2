@@ -12,19 +12,14 @@
     {% endif %}
   </dd>
 {% endmacro %}
-
+  
 {% block content %}
 
-<form method="post" action="{{ url_for('auth_bp.user_create') }}">
+<form method="post" action="{{ url_for('infr_bp.create_type') }}">
   <dl>
-      {{ render_field(form.imie) }}
-      {{ render_field(form.nazwisko) }}
-      {{ render_field(form.rola_fk) }}
-      {{ render_field(form.numer_tel) }}
-      {{ render_field(form.email) }}
-      {{ render_field(form.password) }}
+    {{ render_field(form.typ) }}
   </dl>
-
+  
   {% if form.form_errors %}
   <ul class="form_errors">
     {% for error in form.form_errors %}
@@ -32,7 +27,7 @@
     {% endfor %}
   </ul>
   {% endif %}
-
-  <p><input type="submit" value="Dodaj Użytkownika">
+  
+  <p><input type="submit" value="Dodaj Typ infrastruktury">
   </form>
 {% endblock %}
