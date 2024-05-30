@@ -184,8 +184,8 @@
     border-color: #0056b3;
 }
 
-.infrastructure_list,
-#infrastructure_list_signature {
+.table,
+#signature {
     display: flex;
     justify-content: center;
     align-items: center;

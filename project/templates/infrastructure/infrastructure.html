@@ -27,13 +27,13 @@
             <a href="{{ url_for('infr_bp.types') }}">Typy Infrastruktury</a><br>
             <a href="{{ url_for('infr_bp.statuses') }}">Statusy</a><br>
         </nav>
-        <h1 id="infrastructure_list_signature">Lista elementów infrastruktury</h1>
+        <h1 id="signature">Lista elementów infrastruktury</h1>
         {% if 'flash_message' in session %}
             <div class="flash-message">
                 {{ session.pop('flash_message') }}
             </div>
         {% endif %}
-        <ul class="infrastructure_list">
+        <ul class="table">
             <div class="list-container">
                 <div class="list-legend">
                     <span>Id</span>
