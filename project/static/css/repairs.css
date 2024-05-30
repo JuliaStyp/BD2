@@ -100,7 +100,7 @@
 }
 
 
-/* CREATE */
+/* LIST */
 
 /* Stylizacja dla linku dodawania nowego powodu naprawy */
 .add_element_div {
@@ -139,7 +139,7 @@
 
 /* Stylizacja dla informacji o braku powodów naprawy */
 .no_elements {
-    font-size: 16px;
+    font-size: 20px;
     color: #777;
     text-align: center;
     padding: 20px;
@@ -229,4 +229,41 @@
     border-color: #c82333;
 }
 
+
+
+/* Stylizacja dla kontenera, który zawiera oba divy */
+#repair_nav_div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Stylizacja dla poszczególnych divów */
+#go_to_reasons_div, #go_to_reports_div {
+    flex: 1;
+    margin: 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Stylizacja dla linków w divach */
+#go_to_reasons_div a, #go_to_reports_div a {
+    display: inline-block;
+    padding: 30px 40px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+#go_to_reasons_div a:hover, #go_to_reports_div a:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
 

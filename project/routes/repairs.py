@@ -119,9 +119,9 @@ def delete_report(id):
 
 @repairs_bp.route("", methods=["GET"])
 @repairs_bp.route("/<int:page>", methods=["GET"])
-def list_repairs(page):
+def list_repairs(page=1):
     context = {}
-    query = db.session.query(Naprawa).all()
+    query = db.session.query(Naprawa)
     repairs = db.paginate(query, page=page, per_page=ITEMS_PER_PAGE, error_out=False)
     if repairs.pages < page:
         repairs = db.paginate(query, page=repairs.pages, per_page=ITEMS_PER_PAGE, error_out=False)
@@ -170,7 +170,7 @@ def delete_repair(id):
         flash("Pomyślnie usunięto naprawę")
     except:
         flash("Ups, coś poszło nie tak")
-    return redirect(url_for("repairs_bp.list_reports"))
+    return redirect(url_for("repairs_bp.list_repairs"))
 
 
 def set_form_choices(forms_fields_and_models: list):

@@ -17,8 +17,6 @@
 {% endif %}
 {% endwith %}
 
-
-
 <div id="repair_reasons_container" class="elements_container">
 
     <div class="add_element_div">
@@ -32,7 +30,7 @@
       <div class=element_data> <span class="element_description">Id przeglądu:</span>  <span class="element_value">{{ better_none(reason.przeglad_id) }} </span> </div>
       <div class=element_data> <span class="element_description">Id zgłoszenia potrzeby naprawy:</span> <span class="element_value">{{ better_none(reason.zgloszenie_id) }} </span> </div>
       <div class=element_data> <span class="element_description">Priorytet:</span> <span class="element_value">{{ reason.priorytet }} </span> </div>
-      <div class=element_data> <span class="element_description">Uwagi:</span> <span class="element_value">{{ reason.uwagi }} </span> </div>
+      <div class=element_data> <span class="element_description">Uwagi:</span> <span class="element_value">{{ better_none(reason.uwagi) }} </span> </div>
 
       <div class="delete_element_form">
         <form method="post" action="{{ url_for('repairs_bp.delete_repair_reason', id=reason.id) }}">
