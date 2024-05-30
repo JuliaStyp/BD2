@@ -1,0 +1,63 @@
+#last-repairs-signature p,
+#last-inspections-signature p {
+    font-size: 1.5em;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#greetings, 
+#last-repairs-signature,
+#last-inspections-signature {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#greetings p {
+    font-size: 2em; /* Larger text size */
+    color: #333; /* Dark grey text */
+    margin: 0;
+}
+
+.elements_container {
+    /* margin: 20px 0; */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+}
+
+.no_elements {
+    font-size: 20px;
+    color: #777;
+    text-align: center;
+    padding: 20px;
+}
+
+.element {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+.element_data {
+    margin-bottom: 10px;
+}
+
+.element_description {
+    font-weight: bold;
+    color: #333;
+}
+
+.element_value {
+    color: #555;
+}

@@ -36,28 +36,47 @@
     {% endif %}
 
     {% block content %}
+    {% from "./repairs/macros.html" import better_none with context %}
         {% if logged_in %}
-        <div>
-            <p> Witaj, {{ user_name }}!</p>
-        </div>
+        <link href="{{ url_for('static', filename='css/main-site.css') }}" rel="stylesheet">
+        <div id="menu_container" class="elements_container">
+            <div id="greetings" class="element">
+                <p> Witaj, {{ user_name }}!</p>
+            </div>
 
-        <div class="last-elements">
-            <ol class="last-inspections">
-                Ostatnie przeglądy:
-                {% for inspection in inspections %}
-                <a href="#"> <!-- dodać linki do podstrony przeglądu -->
-                    <li>ID: {{ inspection.id }}</li>
-                </a>
-                {% endfor %}
-            </ol>
-            <ol class="last-repairs">
-                Ostatnie naprawy:
-                {% for repair in repairs %}
-                <a href="#"> <!-- dodać linki do podstrony przeglądu -->
-                    <li>ID: {{ repair.id }}</li>
-                </a>
-                {% endfor %}
-            </ol>
+            <div class="last-elements">
+                <div class="last-inspections">
+                    <div id="last-inspections-signature" class="element">
+                        <p>Ostatnie przeglądy</p>
+                    </div>
+                    {% for inspection in inspections %}
+                    <div class="element">
+                        <div class=element_data> <span class="element_description">Id:</span> <span class="element_value"> {{ inspection.id }} </span> </div>
+                        <div class=element_data> <span class="element_description">Id typu przeglądu:</span> <span class="element_value"> {{ inspection.typ_przegladu_id }} </span> </div>
+                        <div class=element_data> <span class="element_description">Id serwisanta:</span> <span class="element_value"> {{ inspection.serwisant_id }} </span> </div>
+                        <div class=element_data> <span class="element_description">Data rozpoczęcia:</span> <span class="element_value"> {{ inspection.data_rozpoczecia }} </span> </div>
+                        <div class=element_data> <span class="element_description">Data zakończenia:</span> <span class="element_value"> {{ better_none(inspection.data_zakonczenia) }} </span> </div>
+                        <div class=element_data> <span class="element_description">Koszt:</span> <span class="element_value"> {{ inspection.koszt }} pln </span> </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="last-repairs">
+                    <div id="last-repairs-signature" class="element">
+                        <p>Ostatnie naprawy</p>
+                    </div>
+                    {% for repair in repairs %}
+                    <div class="element">
+                        <div class=element_data> <span class="element_description">Id:</span> <span class="element_value"> {{ repair.id }} </span> </div>
+                        <div class=element_data> <span class="element_description">Id powodu naprawy:</span> <span class="element_value"> {{ repair.powod_id }} </span> </div>
+                        <div class=element_data> <span class="element_description">Id serwisanta:</span> <span class="element_value"> {{ repair.serwisant_id }} </span> </div>
+                        <div class=element_data> <span class="element_description">Id elementu infrastruktury:</span> <span class="element_value">{{ repair.element_id }} </span> </div>
+                        <div class=element_data> <span class="element_description">Data rozpoczęcia:</span> <span class="element_value"> {{ repair.data_rozpoczecia }} </span> </div>
+                        <div class=element_data> <span class="element_description">Data zakończenia:</span> <span class="element_value"> {{ better_none(repair.data_zakonczenia) }} </span> </div>
+                        <div class=element_data> <span class="element_description">Koszt:</span> <span class="element_value"> {{ repair.koszt }} pln </span> </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
 
         {% endif %}

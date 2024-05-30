@@ -5,16 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<ol class="service_list">
-    Serwisanci:
-    {% for service in services %}
-    <li class="service-elem">
-        <ul>
-            <li>Nazwa: {{ service.nazwa }}</li>
-            <li>Nr telefonu: {{ service.nr_telefonu }}</li>
-            <li>Adres e-mail: {{ service.adres_mail }}</li>
-        </ul>
-    </li>
+
+<link href="{{ url_for('static', filename='css/services.css') }}" rel="stylesheet">
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
     {% endfor %}
-</ol>
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<div id="services_container" class="elements_container">
+
+  <div class="add_element_div">
+    <a href='{{ url_for("service_bp.create_service") }}'> Dodaj serwisanta </a>
+  </div>
+
+  
+  {% for service in services %}
+  <div class="element">
+    <div class=element_data> <span class="element_description">Id:</span> <span class="element_value"> {{ service.id }} </span> </div>
+    <div class=element_data> <span class="element_description">Nazwa:</span> <span class="element_value"> {{ service.nazwa}} </span> </div>
+    <div class=element_data> <span class="element_description">Nr telefonu:</span> <span class="element_value"> {{ service.nr_telefonu }} </span> </div>
+    <div class=element_data> <span class="element_description">Adres e-mail: </span><span class="element_value"> {{ service.adres_mail }} </span> </div>
+
+    {% if session['is_admin'] %}
+      <div class="delete_element_form">
+        <form method="post" action="{{ url_for('service_bp.delete_service', id=service.id) }}">
+            <input type="submit" value="Usuń">
+        </form>
+      </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+  
+</div>
 {% endblock %}
