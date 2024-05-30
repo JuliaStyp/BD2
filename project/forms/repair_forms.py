@@ -39,6 +39,8 @@ class RepairReasonForm(Form):
     def validate(self):
         super_succes = super().validate()
         success = True
+        self.inspection_id.data = None if self.inspection_id.data == '' else self.inspection_id.data
+        self.repair_need_report_id.data = None if self.repair_need_report_id.data == '' else self.repair_need_report_id.data
         if ((self.inspection_id.data is not None and self.repair_need_report_id.data is not None) or
             (self.inspection_id.data is None and self.repair_need_report_id.data is None)):
             success = False
