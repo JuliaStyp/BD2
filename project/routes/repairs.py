@@ -65,10 +65,14 @@ def delete_repair_reason(id):
 
 # REAPIR NEED REPORTS
 
+@repairs_bp.route("/repair-need-reports/<int:page>", methods=["GET"])
 @repairs_bp.route("/repair-need-reports", methods=["GET"])
-def list_reports():
+def list_reports(page=1):
     context = {}
-    reports = db.session.query(ZgloszenieNaprawy).all()
+    query = db.session.query(ZgloszenieNaprawy)
+    reports = db.paginate(query, page=page, per_page=ITEMS_PER_PAGE, error_out=False)
+    if reports.pages < page:
+        reports = db.paginate(query, page=reports.pages, per_page=ITEMS_PER_PAGE, error_out=False)
     context['reports'] = reports
 
     return render_template("repairs/list_reports.html", **context)
@@ -114,9 +118,13 @@ def delete_report(id):
 # REPAIRS
 
 @repairs_bp.route("", methods=["GET"])
-def list_repairs():
+@repairs_bp.route("/<int:page>", methods=["GET"])
+def list_repairs(page):
     context = {}
-    repairs = db.session.query(Naprawa).all()
+    query = db.session.query(Naprawa).all()
+    repairs = db.paginate(query, page=page, per_page=ITEMS_PER_PAGE, error_out=False)
+    if repairs.pages < page:
+        repairs = db.paginate(query, page=repairs.pages, per_page=ITEMS_PER_PAGE, error_out=False)
     context['repairs'] = repairs
 
     return render_template("repairs/list_repairs.html", **context)
