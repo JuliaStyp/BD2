@@ -3,6 +3,7 @@ from typing import Any, Mapping
 
 from flask import Blueprint, request, jsonify, Response
 from sqlalchemy.exc import IntegrityError
+from project.utils import admin_required, login_required
 
 from project.db import (
     db,
@@ -16,63 +17,95 @@ from project.db.models import SerializedBase
 inspections_api = Blueprint("inspections_api", __name__, url_prefix="/api/inspections")
 
 
+
 @inspections_api.route("/", methods=["GET"])
+@login_required
 def all_inspections() -> list[dict[str, Any]]:
     return select_by_page(table=Przeglad, orderby=Przeglad.data_rozpoczecia)
 
 
+
 @inspections_api.route("/", methods=["POST"])
+@login_required
+@admin_required
 def create_inspection() -> dict[str, Any]:
     return insert(table=Przeglad, values=request.form)
 
 
+
 @inspections_api.route("/<inspection_id>", methods=["DELETE"])
+@login_required
+@admin_required
 def delete_inspection(inspection_id: int) -> Response:
     return delete_by_id(table=Przeglad, id=inspection_id)
 
 
+
 @inspections_api.route("/types", methods=["GET"])
+@login_required
 def all_types() -> list[dict[str, Any]]:
     all_items = db.session.query(TypPrzegladu).order_by(TypPrzegladu.typ).all()
     return [i.to_dict() for i in all_items]
 
 
+
 @inspections_api.route("/types", methods=["POST"])
+@login_required
+@admin_required
 def create_type() -> dict[str, Any]:
     return insert(table=TypPrzegladu, values=request.form)
 
 
+
 @inspections_api.route("/types/<type_id>", methods=["DELETE"])
+@login_required
+@admin_required
 def delete_type(type_id: int) -> Response:
     return delete_by_id(table=TypPrzegladu, id=type_id)
 
 
+
 @inspections_api.route("/causes", methods=["GET"])
-def get_cause() -> dict[str, Any]:
+@login_required
+def get_cause() -> list[dict[str, Any]]:
     return select_by_page(table=PowodPrzegladu, orderby=PowodPrzegladu.id)
 
 
+
 @inspections_api.route("/causes", methods=["POST"])
+@login_required
+@admin_required
 def create_cause() -> dict[str, Any]:
     return insert(table=PowodPrzegladu, values=request.form)
 
 
+
 @inspections_api.route("/causes/<cause_id>", methods=["DELETE"])
+@login_required
+@admin_required
 def delete_cause(cause_id: int) -> Response:
     return delete_by_id(table=PowodPrzegladu, id=cause_id)
 
 
+
 @inspections_api.route("/requests", methods=["GET"])
+@login_required
 def all_requests() -> list[dict[str, Any]]:
     return select_by_page(table=ZgloszeniePrzegladu, orderby=ZgloszeniePrzegladu.data)
 
 
+
 @inspections_api.route("/requests", methods=["POST"])
+@login_required
+@admin_required
 def create_request() -> dict[str, Any]:
     return insert(table=ZgloszeniePrzegladu, values=request.form)
 
 
+
 @inspections_api.route("/requests/<request_id>", methods=["DELETE"])
+@login_required
+@admin_required
 def delete_request(request_id: int) -> Response:
     return delete_by_id(table=ZgloszeniePrzegladu, id=request_id)
 
