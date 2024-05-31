@@ -31,11 +31,10 @@ def all_inspections() -> list[dict[str, Any]]:
 
 @inspections_api.route("/", methods=["POST"])
 @login_required
-@admin_required
 def create_inspection() -> dict[str, Any]:
     form = InspectionsForm(request.form)
     if not form.validate():
-        return {"message": form.errors["data_zakonczenia"]}
+        return {"message": form.errors.popitem()[0][1]}
     values = dict(request.form)
     values.pop("serwisant")
     values.pop("powod")
@@ -64,7 +63,6 @@ def all_types() -> list[dict[str, Any]]:
 
 @inspections_api.route("/types", methods=["POST"])
 @login_required
-@admin_required
 def create_type() -> dict[str, Any]:
     form = TypesForm(request.form)
     if not form.validate():
@@ -87,7 +85,6 @@ def get_cause() -> list[dict[str, Any]]:
 
 @inspections_api.route("/causes", methods=["POST"])
 @login_required
-@admin_required
 def create_cause() -> dict[str, Any]:
     form = CausesForm(request.form)
     if not form.validate():
@@ -113,11 +110,10 @@ def all_requests() -> list[dict[str, Any]]:
 
 @inspections_api.route("/requests", methods=["POST"])
 @login_required
-@admin_required
 def create_request() -> dict[str, Any]:
     form = RequestsForm(request.form)
     if not form.validate():
-        return {"message": form.errors.pop()}
+        return {"message": form.errors["data"]}
     return insert(table=ZgloszeniePrzegladu, values=dict(request.form))
 
 

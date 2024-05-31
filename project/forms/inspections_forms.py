@@ -174,3 +174,7 @@ class RequestsForm(Form):
     element_id = SelectField(
         "Element infrastruktury", choices=elements, validators=[DataRequired()]
     )
+
+    def validate_data(self, field):
+        if field.data > date.today():
+            raise StopValidation(f"Nieprawidłowa data")
