@@ -1,3 +1,4 @@
+import datetime
 import re
 from typing import Any
 
@@ -24,7 +25,7 @@ from project.db import (
     ZgloszeniePrzegladu,
     ElementInfrastruktury,
 )
-
+from datetime import date
 
 def unique(table: Any, column: Any, value: Any):
     if not (db.session.query(table).where(column == value).one_or_none() is None):
@@ -115,7 +116,7 @@ class InspectionsForm(Form):
         return item_id.findall(self.powod.data)[0]
 
     def validate_data_zakonczenia(self, field):
-        if field.data < self.data_rozpoczecia.data:
+        if field.data < self.data_rozpoczecia.data or field.data > date.today():
             raise StopValidation(f"Nieprawidłowa data zakończenia")
 
 
