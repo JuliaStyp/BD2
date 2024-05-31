@@ -39,7 +39,14 @@
     const API = "/api/inspections";
     const FIELDS = ["id", "typ_przegladu", "serwisant", "powod", "opis_zakresu_prac", "data_rozpoczecia", "data_zakonczenia", "koszt"]
     const NUMERIC_FIELDS = new Set(["koszt"]);
+    var ADMIN = false;
 </script>
+
+{% if session['is_admin'] %}
+<script>
+    ADMIN = true;
+</script>
+{% endif %}
 <script src="/static/js/inspections.js"></script>
 
 {% endif %}

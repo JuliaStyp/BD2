@@ -20,7 +20,7 @@
     </div>
     <div id="list-container">
     </div>
-        <div class="page-buttons">
+    <div class="page-buttons">
         <a class="a-button page" id="prev-page">Poprzednia strona</a>
         <a class="a-button page" id="next-page">Następna strona</a>
     </div>
@@ -30,12 +30,18 @@
     <a class="a-button" id="popup-button">OK</a>
 </div>
 
-
 <script>
     const API = "/api/inspections/causes";
     const FIELDS = ["id", "powod", "zgloszenie_id"]
     const NUMERIC_FIELDS = new Set([]);
+    var ADMIN = false;
 </script>
+
+{% if session['is_admin'] %}
+<script>
+    ADMIN = true;
+</script>
+{% endif %}
 <script src="/static/js/inspections.js"></script>
 </div>
 

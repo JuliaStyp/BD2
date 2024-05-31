@@ -11,7 +11,7 @@
 
 <div class="container">
     <h1>Zgłoszenia przeglądów</h1>
-    <a href="{{ url_for('inspections_ui.requests_create') }}"  class="a-button">Dodaj zgłoszenie</a>
+    <a href="{{ url_for('inspections_ui.requests_create') }}" class="a-button">Dodaj zgłoszenie</a>
     <div class="header requests">
         <span>Id</span>
         <span>Data</span>
@@ -22,7 +22,7 @@
     </div>
     <div id="list-container">
     </div>
-        <div class="page-buttons">
+    <div class="page-buttons">
         <a class="a-button page" id="prev-page">Poprzednia strona</a>
         <a class="a-button page" id="next-page">Następna strona</a>
     </div>
@@ -36,7 +36,14 @@
     const API = "/api/inspections/requests";
     const FIELDS = ["id", "data", "zglaszajacy", "uwagi", "element_id"]
     const NUMERIC_FIELDS = new Set([]);
+    var ADMIN = false;
 </script>
+
+{% if session['is_admin'] %}
+<script>
+    ADMIN = true;
+</script>
+{% endif %}
 <script src="/static/js/inspections.js"></script>
 </div>
 

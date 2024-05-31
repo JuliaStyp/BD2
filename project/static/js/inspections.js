@@ -30,9 +30,13 @@ function addDeleteButton(api_url, ul, itemID) {
     var a = document.createElement('a');
     a.textContent = "usuń";
     a.className = "del-button";
-    a.addEventListener("click", function () {
+    if (ADMIN) {
+        a.addEventListener("click", function () {
         deleteRequest(api_url, itemID);
-    })
+        })
+    } else {
+        a.classList.add('disabled');
+    }
     ul.appendChild(a);
 }
 
