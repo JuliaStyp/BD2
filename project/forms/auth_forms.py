@@ -1,6 +1,7 @@
 from wtforms import Form, StringField, PasswordField, IntegerField, ValidationError
 from wtforms.validators import InputRequired, Length, Email, Optional
 from project.db import db, Rola, Uzytkownik
+from re import fullmatch
 
 
 class UzytkownikForm(Form):
@@ -20,6 +21,14 @@ class UzytkownikForm(Form):
     def validate_email(self, field):
         if db.session.query(Uzytkownik).filter_by(email=field.data).first():
             raise ValidationError("Email już istnieje w bazie danych")
+
+    __phone_number_regex = r"(?:([+]\d{1,4})[-.\s]?)?(?:[(](\d{1,3})[)][-.\s]?)?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9})"
+
+    def validate_numer_tel(form, self):
+        if fullmatch(form.__phone_number_regex, self.data):
+            return True
+        self.errors.append("Zły format nr. telefonu.")
+        return False
 
 
 class RolaForm(Form):
