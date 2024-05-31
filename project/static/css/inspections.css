@@ -64,7 +64,8 @@
 }
 
 .popup {
-    position: fixed;
+    z-index: 999;
+    position: absolute;
     top: 30%;
     left: 30%;
     height: 20%;
