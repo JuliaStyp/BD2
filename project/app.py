@@ -6,12 +6,12 @@ from flask import Flask, session
 from project.db import db, init_db, clear_db
 from project.routes import (
     auth_bp,
-    inspections_bp,
     index_bp,
     repairs_bp,
     service_bp,
     infr_bp,
-    manage_inspections_bp,
+    inspections_api,
+    inspections_ui,
 )
 
 app = Flask(__name__)
@@ -24,8 +24,8 @@ app.register_blueprint(index_bp)
 app.register_blueprint(repairs_bp)
 app.register_blueprint(service_bp)
 app.register_blueprint(infr_bp)
-app.register_blueprint(inspections_bp)
-app.register_blueprint(manage_inspections_bp)
+app.register_blueprint(inspections_api)
+app.register_blueprint(inspections_ui)
 
 db.init_app(app)
 

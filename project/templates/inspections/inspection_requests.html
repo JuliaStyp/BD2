@@ -1,41 +1,40 @@
 {% extends 'index.html' %}
 {% block head %}
 
-    <title>Zgłoszenia przeglądów</title>
-    <link href="/static/css/inspections.css" rel="stylesheet">
+<title>Zgłoszenia przeglądów</title>
+<link href="/static/css/inspections.css" rel="stylesheet">
 
 {% endblock %}
 
 {% block content %}
 {% if logged_in %}
 
-    <div class="container" >
-        <h1>Zgłoszenia przeglądów</h1>
-        <a href="#" class="a-button">Dodaj zgłoszenie</a>
-        <div class="header requests">
-            <span>Id</span>
-            <span>Data</span>
-            <span>Zglaszający</span>
-            <span>Uwagi</span>
-            <span>Element</span>
-            <span>Usuń</span>
-        </div>
+<div class="container">
+    <h1>Zgłoszenia przeglądów</h1>
+    <a href="#" class="a-button">Dodaj zgłoszenie</a>
+    <div class="header requests">
+        <span>Id</span>
+        <span>Data</span>
+        <span>Zglaszający</span>
+        <span>Uwagi</span>
+        <span>Element</span>
+        <span>Usuń</span>
+    </div>
     <div id="list-container">
-        </div>
     </div>
-    <div class="popup" id="popup">
-        <h3 id="popup-msg">MSG</h3>
-        <a class="a-button" id="popup-button">OK</a>
-    </div>
+</div>
+<div class="popup" id="popup">
+    <h3 id="popup-msg">MSG</h3>
+    <a class="a-button" id="popup-button">OK</a>
+</div>
 
-    <script>
-        const API = "/api/inspections/requests";
-        const CLASS = "requests";
-        const FIELDS = ["id", "data", "zglaszajacy", "uwagi", "element_id"]
-        const NUMERIC_FIELDS = new Set([]);
-    </script>
-    <script src="/static/js/inspections.js"></script>
-    </div>
+<script>
+    const API = "/api/inspections/requests";
+    const FIELDS = ["id", "data", "zglaszajacy", "uwagi", "element_id"]
+    const NUMERIC_FIELDS = new Set([]);
+</script>
+<script src="/static/js/inspections.js"></script>
+</div>
 
 {% endif %}
 {% endblock %}

@@ -1,44 +1,43 @@
-const list_container = document.getElementById('list-container');
-const popup = document.getElementById('popup');
-
-function fetchElements() {
-    fetch(API)
+function fetchElements(api_url, fields, numeric_fields) {
+    fetch(api_url)
         .then(response => response.json())
         .then(json => {
+            const list_container = document.getElementById('list-container');
             json.forEach(item => {
                 var ul = document.createElement('ul');
-                ul.className = "values-list " + CLASS;
+                var item_class = api_url.split("/").slice(-1);
+                ul.className = "values-list " + item_class;
                 list_container.appendChild(ul);
-                FIELDS.forEach(key => {
-                    addSpan(ul, item, key);
+                fields.forEach(key => {
+                    addSpan(ul, item, key, numeric_fields.has(key));
                 })
-                addDeleteButton(ul, item['id']);
+                addDeleteButton(api_url, ul, item['id']);
             });
         })
         .catch(error => console.error(error));
 }
 
-function addSpan(ul, item, key) {
+function addSpan(ul, item, key, numeric) {
     var span = document.createElement('span');
-    if (NUMERIC_FIELDS.has(key)) {
+    if (numeric) {
         span.className = "numeric";
     }
     span.textContent = item[key];
     ul.appendChild(span);
 }
 
-function addDeleteButton(ul, itemID) {
+function addDeleteButton(api_url, ul, itemID) {
     var a = document.createElement('a');
     a.textContent = "usuń";
     a.className = "del-button";
     a.addEventListener("click", function () {
-        deleteRequest(itemID);
+        deleteRequest(api_url, itemID);
     })
     ul.appendChild(a);
 }
 
-function deleteRequest(id) {
-    fetch(API + "/" + id, {
+function deleteRequest(api_url, id) {
+    fetch(api_url + "/" + id, {
         method: "DELETE"
     })
         .then(response => response.json())
@@ -50,11 +49,13 @@ function deleteRequest(id) {
 
 }
 
+
+const popup = document.getElementById('popup');
 document.getElementById('popup-button').addEventListener("click", function () {
     popup.style.visibility = "hidden";
 })
 
-fetchElements();
+fetchElements(API, FIELDS, NUMERIC_FIELDS);
 
 
 
