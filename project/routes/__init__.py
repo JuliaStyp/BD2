@@ -1,10 +1,10 @@
 from .auth import auth_bp
-from .inspections import inspections_api
 from .index import index_bp
 from .repairs import repairs_bp
 from .service import service_bp
 from .infrastructure import infr_bp
 from .inspections_ui import inspections_ui
+from .inspections_api import inspections_api
 from .reports import reports_bp
 
 __all__ = [

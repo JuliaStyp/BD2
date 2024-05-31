@@ -7,7 +7,9 @@ def admin_required(f):
     def decorated_function(*args, **kwargs):
         if not session.get("is_admin"):
             # Display message instead of redirecting
-            return render_template('error.html', message="Dostęp do strony wymaga uprawnień admina")
+            return render_template(
+                "error.html", message="Dostęp do strony wymaga uprawnień admina"
+            )
         return f(*args, **kwargs)
 
     return decorated_function
@@ -18,7 +20,9 @@ def login_required(f):
     def decorated_function(*args, **kwargs):
         if not session.get("logged_in"):
             # Display message instead of redirecting
-            return render_template('error.html', message="Dostęp do strony wymaga zalogowania")
+            return render_template(
+                "error.html", message="Dostęp do strony wymaga zalogowania"
+            )
         return f(*args, **kwargs)
 
     return decorated_function

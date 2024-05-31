@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template
 
-inspections_ui = Blueprint(
-    "inspections_ui", __name__, url_prefix="/inspections"
-)
+inspections_ui = Blueprint("inspections_ui", __name__, url_prefix="/inspections")
 
 
 @inspections_ui.route("/", methods=["GET"])

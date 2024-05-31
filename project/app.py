@@ -59,7 +59,6 @@ def inject_login_status():
     )
 
 
-
 @click.group()
 def cli() -> None:
     pass

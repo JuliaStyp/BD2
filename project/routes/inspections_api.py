@@ -13,9 +13,7 @@ from project.db import (
 )
 from project.db.models import SerializedBase
 
-inspections_api = Blueprint(
-    "inspections_api", __name__, url_prefix="/api/inspections"
-)
+inspections_api = Blueprint("inspections_api", __name__, url_prefix="/api/inspections")
 
 
 @inspections_api.route("/", methods=["GET"])
@@ -66,9 +64,7 @@ def delete_cause(cause_id: int) -> Response:
 
 @inspections_api.route("/requests", methods=["GET"])
 def all_requests() -> list[dict[str, Any]]:
-    return select_by_page(
-        table=ZgloszeniePrzegladu, orderby=ZgloszeniePrzegladu.data
-    )
+    return select_by_page(table=ZgloszeniePrzegladu, orderby=ZgloszeniePrzegladu.data)
 
 
 @inspections_api.route("/requests", methods=["POST"])
@@ -116,4 +112,6 @@ def errorMessage(error):
     if table[0] != "":
         item_id = ERROR_ITEM.findall(error)[0]
         return f"Nie można usunąć obiektu - odwołuje się do niego obiekt o ID: {item_id} z tabeli '{table[0]}'"
-    return f"Nie można usunąć obiektu - odwołuje się do niego obiekt z tabeli '{table[1]}'"
+    return (
+        f"Nie można usunąć obiektu - odwołuje się do niego obiekt z tabeli '{table[1]}'"
+    )
