@@ -9,56 +9,50 @@
 {% endblock %}
 
 {% block content %}
-    {% if logged_in %}
-        <a class="logged-in-text"> Zalogowany z rolą {{ role_name }}</a>
-        <a class="logout-link" href="{{ url_for('auth_bp.logout') }}">Wyloguj</a>
-    {% else %}
-        <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
-    {% endif %}
-    {% if logged_in %}
-
-    <br>
-    <a href="{{ url_for('infr_bp.locations') }}">Lokalizacje</a><br>
-    <a href="{{ url_for('infr_bp.objects') }}">Obiekty</a><br>
-    <a href="{{ url_for('infr_bp.types') }}">Typy Infrastruktury</a><br>
-    <a href="{{ url_for('infr_bp.statuses') }}">Statusy</a><br>
-
-    <h1>Lista elementów infrastruktury</h1>
-    {% if 'flash_message' in session %}
-        <div class="flash-message">
-            {{ session.pop('flash_message') }}
-        </div>
-    {% endif %}
-    <ul>
-         <div class="list-container">
-            <div class="list-legend">
-                <span>Id</span>
-                <span>Id typu</span>
-                <span>Id lokalizacji</span>
-                <span>Id obiektu</span>
-                <span>Id statusu</span>
-                <span>Opis</span>
-                <span>Usuwanie</span>
-
+    <link href="{{ url_for('static', filename='css/infrastructure.css') }}" rel="stylesheet">
+    
+    <div class="elements_container">
+        <br>
+        <nav class="infrastructure_navigation">
+            <a href="{{ url_for('infr_bp.locations') }}">Lokalizacje</a><br>
+            <a href="{{ url_for('infr_bp.objects') }}">Obiekty</a><br>
+            <a href="{{ url_for('infr_bp.types') }}">Typy Infrastruktury</a><br>
+            <a href="{{ url_for('infr_bp.statuses') }}">Statusy</a><br>
+        </nav>
+        <h1 class="signature">Lista elementów infrastruktury</h1>
+        {% if 'flash_message' in session %}
+            <div class="flash-message">
+                {{ session.pop('flash_message') }}
             </div>
-            <ul class="formatted-list">
-                {% for element in elements %}
-                    <li>
-                        <span>{{ element.id }}</span>
-                        <span>{{ element.typ }}</span>
-                        <span>{{ element.lokalizacja }}</span>
-                        <span>{{ element.obiekt }}</span>
-                        <span>{{ element.status }}</span>
-                        <span>{{ element.opis }}</span>
-                        <span><a href="{{ url_for('infr_bp.delete_element', id=element.id) }}">Usuń</a></span>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </ul>
-    <a href="{{ url_for('infr_bp.create_element') }}">Dodaj element</a><br><br>
+        {% endif %}
+        <ul class="table">
+            <div class="list-container">
+                <div class="list-legend">
+                    <span>Id</span>
+                    <span>Id typu</span>
+                    <span>Id lokalizacji</span>
+                    <span>Id obiektu</span>
+                    <span>Id statusu</span>
+                    <span>Opis</span>
+                    <span>Usuwanie</span>
 
-
-    {% endif %}
+                </div>
+                <ul class="formatted-list">
+                    {% for element in elements %}
+                        <li>
+                            <span>{{ element.id }}</span>
+                            <span>{{ element.typ }}</span>
+                            <span>{{ element.lokalizacja }}</span>
+                            <span>{{ element.obiekt }}</span>
+                            <span>{{ element.status }}</span>
+                            <span>{{ element.opis }}</span>
+                            <span class="delete_button"><a href="{{ url_for('infr_bp.delete_element', id=element.id) }}">Usuń</a></span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </ul>
+        <a class="button" href="{{ url_for('infr_bp.create_element') }}">Dodaj element</a><br><br>
+    </div>
 {% endblock %}
 
