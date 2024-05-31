@@ -14,8 +14,9 @@
 {% endmacro %}
   
 {% block content %}
-
-<form method="post" action="{{ url_for('infr_bp.create_type') }}">
+<link href="{{ url_for('static', filename='css/infrastructure.css') }}" rel="stylesheet">
+<div class="create_form_div">
+  <form method="post" action="{{ url_for('infr_bp.create_type') }}">
   <dl>
     {{ render_field(form.typ) }}
   </dl>
@@ -30,4 +31,5 @@
   
   <p><input type="submit" value="Dodaj Typ infrastruktury">
   </form>
+</div>
 {% endblock %}

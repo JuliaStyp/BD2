@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import check_password_hash
 from sqlalchemy.exc import IntegrityError
 
@@ -33,7 +33,7 @@ def user_create():
         new_user.set_password(form.password.data)
         db.session.add(new_user)
         db.session.commit()
-        session["flash_message"] = "Pomyślnie dodano użytkownika"
+        flash("Pomyślnie dodano użytkownika", "success")
         return redirect(url_for("auth_bp.auth"))
     return render_template("auth/register.html", form=form)
 
@@ -42,18 +42,18 @@ def user_create():
 def user_delete(id):
     user = db.session.query(Uzytkownik).filter_by(id=id).first()
     if not user:
-        session["flash_message"] = "Nie znaleziono użytkownika o podanym ID."
+        flash("Nie znaleziono użytkownika o podanym ID.", "error")
         return redirect(url_for("auth_bp.auth"))
-
     else:
         try:
             db.session.delete(user)
             db.session.commit()
-            session["flash_message"] = "Użytkownik został pomyślnie usunięty."
+            flash("Użytkownik został pomyślnie usunięty.", "success")
         except IntegrityError:
             db.session.rollback()
-            session["flash_message"] = (
-                "Nie można usunąć Użytkownika, ponieważ jest używany jako klucz obcy w innych tabelach."
+            flash(
+                "Nie można usunąć Użytkownika, ponieważ jest używany jako klucz obcy w innych tabelach.",
+                "error",
             )
         return redirect(url_for("auth_bp.auth"))
 
@@ -73,7 +73,7 @@ def role_create():
         new_role = Rola(rola=form.rola.data)
         db.session.add(new_role)
         db.session.commit()
-        session["flash_message"] = "Pomyślnie dodano rolę"
+        flash("Pomyślnie dodano rolę", "success")
         return redirect(url_for("auth_bp.roles"))
     return render_template("auth/create_role.html", form=form)
 
@@ -82,18 +82,19 @@ def role_create():
 def role_delete(id):
     rola = db.session.query(Rola).filter_by(id=id).first()
     if not rola:
-        session["flash_message"] = "Nie znaleziono roli o podanym ID."
+        flash("Nie znaleziono roli o podanym ID.", "error")
         return redirect(url_for("auth_bp.roles"))
 
     else:
         try:
             db.session.delete(rola)
             db.session.commit()
-            session["flash_message"] = "Rola została pomyślnie usunięta."
+            flash("Rola została pomyślnie usunięta.", "success")
         except IntegrityError:
             db.session.rollback()
-            session["flash_message"] = (
-                "Nie można usunąć Roli, ponieważ jest używana jako klucz obcy w innych tabelach."
+            flash(
+                "Nie można usunąć Roli, ponieważ jest używana jako klucz obcy w innych tabelach.",
+                "error",
             )
         return redirect(url_for("auth_bp.roles"))
 

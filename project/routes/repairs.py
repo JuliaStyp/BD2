@@ -8,6 +8,7 @@ from flask import (
     flash,
     jsonify,
 )
+from sqlalchemy.exc import IntegrityError
 from project.db import (
     db,
     PowodNaprawy,
@@ -48,7 +49,7 @@ def create_repair_reason():
             )
             db.session.add(new_repair_reason)
             db.session.commit()
-            flash("Pomyślnie dodano powód naprawy")
+            flash("Pomyślnie dodano powód naprawy.", "success")
             return redirect(url_for("repairs_bp.list_repair_reasons"))
     else:
         form = RepairReasonForm()
@@ -88,9 +89,14 @@ def delete_repair_reason(id):
         repair_reason = db.session.query(PowodNaprawy).filter_by(id=id).first()
         db.session.delete(repair_reason)
         db.session.commit()
-        flash("Pomyślnie usunięto powód naprawy")
+        flash("Pomyślnie usunięto powód naprawy.", "success")
+    except IntegrityError:
+        flash(
+            "Nie można usunąć powodu naprawy, gdyż jest on wykorzystywany przez inne obiekty.",
+            "error",
+        )
     except:
-        flash("Ups, coś poszło nie tak")
+        flash("Ups, coś poszło nie tak", "error")
     return redirect(url_for("repairs_bp.list_repair_reasons"))
 
 
@@ -129,7 +135,7 @@ def create_report():
             )
             db.session.add(new_repair_reason)
             db.session.commit()
-            flash("Pomyślnie dodano zgłoszenie potrzeby naprawy")
+            flash("Pomyślnie dodano zgłoszenie potrzeby naprawy.", "success")
             return redirect(url_for("repairs_bp.list_reports"))
     else:
         form = RepairNeedReportForm()
@@ -149,9 +155,14 @@ def delete_report(id):
         )
         db.session.delete(repair_need_report)
         db.session.commit()
-        flash("Pomyślnie usunięto zgłoszenie potrzeby naprawy")
+        flash("Pomyślnie usunięto zgłoszenie potrzeby naprawy.", "success")
+    except IntegrityError:
+        flash(
+            "Nie można usunąć zgłoszenia potrzeby naprawy, gdyż jest ono wykorzystywane przez inne obiekty.",
+            "error",
+        )
     except:
-        flash("Ups, coś poszło nie tak")
+        flash("Ups, coś poszło nie tak", "error")
     return redirect(url_for("repairs_bp.list_reports"))
 
 
@@ -198,7 +209,7 @@ def create_repair():
             )
             db.session.add(new_repair)
             db.session.commit()
-            flash("Pomyślnie dodano naprawę")
+            flash("Pomyślnie dodano naprawę", "success")
             return redirect(url_for("repairs_bp.list_repairs"))
     else:
         form = RepairForm()
@@ -222,9 +233,14 @@ def delete_repair(id):
         repair = db.session.query(Naprawa).filter_by(id=id).first()
         db.session.delete(repair)
         db.session.commit()
-        flash("Pomyślnie usunięto naprawę")
+        flash("Pomyślnie usunięto naprawę", "success")
+    except IntegrityError:
+        flash(
+            "Nie można usunąć naprawy, gdyż jest ona wykorzystywana przez inne obiekty.",
+            "error",
+        )
     except:
-        flash("Ups, coś poszło nie tak")
+        flash("Ups, coś poszło nie tak", "error")
     return redirect(url_for("repairs_bp.list_repairs"))
 
 

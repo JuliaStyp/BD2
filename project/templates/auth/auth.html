@@ -1,5 +1,7 @@
 {% extends 'index.html' %}
-{% block head %}    
+{% from "./repairs/macros.html" import render_messages with context %}
+
+{% block head %}
     <style>
         .formatted-list li {
         grid-template-columns: 1fr 1fr 1fr 1fr 2fr 1fr 1fr !important;
@@ -15,44 +17,45 @@
 {% endblock %}
 
 {% block content %}
-    {% if logged_in %}
-        <a class="logged-in-text"> Zalogowany z rolą {{ role_name }}</a>
-        <a class="logout-link" href="{{ url_for('auth_bp.logout') }}">Wyloguj</a>
-    {% else %}
-        <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
-    {% endif %}
-    <h1>Lista użytkowników</h1>
-    {% if 'flash_message' in session %}
-        <div class="flash-message">
-            {{ session.pop('flash_message') }}
-        </div>
-    {% endif %}
-    <ul>
-         <div class="list-container">
-            <div class="list-legend">
-                <span>ID</span>
-                <span>Rola</span>
-                <span>Imię</span>
-                <span>Nazwisko</span>
-                <span>Adres e-mail</span>
-                <span>Numer telefonu</span>
-                <span>Usuwanie</span>
+    <link href="{{ url_for('static', filename='css/user_managment.css') }}" rel="stylesheet">
+
+    {{render_messages(get_flashed_messages(with_categories=true))}}
+
+    <div class="elements_container">
+        <h1 class="signature">Lista użytkowników</h1>
+        <ul class="table">
+            <div class="list-container">
+                <div class="list-legend">
+                    <span>ID</span>
+                    <span>Rola</span>
+                    <span>Imię</span>
+                    <span>Nazwisko</span>
+                    <span>Adres e-mail</span>
+                    <span>Numer telefonu</span>
+                    {% if session['is_admin'] %}
+                        <span>Usuwanie</span>
+                    {% endif %}
+                </div>
+                <ul class="formatted-list">
+                    {% for user in users %}
+                        <li>
+                            <span>{{ user.id }}</span>
+                            <span>{{ user.rola_fk }}</span>
+                            <span>{{ user.imie }}</span>
+                            <span>{{ user.nazwisko }}</span>
+                            <span>{{ user.email }}</span>
+                            <span>{{ user.numer_tel }}</span>
+                            {% if session['is_admin'] %}
+                                <span class="delete_button"><a href="{{ url_for('auth_bp.user_delete', id=user.id) }}">Usuń</a></span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
-            <ul class="formatted-list">
-                {% for user in users %}
-                    <li>
-                        <span>{{ user.id }}</span>
-                        <span>{{ user.rola_fk }}</span>
-                        <span>{{ user.imie }}</span>
-                        <span>{{ user.nazwisko }}</span>
-                        <span>{{ user.email }}</span>
-                        <span>{{ user.numer_tel }}</span>
-                        <span><a href="{{ url_for('auth_bp.user_delete', id=user.id) }}">Usuń</a></span>
-                    </li>
-                {% endfor %}
-            </ul>
+        </ul>
+        <div class="user_navigation">
+            <a class="button" href="{{ url_for('auth_bp.user_create') }}">Stwórz nowego użytkownika</a><br>
+            <a class="button" href="{{ url_for('auth_bp.roles') }}">Zarządzanie rolami</a>
         </div>
-    </ul>
-    <a href="{{ url_for('auth_bp.user_create') }}">Stwórz nowego użytkownika</a><br>
-    <a href="{{ url_for('auth_bp.roles') }}">Zarządzanie rolami</a>
+    </div>
 {% endblock %}

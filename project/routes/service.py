@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from sqlalchemy.exc import IntegrityError
 from project.db import db, Serwisant
 from project.forms.service_form import ServiceForm
 from project.utils import login_required, admin_required
+
 
 service_bp = Blueprint("service_bp", __name__, url_prefix="/service")
 
@@ -27,7 +29,7 @@ def create_service():
             )
             db.session.add(new_service)
             db.session.commit()
-            flash("Pomyślnie dodano serwisanta")
+            flash("Pomyślnie dodano serwisanta", "success")
             return redirect(url_for("service_bp.service"))
     else:
         form = ServiceForm()
@@ -44,7 +46,12 @@ def delete_service(id):
         service = db.session.query(Serwisant).filter_by(id=id).first()
         db.session.delete(service)
         db.session.commit()
-        flash("Pomyślnie usunięto serwisanta")
+        flash("Pomyślnie usunięto serwisanta", "success")
+    except IntegrityError:
+        flash(
+            "Nie można usunąć serwisanta, gdyż jest on wykorzystywany przez inne obiekty.",
+            "error",
+        )
     except:
         flash("Ups, coś poszło nie tak")
     return redirect(url_for("service_bp.service"))

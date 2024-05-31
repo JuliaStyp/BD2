@@ -3,6 +3,7 @@
     margin-right: auto;
     margin-top: 20px;
     display: flex;
+    flex-direction: column;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -28,8 +29,7 @@
 }
 
 .create_form_div form dl dd input,
-.create_form_div form dl dd select,
-#name, #phone_number {
+.create_form_div form dl dd select {
     resize: none;
     width: 97%;
     padding: 10px;
@@ -62,38 +62,6 @@
     background-color: #218838;
 }
 
-
-#name, #phone_number {
-    resize: none;
-    width: 97%;
-    height: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.add_element_div {
-    text-align: left;
-    margin-bottom: 30px;
-    margin-top: 10px;
-}
-
-.add_element_div a {
-    padding: 10px 20px;
-    border: 1px solid #007bff;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-.add_element_div a:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
-
 .elements_container {
     /* margin: 20px 0; */
     padding: 20px;
@@ -104,43 +72,10 @@
     margin-left: auto;
     margin-right: auto;
     width: 1200px;
-}
-
-.no_elements {
-    font-size: 20px;
-    color: #777;
-    text-align: center;
-    padding: 20px;
-}
-
-.element {
-    margin: 20px 0;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
     font-family: Arial, sans-serif;
 }
 
-.element_data {
-    margin-bottom: 10px;
-}
-
-.element_description {
-    font-weight: bold;
-    color: #333;
-}
-
-.element_value {
-    color: #555;
-}
-
-.delete_element_form {
-    margin-top: 20px;
-    text-align: left;
-}
-
-.delete_element_form form input[type="submit"] {
+.delete_button {
     padding: 10px 20px;
     border: 1px solid #dc3545;
     border-radius: 4px;
@@ -148,12 +83,64 @@
     color: #fff;
     font-size: 16px;
     cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
-.delete_element_form form input[type="submit"]:hover {
-    background-color: #c82333;
-    border-color: #c82333;
+.delete_button a {
+    color: white;
+    text-decoration: none;
 }
+
+.infrastructure_navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+}
+
+.infrastructure_navigation {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+.infrastructure_navigation a,
+.button {
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    min-width: 120px;
+}
+
+.infrastructure_navigation a:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.table,
+.signature {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#opis {
+    resize: none;
+    width: 97%;
+    height: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
 
 /* MESSAGES */
 
