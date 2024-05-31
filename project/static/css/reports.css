@@ -1,0 +1,140 @@
+.list-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0; /* Remove auto margin to align left */
+}
+
+.list-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    font-weight: bold;
+    padding: 10px;
+    background-color: #efefef;
+    border-bottom: 2px solid #ccc;
+}
+
+.formatted-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.formatted-list li {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.formatted-list li span {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Additional styling for better visual */
+.formatted-list li:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Stylizacja dla kontenera wszystkich elementów */
+.elements_container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Odstęp między elementami */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    width: 1200px;
+}
+
+/* Stylizacja dla poszczególnych elementów */
+.element {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Stylizacja dla opisu danych */
+.element b {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Stylizacja dla wartości danych */
+.element_value {
+    color: #555;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+/* Stylizacja dla odstępu między liniami danych */
+.element br {
+    margin-bottom: 10px;
+}
+
+
+/* Stylizacja kontenera formularza */
+#report_form_div {
+    width: 300px;
+    margin: 0 auto; /* Wyśrodkowanie formularza */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    margin-top: 30px;
+}
+
+/* Stylizacja dla elementów formularza */
+#report_form_div dt,
+#report_form_div dd {
+    margin: 0;
+    padding: 8px 0;
+}
+
+#report_form_div dt {
+    font-weight: bold;
+    color: #333;
+}
+
+#report_form_div dd {
+    margin-bottom: 16px;
+}
+
+#report_form_div label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+#report_form_div input[type="date"],
+#report_form_div select {
+    width: calc(100% - 10px);
+    padding: 8px 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#report_form_div input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#report_form_div input[type="submit"]:hover {
+    background-color: #0056b3;
+}

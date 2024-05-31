@@ -12,6 +12,7 @@ from project.routes import (
     infr_bp,
     inspections_api,
     inspections_ui,
+    reports_bp,
 )
 
 app = Flask(__name__)
@@ -24,6 +25,7 @@ app.register_blueprint(index_bp)
 app.register_blueprint(repairs_bp)
 app.register_blueprint(service_bp)
 app.register_blueprint(infr_bp)
+app.register_blueprint(reports_bp)
 app.register_blueprint(inspections_api)
 app.register_blueprint(inspections_ui)
 
@@ -55,6 +57,7 @@ def inject_login_status():
         user_name=user_name,
         role_name=role_name,
     )
+
 
 
 @click.group()

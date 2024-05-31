@@ -5,6 +5,7 @@ from .repairs import repairs_bp
 from .service import service_bp
 from .infrastructure import infr_bp
 from .inspections_ui import inspections_ui
+from .reports import reports_bp
 
 __all__ = [
     "auth_bp",
@@ -14,4 +15,5 @@ __all__ = [
     "infr_bp",
     "inspections_ui",
     "inspections_api",
+    "reports_bp",
 ]
