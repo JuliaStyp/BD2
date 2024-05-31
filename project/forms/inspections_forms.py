@@ -114,6 +114,11 @@ class InspectionsForm(Form):
         item_id = re.compile(r"^[^:]+: (\d+) .+$")
         return item_id.findall(self.powod.data)[0]
 
+    def validate_data_zakonczenia(self, field):
+        if field.data < self.data_rozpoczecia:
+            raise StopValidation(f"Nieprawidłowa data zakończenia")
+
+
 
 class TypesForm(Form):
     typ = TextAreaField(

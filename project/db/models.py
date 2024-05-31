@@ -132,7 +132,7 @@ class Naprawa(Base):
     __tablename__ = "naprawy"
     __table_args__ = (
         CheckConstraint(
-            "data_zakonczenia > data_rozpoczecia", name="data_przeglądu_constraint"
+            "data_zakonczenia >= data_rozpoczecia", name="data_przeglądu_constraint"
         ),
         CheckConstraint(
             "(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())",
@@ -199,7 +199,7 @@ class Przeglad(Base, SerializedBase):
     __tablename__ = "przeglady"
     __table_args__ = (
         CheckConstraint(
-            "data_zakonczenia < data_rozpoczecia", name="data_przeglądu_constraint"
+            "data_zakonczenia > data_rozpoczecia", name="data_przeglądu_constraint"
         ),
         CheckConstraint(
             "(data_zakonczenia IS NULL) OR (data_zakonczenia < NOW())",

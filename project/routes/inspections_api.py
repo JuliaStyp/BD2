@@ -34,6 +34,8 @@ def all_inspections() -> list[dict[str, Any]]:
 @admin_required
 def create_inspection() -> dict[str, Any]:
     form = InspectionsForm(request.form)
+    if not form.validate():
+        return {"message": form.errors["data_zakonczenia"]}
     values = dict(request.form)
     values.pop("serwisant")
     values.pop("powod")
@@ -156,13 +158,11 @@ def delete_by_id(table: Any, id: int) -> Response:
 
 def errorMessage(error):
     table = ERROR_TABLE.findall(error)[0]
-    if table[0] != "":
-        item_id = ERROR_ITEM.findall(error)[0]
-        return f"Nie można usunąć obiektu - odwołuje się do niego obiekt o ID: {item_id} z tabeli '{table[0]}'"
     return (
         f"Nie można usunąć obiektu - odwołuje się do niego obiekt z tabeli '{table[1]}'"
     )
 
 
-ERROR_TABLE = re.compile(r'relation "([^"]+)"|from table "([^"]+)"')
-ERROR_ITEM = re.compile(r"Failing row contains \((\d+),")
+ERROR_TABLE = re.compile(
+    r'relation "([^"]+)"|from table "([^"]+)|odwołanie w tabeli "([^"]+)'
+)
