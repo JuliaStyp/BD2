@@ -34,7 +34,7 @@ def all_inspections() -> list[dict[str, Any]]:
 def create_inspection() -> dict[str, Any]:
     form = InspectionsForm(request.form)
     if not form.validate():
-        return {"message": form.errors.popitem()[0][1]}
+        return {"message": form.errors.popitem()[1]}
     values = dict(request.form)
     values.pop("serwisant")
     values.pop("powod")
