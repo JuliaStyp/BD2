@@ -1,5 +1,6 @@
 {% extends 'index.html' %}
-{% block head %}    
+{% from "./repairs/macros.html" import render_messages with context %}
+{% block head %}
     <style>
     h1 {
         margin-top: 40px;
@@ -10,13 +11,12 @@
 
 {% block content %}
     <link href="{{ url_for('static', filename='css/infrastructure.css') }}" rel="stylesheet">
+
+    {{render_messages(get_flashed_messages(with_categories=true))}}
+
     <div class="elements_container">
         <h1 class="signature">Lista obiektów infrastruktury</h1>
-        {% if 'flash_message' in session %}
-            <div class="flash-message">
-                {{ session.pop('flash_message') }}
-            </div>
-        {% endif %}
+
         <ul class="table">
             <div class="list-container">
                 <div class="list-legend">

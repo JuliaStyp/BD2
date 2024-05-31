@@ -1,4 +1,5 @@
 {% extends 'index.html' %}
+{% from "./repairs/macros.html" import render_messages with context %}
 
 {% block head %}
 <title>Serwisanci</title>
@@ -8,15 +9,7 @@
 
 <link href="{{ url_for('static', filename='css/services.css') }}" rel="stylesheet">
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+{{render_messages(get_flashed_messages(with_categories=true))}}
 
 <div id="services_container" class="elements_container">
 
@@ -24,7 +17,7 @@
     <a href='{{ url_for("service_bp.create_service") }}'> Dodaj serwisanta </a>
   </div>
 
-  
+
   {% for service in services %}
   <div class="element">
     <div class=element_data> <span class="element_description">Id:</span> <span class="element_value"> {{ service.id }} </span> </div>
@@ -41,6 +34,6 @@
     {% endif %}
   </div>
   {% endfor %}
-  
+
 </div>
 {% endblock %}
