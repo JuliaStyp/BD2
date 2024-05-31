@@ -34,8 +34,9 @@
                     <span>Id obiektu</span>
                     <span>Id statusu</span>
                     <span>Opis</span>
-                    <span>Usuwanie</span>
-
+                    {% if session['is_admin'] %}
+                        <span>Usuwanie</span>
+                    {% endif %}
                 </div>
                 <ul class="formatted-list">
                     {% for element in elements %}
@@ -46,7 +47,9 @@
                             <span>{{ element.obiekt }}</span>
                             <span>{{ element.status }}</span>
                             <span>{{ element.opis }}</span>
-                            <span class="delete_button"><a href="{{ url_for('infr_bp.delete_element', id=element.id) }}">Usuń</a></span>
+                            {% if session['is_admin'] %}
+                                <span class="delete_button"><a href="{{ url_for('infr_bp.delete_element', id=element.id) }}">Usuń</a></span>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ul>

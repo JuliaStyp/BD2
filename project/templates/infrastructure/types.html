@@ -28,14 +28,18 @@
                 <div class="list-legend">
                     <span>ID</span>
                     <span>Typ</span>
-                    <span>Usuwanie typu</span>
+                    {% if session['is_admin'] %}
+                        <span>Usuwanie typu</span>
+                    {% endif %}
                 </div>
                 <ul class="formatted-list">
                     {% for type in types %}
                         <li>
                             <span>{{ type.id }}</span>
                             <span>{{ type.typ }}</span>
-                            <span class="delete_button"><a href="{{ url_for('infr_bp.delete_type', id=type.id) }}">Usuń</a></span>
+                            {% if session['is_admin'] %}
+                                <span class="delete_button"><a href="{{ url_for('infr_bp.delete_type', id=type.id) }}">Usuń</a></span>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ul>

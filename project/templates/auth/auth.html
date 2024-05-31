@@ -32,7 +32,9 @@
                     <span>Nazwisko</span>
                     <span>Adres e-mail</span>
                     <span>Numer telefonu</span>
-                    <span>Usuwanie</span>
+                    {% if session['is_admin'] %}
+                        <span>Usuwanie</span>
+                    {% endif %}
                 </div>
                 <ul class="formatted-list">
                     {% for user in users %}
@@ -43,7 +45,9 @@
                             <span>{{ user.nazwisko }}</span>
                             <span>{{ user.email }}</span>
                             <span>{{ user.numer_tel }}</span>
-                            <span class="delete_button"><a href="{{ url_for('auth_bp.user_delete', id=user.id) }}">Usuń</a></span>
+                            {% if session['is_admin'] %}
+                                <span class="delete_button"><a href="{{ url_for('auth_bp.user_delete', id=user.id) }}">Usuń</a></span>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ul>

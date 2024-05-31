@@ -23,7 +23,9 @@
                     <span>ID</span>
                     <span>Typ</span>
                     <span>Do Użytku</span>
-                    <span>Usuwanie obiektu</span>
+                    {% if session['is_admin'] %}
+                        <span>Usuwanie obiektu</span>
+                    {% endif %}
                 </div>
                 <ul class="formatted-list">
                     {% for object in objects %}
@@ -31,7 +33,9 @@
                             <span>{{ object.id }}</span>
                             <span>{{ object.typ }}</span>
                             <span>{{ object.do_uzytku }}</span>
-                            <span class="delete_button"><a href="{{ url_for('infr_bp.delete_object', id=object.id) }}">Usuń</a></span>
+                            {% if session['is_admin'] %}
+                                <span class="delete_button"><a href="{{ url_for('infr_bp.delete_object', id=object.id) }}">Usuń</a></span>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ul>
