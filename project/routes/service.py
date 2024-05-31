@@ -7,6 +7,7 @@ from project.utils import login_required, admin_required
 
 service_bp = Blueprint("service_bp", __name__, url_prefix="/service")
 
+
 @service_bp.route("/")
 @login_required
 def service():
@@ -21,19 +22,19 @@ def create_service():
     if request.method == "POST":
         form = ServiceForm(request.form)
         if form.validate():
-            new_service = Serwisant (
-                nazwa = form.name.data,
-                nr_telefonu = form.phone_number.data,
-                adres_mail = form.mail.data
+            new_service = Serwisant(
+                nazwa=form.name.data,
+                nr_telefonu=form.phone_number.data,
+                adres_mail=form.mail.data,
             )
             db.session.add(new_service)
             db.session.commit()
-            flash("Pomyślnie dodano serwisanta", 'success')
+            flash("Pomyślnie dodano serwisanta", "success")
             return redirect(url_for("service_bp.service"))
     else:
         form = ServiceForm()
 
-    context['form'] = form
+    context["form"] = form
     return render_template("service/create_service.html", **context)
 
 
@@ -45,9 +46,12 @@ def delete_service(id):
         service = db.session.query(Serwisant).filter_by(id=id).first()
         db.session.delete(service)
         db.session.commit()
-        flash("Pomyślnie usunięto serwisanta", 'success')
+        flash("Pomyślnie usunięto serwisanta", "success")
     except IntegrityError:
-        flash("Nie można usunąć serwisanta, gdyż jest on wykorzystywany przez inne obiekty.", 'error')
+        flash(
+            "Nie można usunąć serwisanta, gdyż jest on wykorzystywany przez inne obiekty.",
+            "error",
+        )
     except:
         flash("Ups, coś poszło nie tak")
     return redirect(url_for("service_bp.service"))

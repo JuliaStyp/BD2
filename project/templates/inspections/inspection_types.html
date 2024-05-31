@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+{% block head %}
+
+<title>Typy przeglądów</title>
+<link href="/static/css/inspections.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+{% if logged_in %}
+
+<div class="container">
+    <h1>Typy przeglądów</h1>
+    <a href="{{ url_for('inspections_ui.types_create') }}"  class="a-button" id="add-item">Dodaj typ</a>
+    <div class="header types" id="types-header">
+        <span>Id</span>
+        <span>Typ przeglądu</span>
+        <span>Usuń</span>
+    </div>
+    <div id="list-container">
+    </div>
+        <div class="page-buttons">
+        <a class="a-button page" id="prev-page">Poprzednia strona</a>
+        <a class="a-button page" id="next-page">Następna strona</a>
+    </div>
+</div>
+<div class="popup" id="popup">
+    <h3 id="popup-msg">MSG</h3>
+    <a class="a-button" id="popup-button">OK</a>
+</div>
+
+<script>
+    const API = "/api/inspections/types";
+    const FIELDS = ["id", "typ"]
+    const NUMERIC_FIELDS = new Set([]);
+</script>
+<script src="/static/js/inspections.js"></script>
+
+
+{% endif %}
+{% endblock %}

@@ -1,7 +1,14 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from sqlalchemy.exc import IntegrityError
 
-from project.db import db, ElementInfrastruktury, Lokalizacja, Obiekt, TypInfrastruktury, StatusElementu
+from project.db import (
+    db,
+    ElementInfrastruktury,
+    Lokalizacja,
+    Obiekt,
+    TypInfrastruktury,
+    StatusElementu,
+)
 from project.forms import LocationForm, ObjectForm, TypeForm, StatusForm, ElementForm
 from project.utils import admin_required, login_required
 
@@ -11,7 +18,9 @@ infr_bp = Blueprint("infr_bp", __name__, url_prefix="/infrastructure")
 @infr_bp.route("/")
 @login_required
 def infrastructure():
-    element_list = db.session.execute(db.select(ElementInfrastruktury).order_by(ElementInfrastruktury.id)).scalars()
+    element_list = db.session.execute(
+        db.select(ElementInfrastruktury).order_by(ElementInfrastruktury.id)
+    ).scalars()
     return render_template("infrastructure/infrastructure.html", elements=element_list)
 
 
@@ -29,43 +38,48 @@ def create_element():
                 obiekt=form.obiekt.data,
                 status=form.status.data,
                 opis=form.opis.data,
-                max_interwal=form.max_interwal.data
+                max_interwal=form.max_interwal.data,
             )
             db.session.add(new_location)
             db.session.commit()
-            flash("Pomyślnie dodano element", 'success')
+            flash("Pomyślnie dodano element", "success")
             return redirect(url_for("infr_bp.infrastructure"))
     else:
         form = ElementForm()
-    context['form'] = form
+    context["form"] = form
 
     return render_template("infrastructure/create_element.html", **context)
 
 
-@infr_bp.route('/delete/<int:id>', methods=['GET'])
+@infr_bp.route("/delete/<int:id>", methods=["GET"])
 @login_required
 @admin_required
 def delete_element(id):
     location = db.session.query(ElementInfrastruktury).filter_by(id=id).first()
     if not location:
-        flash('Nie znaleziono elementu infrastruktury o podanym ID.', 'error')
-        return redirect(url_for('infr_bp.infrastructure'))
+        flash("Nie znaleziono elementu infrastruktury o podanym ID.", "error")
+        return redirect(url_for("infr_bp.infrastructure"))
 
     else:
         try:
             db.session.delete(location)
             db.session.commit()
-            flash('Element infrastruktury został pomyślnie usunięty.', 'success')
+            flash("Element infrastruktury został pomyślnie usunięty.", "success")
         except IntegrityError:
             db.session.rollback()
-            flash('Nie można usunąć elementu, ponieważ jest używany jako klucz obcy w innych tabelach.', 'error')
-        return redirect(url_for('infr_bp.infrastructure'))
+            flash(
+                "Nie można usunąć elementu, ponieważ jest używany jako klucz obcy w innych tabelach.",
+                "error",
+            )
+        return redirect(url_for("infr_bp.infrastructure"))
 
 
 @infr_bp.route("/locations", methods=["GET", "POST"])
 @login_required
 def locations():
-    location_list = db.session.execute(db.select(Lokalizacja).order_by(Lokalizacja.id)).scalars()
+    location_list = db.session.execute(
+        db.select(Lokalizacja).order_by(Lokalizacja.id)
+    ).scalars()
     return render_template("infrastructure/locations.html", locations=location_list)
 
 
@@ -79,7 +93,7 @@ def create_location():
             new_location = Lokalizacja(
                 szerokosc_geo=form.szerokosc_geo.data,
                 dlugosc_geo=form.dlugosc_geo.data,
-                nazwa_miejsca =form.nazwa_miejsca.data
+                nazwa_miejsca=form.nazwa_miejsca.data,
             )
             db.session.add(new_location)
             db.session.commit()
@@ -87,29 +101,32 @@ def create_location():
             return redirect(url_for("infr_bp.locations"))
     else:
         form = LocationForm()
-    context['form'] = form
+    context["form"] = form
 
     return render_template("infrastructure/create_location.html", **context)
 
 
-@infr_bp.route('/locations/delete/<int:id>', methods=['GET'])
+@infr_bp.route("/locations/delete/<int:id>", methods=["GET"])
 @login_required
 @admin_required
 def delete_location(id):
     location = db.session.query(Lokalizacja).filter_by(id=id).first()
     if not location:
-        flash('Nie znaleziono lokalizacji o podanym ID.', 'error')
-        return redirect(url_for('infr_bp.locations'))
+        flash("Nie znaleziono lokalizacji o podanym ID.", "error")
+        return redirect(url_for("infr_bp.locations"))
 
     else:
         try:
             db.session.delete(location)
             db.session.commit()
-            flash('Lokalizacja została pomyślnie usunięta.', 'success')
+            flash("Lokalizacja została pomyślnie usunięta.", "success")
         except IntegrityError:
             db.session.rollback()
-            flash('Nie można usunąć lokalizacji, ponieważ jest używana jako klucz obcy w innych tabelach.', 'error')
-        return redirect(url_for('infr_bp.locations'))
+            flash(
+                "Nie można usunąć lokalizacji, ponieważ jest używana jako klucz obcy w innych tabelach.",
+                "error",
+            )
+        return redirect(url_for("infr_bp.locations"))
 
 
 @infr_bp.route("/objects", methods=["GET", "POST"])
@@ -126,45 +143,47 @@ def create_object():
     if request.method == "POST":
         form = ObjectForm(request.form)
         if form.validate():
-            new_object = Obiekt(
-                typ=form.typ.data,
-                do_uzytku=form.do_uzytku.data
-            )
+            new_object = Obiekt(typ=form.typ.data, do_uzytku=form.do_uzytku.data)
             db.session.add(new_object)
             db.session.commit()
-            flash("Pomyślnie dodano obiekt", 'success')
+            flash("Pomyślnie dodano obiekt", "success")
             return redirect(url_for("infr_bp.objects"))
     else:
         form = ObjectForm()
-    context['form'] = form
+    context["form"] = form
 
     return render_template("infrastructure/create_object.html", **context)
 
 
-@infr_bp.route('/objects/delete/<int:id>', methods=['GET'])
+@infr_bp.route("/objects/delete/<int:id>", methods=["GET"])
 @login_required
 @admin_required
 def delete_object(id):
     obj = db.session.query(Obiekt).filter_by(id=id).first()
     if not obj:
-        flash('Nie znaleziono obiektu o podanym ID.', 'error')
-        return redirect(url_for('infr_bp.objects'))
+        flash("Nie znaleziono obiektu o podanym ID.", "error")
+        return redirect(url_for("infr_bp.objects"))
 
     else:
         try:
             db.session.delete(obj)
             db.session.commit()
-            flash('Obiekt został pomyślnie usunięty.', 'success')
+            flash("Obiekt został pomyślnie usunięty.", "success")
         except IntegrityError:
             db.session.rollback()
-            flash('Nie można usunąć obiektu, ponieważ jest używany jako klucz obcy w innych tabelach.', 'error')
-        return redirect(url_for('infr_bp.objects'))
+            flash(
+                "Nie można usunąć obiektu, ponieważ jest używany jako klucz obcy w innych tabelach.",
+                "error",
+            )
+        return redirect(url_for("infr_bp.objects"))
 
 
 @infr_bp.route("/types", methods=["GET", "POST"])
 @login_required
 def types():
-    type_list = db.session.execute(db.select(TypInfrastruktury).order_by(TypInfrastruktury.id)).scalars()
+    type_list = db.session.execute(
+        db.select(TypInfrastruktury).order_by(TypInfrastruktury.id)
+    ).scalars()
     return render_template("infrastructure/types.html", types=type_list)
 
 
@@ -175,44 +194,47 @@ def create_type():
     if request.method == "POST":
         form = TypeForm(request.form)
         if form.validate():
-            new_type = TypInfrastruktury(
-                typ=form.typ.data
-            )
+            new_type = TypInfrastruktury(typ=form.typ.data)
             db.session.add(new_type)
             db.session.commit()
-            flash("Pomyślnie dodano typ infrastruktury", 'success')
+            flash("Pomyślnie dodano typ infrastruktury", "success")
             return redirect(url_for("infr_bp.types"))
     else:
         form = TypeForm()
-    context['form'] = form
+    context["form"] = form
 
     return render_template("infrastructure/create_type.html", **context)
 
 
-@infr_bp.route('/types/delete/<int:id>', methods=['GET'])
+@infr_bp.route("/types/delete/<int:id>", methods=["GET"])
 @login_required
 @admin_required
 def delete_type(id):
     typ = db.session.query(TypInfrastruktury).filter_by(id=id).first()
     if not typ:
-        flash('Nie znaleziono typu o podanym ID.', 'error')
-        return redirect(url_for('infr_bp.types'))
+        flash("Nie znaleziono typu o podanym ID.", "error")
+        return redirect(url_for("infr_bp.types"))
 
     else:
         try:
             db.session.delete(typ)
             db.session.commit()
-            flash('Typ został pomyślnie usunięty', 'success')
+            flash("Typ został pomyślnie usunięty", "success")
         except IntegrityError:
             db.session.rollback()
-            flash('Nie można usunąć typu, ponieważ jest używany jako klucz obcy w innych tabelach.', 'error')
-        return redirect(url_for('infr_bp.types'))
+            flash(
+                "Nie można usunąć typu, ponieważ jest używany jako klucz obcy w innych tabelach.",
+                "error",
+            )
+        return redirect(url_for("infr_bp.types"))
 
 
 @infr_bp.route("/statuses", methods=["GET", "POST"])
 @login_required
 def statuses():
-    status_list = db.session.execute(db.select(StatusElementu).order_by(StatusElementu.id)).scalars()
+    status_list = db.session.execute(
+        db.select(StatusElementu).order_by(StatusElementu.id)
+    ).scalars()
     return render_template("infrastructure/statuses.html", statuses=status_list)
 
 
@@ -223,36 +245,36 @@ def create_status():
     if request.method == "POST":
         form = StatusForm(request.form)
         if form.validate():
-            new_status = StatusElementu(
-                status=form.status.data
-            )
+            new_status = StatusElementu(status=form.status.data)
             db.session.add(new_status)
             db.session.commit()
-            flash("Pomyślnie dodano status elementu", 'success')
+            flash("Pomyślnie dodano status elementu", "success")
             return redirect(url_for("infr_bp.statuses"))
     else:
         form = StatusForm()
-    context['form'] = form
+    context["form"] = form
 
     return render_template("infrastructure/create_status.html", **context)
 
 
-@infr_bp.route('/statuses/delete/<int:id>', methods=['GET'])
+@infr_bp.route("/statuses/delete/<int:id>", methods=["GET"])
 @login_required
 @admin_required
 def delete_status(id):
     status = db.session.query(StatusElementu).filter_by(id=id).first()
     if not status:
-        flash('Nie znaleziono statusu o podanym ID.', 'error')
-        return redirect(url_for('infr_bp.statuses'))
+        flash("Nie znaleziono statusu o podanym ID.", "error")
+        return redirect(url_for("infr_bp.statuses"))
 
     else:
         try:
             db.session.delete(status)
             db.session.commit()
-            flash('Status został pomyślnie usunięty', 'success')
+            flash("Status został pomyślnie usunięty", "success")
         except IntegrityError:
             db.session.rollback()
-            flash('Nie można usunąć statusu, ponieważ jest używany jako klucz obcy w innych tabelach.', 'error')
-        return redirect(url_for('infr_bp.statuses'))
-
+            flash(
+                "Nie można usunąć statusu, ponieważ jest używany jako klucz obcy w innych tabelach.",
+                "error",
+            )
+        return redirect(url_for("infr_bp.statuses"))

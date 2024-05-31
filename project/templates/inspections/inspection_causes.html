@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+{% block head %}
+
+<title>Powody przeglądów</title>
+<link href="/static/css/inspections.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+{% if logged_in %}
+
+<div class="container">
+    <h1>Powody przeglądów</h1>
+    <a href="{{ url_for('inspections_ui.causes_create') }}" class="a-button">Dodaj powod</a>
+    <div class="header causes">
+        <span>Id</span>
+        <span>Powod</span>
+        <span>ID zgłoszenia</span>
+        <span>Usuń</span>
+    </div>
+    <div id="list-container">
+    </div>
+        <div class="page-buttons">
+        <a class="a-button page" id="prev-page">Poprzednia strona</a>
+        <a class="a-button page" id="next-page">Następna strona</a>
+    </div>
+</div>
+<div class="popup" id="popup">
+    <h3 id="popup-msg">MSG</h3>
+    <a class="a-button" id="popup-button">OK</a>
+</div>
+
+
+<script>
+    const API = "/api/inspections/causes";
+    const FIELDS = ["id", "powod", "zgloszenie_id"]
+    const NUMERIC_FIELDS = new Set([]);
+</script>
+<script src="/static/js/inspections.js"></script>
+</div>
+
+{% endif %}
+{% endblock %}

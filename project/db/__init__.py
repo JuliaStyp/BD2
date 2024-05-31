@@ -14,12 +14,13 @@ from .models import (
     Lokalizacja,
     Obiekt,
     TypInfrastruktury,
-    StatusElementu
+    StatusElementu,
 )
 
 __all__ = [
     "db",
     "init_db",
+    "clear_db",
     "Rola",
     "Uzytkownik",
     "Przeglad",
@@ -34,5 +35,5 @@ __all__ = [
     "Lokalizacja",
     "Obiekt",
     "TypInfrastruktury",
-    "StatusElementu"
+    "StatusElementu",
 ]

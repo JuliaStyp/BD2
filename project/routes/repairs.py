@@ -1,7 +1,23 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash, jsonify
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    session,
+    flash,
+    jsonify,
+)
 from sqlalchemy.exc import IntegrityError
-from project.db import db, PowodNaprawy, ZgloszenieNaprawy, Naprawa, Serwisant, ElementInfrastruktury, \
-                        Przeglad
+from project.db import (
+    db,
+    PowodNaprawy,
+    ZgloszenieNaprawy,
+    Naprawa,
+    Serwisant,
+    ElementInfrastruktury,
+    Przeglad,
+)
 from project.forms import RepairReasonForm, RepairNeedReportForm, RepairForm
 from project.utils import admin_required, login_required
 
@@ -11,14 +27,19 @@ ITEMS_PER_PAGE = 20
 
 # REPAIR REASONS
 
+
 @repairs_bp.route("/repair-reasons/create", methods=["GET", "POST"])
 @login_required
 def create_repair_reason():
     context = {}
     if request.method == "POST":
         form = RepairReasonForm(request.form)
-        set_form_choices([(form.inspection_id, Przeglad),
-                          (form.repair_need_report_id, ZgloszenieNaprawy)])
+        set_form_choices(
+            [
+                (form.inspection_id, Przeglad),
+                (form.repair_need_report_id, ZgloszenieNaprawy),
+            ]
+        )
         if form.validate():
             new_repair_reason = PowodNaprawy(
                 przeglad_id=form.inspection_id.data,
@@ -28,14 +49,18 @@ def create_repair_reason():
             )
             db.session.add(new_repair_reason)
             db.session.commit()
-            flash("Pomyślnie dodano powód naprawy.", 'success')
+            flash("Pomyślnie dodano powód naprawy.", "success")
             return redirect(url_for("repairs_bp.list_repair_reasons"))
     else:
         form = RepairReasonForm()
-        set_form_choices([(form.inspection_id, Przeglad),
-                          (form.repair_need_report_id, ZgloszenieNaprawy)])
+        set_form_choices(
+            [
+                (form.inspection_id, Przeglad),
+                (form.repair_need_report_id, ZgloszenieNaprawy),
+            ]
+        )
 
-    context['form'] = form
+    context["form"] = form
 
     return render_template("repairs/create_repair_reason.html", **context)
 
@@ -48,8 +73,10 @@ def list_repair_reasons(page=1):
     query = db.session.query(PowodNaprawy).order_by(PowodNaprawy.id.desc())
     reasons = db.paginate(query, page=page, per_page=ITEMS_PER_PAGE, error_out=False)
     if reasons.pages < page:
-        reasons = db.paginate(query, page=reasons.pages, per_page=ITEMS_PER_PAGE, error_out=False)
-    context['reasons'] = reasons
+        reasons = db.paginate(
+            query, page=reasons.pages, per_page=ITEMS_PER_PAGE, error_out=False
+        )
+    context["reasons"] = reasons
 
     return render_template("repairs/list_repair_reasons.html", **context)
 
@@ -62,16 +89,19 @@ def delete_repair_reason(id):
         repair_reason = db.session.query(PowodNaprawy).filter_by(id=id).first()
         db.session.delete(repair_reason)
         db.session.commit()
-        flash("Pomyślnie usunięto powód naprawy.", 'success')
+        flash("Pomyślnie usunięto powód naprawy.", "success")
     except IntegrityError:
-        flash("Nie można usunąć powodu naprawy, gdyż jest on wykorzystywany przez inne obiekty.", 'error')
+        flash(
+            "Nie można usunąć powodu naprawy, gdyż jest on wykorzystywany przez inne obiekty.",
+            "error",
+        )
     except:
-        flash("Ups, coś poszło nie tak", 'error')
+        flash("Ups, coś poszło nie tak", "error")
     return redirect(url_for("repairs_bp.list_repair_reasons"))
 
 
-
 # REAPIR NEED REPORTS
+
 
 @repairs_bp.route("/repair-need-reports/<int:page>", methods=["GET"])
 @repairs_bp.route("/repair-need-reports", methods=["GET"])
@@ -81,8 +111,10 @@ def list_reports(page=1):
     query = db.session.query(ZgloszenieNaprawy).order_by(ZgloszenieNaprawy.id.desc())
     reports = db.paginate(query, page=page, per_page=ITEMS_PER_PAGE, error_out=False)
     if reports.pages < page:
-        reports = db.paginate(query, page=reports.pages, per_page=ITEMS_PER_PAGE, error_out=False)
-    context['reports'] = reports
+        reports = db.paginate(
+            query, page=reports.pages, per_page=ITEMS_PER_PAGE, error_out=False
+        )
+    context["reports"] = reports
 
     return render_template("repairs/list_reports.html", **context)
 
@@ -99,16 +131,16 @@ def create_report():
                 element_id=form.element_id.data,
                 data=form.date.data,
                 zglaszajacy=form.reporting_person.data,
-                uwagi=form.remarks.data
+                uwagi=form.remarks.data,
             )
             db.session.add(new_repair_reason)
             db.session.commit()
-            flash("Pomyślnie dodano zgłoszenie potrzeby naprawy.", 'success')
+            flash("Pomyślnie dodano zgłoszenie potrzeby naprawy.", "success")
             return redirect(url_for("repairs_bp.list_reports"))
     else:
         form = RepairNeedReportForm()
         set_form_choices([(form.element_id, ElementInfrastruktury)])
-    context['form'] = form
+    context["form"] = form
 
     return render_template("repairs/create_report.html", **context)
 
@@ -118,18 +150,24 @@ def create_report():
 @admin_required
 def delete_report(id):
     try:
-        repair_need_report = db.session.query(ZgloszenieNaprawy).filter_by(id=id).first()
+        repair_need_report = (
+            db.session.query(ZgloszenieNaprawy).filter_by(id=id).first()
+        )
         db.session.delete(repair_need_report)
         db.session.commit()
         flash("Pomyślnie usunięto zgłoszenie potrzeby naprawy.", "success")
     except IntegrityError:
-        flash("Nie można usunąć zgłoszenia potrzeby naprawy, gdyż jest ono wykorzystywane przez inne obiekty.", 'error')
+        flash(
+            "Nie można usunąć zgłoszenia potrzeby naprawy, gdyż jest ono wykorzystywane przez inne obiekty.",
+            "error",
+        )
     except:
         flash("Ups, coś poszło nie tak", "error")
     return redirect(url_for("repairs_bp.list_reports"))
 
 
 # REPAIRS
+
 
 @repairs_bp.route("", methods=["GET"])
 @repairs_bp.route("/<int:page>", methods=["GET"])
@@ -139,8 +177,10 @@ def list_repairs(page=1):
     query = db.session.query(Naprawa).order_by(Naprawa.id.desc())
     repairs = db.paginate(query, page=page, per_page=ITEMS_PER_PAGE, error_out=False)
     if repairs.pages < page:
-        repairs = db.paginate(query, page=repairs.pages, per_page=ITEMS_PER_PAGE, error_out=False)
-    context['repairs'] = repairs
+        repairs = db.paginate(
+            query, page=repairs.pages, per_page=ITEMS_PER_PAGE, error_out=False
+        )
+    context["repairs"] = repairs
 
     return render_template("repairs/list_repairs.html", **context)
 
@@ -151,9 +191,13 @@ def create_repair():
     context = {}
     if request.method == "POST":
         form = RepairForm(request.form)
-        set_form_choices([(form.reason_id, PowodNaprawy),
-                          (form.maintainer_id, Serwisant),
-                          (form.element_id, ElementInfrastruktury)])
+        set_form_choices(
+            [
+                (form.reason_id, PowodNaprawy),
+                (form.maintainer_id, Serwisant),
+                (form.element_id, ElementInfrastruktury),
+            ]
+        )
         if form.validate():
             new_repair = Naprawa(
                 powod_id=form.reason_id.data,
@@ -161,7 +205,7 @@ def create_repair():
                 element_id=form.element_id.data,
                 data_rozpoczecia=form.date_start.data,
                 data_zakonczenia=form.date_end.data,
-                koszt=form.cost.data
+                koszt=form.cost.data,
             )
             db.session.add(new_repair)
             db.session.commit()
@@ -169,10 +213,14 @@ def create_repair():
             return redirect(url_for("repairs_bp.list_repairs"))
     else:
         form = RepairForm()
-        set_form_choices([(form.reason_id, PowodNaprawy),
-                          (form.maintainer_id, Serwisant),
-                          (form.element_id, ElementInfrastruktury)])
-    context['form'] = form
+        set_form_choices(
+            [
+                (form.reason_id, PowodNaprawy),
+                (form.maintainer_id, Serwisant),
+                (form.element_id, ElementInfrastruktury),
+            ]
+        )
+    context["form"] = form
 
     return render_template("repairs/create_repair.html", **context)
 
@@ -187,7 +235,10 @@ def delete_repair(id):
         db.session.commit()
         flash("Pomyślnie usunięto naprawę", "success")
     except IntegrityError:
-        flash("Nie można usunąć naprawy, gdyż jest ona wykorzystywana przez inne obiekty.", 'error')
+        flash(
+            "Nie można usunąć naprawy, gdyż jest ona wykorzystywana przez inne obiekty.",
+            "error",
+        )
     except:
         flash("Ups, coś poszło nie tak", "error")
     return redirect(url_for("repairs_bp.list_repairs"))
@@ -201,54 +252,57 @@ def set_form_choices(forms_fields_and_models: list):
 
 # GET RENDERED DATA
 
+
 def get_object_by_id_with_status(model, id):
     object = db.session.query(model).filter_by(id=id).first()
     if object is not None:
-        status = 'ok'
+        status = "ok"
     else:
-        status = 'error'
+        status = "error"
     return (object, status)
 
-@repairs_bp.route("/get-data/maintainers/<id>", methods=['GET'])
+
+@repairs_bp.route("/get-data/maintainers/<id>", methods=["GET"])
 @login_required
 def get_rendered_maintainer(id):
     maintainer, status = get_object_by_id_with_status(Serwisant, id)
-    rendered_data = render_template('repairs/maintainer_data.html', maintainer=maintainer)
-    return jsonify({'status': status,
-                    'data': rendered_data})
+    rendered_data = render_template(
+        "repairs/maintainer_data.html", maintainer=maintainer
+    )
+    return jsonify({"status": status, "data": rendered_data})
 
 
-@repairs_bp.route("/get-data/repair-reasons/<id>", methods=['GET'])
+@repairs_bp.route("/get-data/repair-reasons/<id>", methods=["GET"])
 @login_required
 def get_rendered_repair_reason(id):
     repair_reason, status = get_object_by_id_with_status(PowodNaprawy, id)
-    rendered_data = render_template('repairs/repair_reason_data.html', reason=repair_reason)
-    return jsonify({'status': status,
-                    'data': rendered_data})
+    rendered_data = render_template(
+        "repairs/repair_reason_data.html", reason=repair_reason
+    )
+    return jsonify({"status": status, "data": rendered_data})
 
 
-@repairs_bp.route("/get-data/elements/<id>", methods=['GET'])
+@repairs_bp.route("/get-data/elements/<id>", methods=["GET"])
 @login_required
 def get_rendered_element(id):
     element, status = get_object_by_id_with_status(ElementInfrastruktury, id)
-    rendered_data = render_template('repairs/element_data.html', element=element)
-    return jsonify({'status': status,
-                    'data': rendered_data})
+    rendered_data = render_template("repairs/element_data.html", element=element)
+    return jsonify({"status": status, "data": rendered_data})
 
 
-@repairs_bp.route("/get-data/inspections/<id>", methods=['GET'])
+@repairs_bp.route("/get-data/inspections/<id>", methods=["GET"])
 @login_required
 def get_rendered_inspection(id):
     inspection, status = get_object_by_id_with_status(Przeglad, id)
-    rendered_data = render_template('repairs/inspection_data.html', inspection=inspection)
-    return jsonify({'status': status,
-                    'data': rendered_data})
+    rendered_data = render_template(
+        "repairs/inspection_data.html", inspection=inspection
+    )
+    return jsonify({"status": status, "data": rendered_data})
 
 
-@repairs_bp.route("/get-data/repair-need-reports/<id>", methods=['GET'])
+@repairs_bp.route("/get-data/repair-need-reports/<id>", methods=["GET"])
 @login_required
 def get_rendered_repair_need_report(id):
     report, status = get_object_by_id_with_status(ZgloszenieNaprawy, id)
-    rendered_data = render_template('repairs/report_data.html', report=report)
-    return jsonify({'status': status,
-                    'data': rendered_data})
+    rendered_data = render_template("repairs/report_data.html", report=report)
+    return jsonify({"status": status, "data": rendered_data})

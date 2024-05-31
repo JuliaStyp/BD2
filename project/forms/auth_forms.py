@@ -8,7 +8,9 @@ class UzytkownikForm(Form):
     imie = StringField("Imię", validators=[InputRequired(), Length(max=32)])
     nazwisko = StringField("Nazwisko", validators=[Optional(), Length(max=32)])
     email = StringField("Email", validators=[InputRequired(), Email(), Length(max=32)])
-    password = PasswordField("Hasło", validators=[InputRequired(), Length(min=8, max=128)])
+    password = PasswordField(
+        "Hasło", validators=[InputRequired(), Length(min=8, max=128)]
+    )
     numer_tel = StringField("Numer telefonu", validators=[Optional(), Length(max=32)])
 
     def validate_rola_fk(self, field):
