@@ -14,20 +14,22 @@
 {% endmacro %}
   
 {% block content %}
-
-<form method="post" action="{{ url_for('auth_bp.role_create') }}">
-  <dl>
-    {{ render_field(form.rola) }}
-  </dl>
-  
-  {% if form.form_errors %}
-  <ul class="form_errors">
-    {% for error in form.form_errors %}
-    <li>{{ error }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-  
-  <p><input type="submit" value="Dodaj Rolę">
-  </form>
+<link href="{{ url_for('static', filename='css/user_managment.css') }}" rel="stylesheet">
+<div class="create_form_div">
+  <form method="post" action="{{ url_for('auth_bp.role_create') }}">
+    <dl>
+      {{ render_field(form.rola) }}
+    </dl>
+    
+    {% if form.form_errors %}
+    <ul class="form_errors">
+      {% for error in form.form_errors %}
+      <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <p><input type="submit" value="Dodaj Rolę">
+    </form>
+</div>
 {% endblock %}
