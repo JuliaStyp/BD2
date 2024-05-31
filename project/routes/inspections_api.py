@@ -91,7 +91,7 @@ def get_cause() -> list[dict[str, Any]]:
 def create_cause() -> dict[str, Any]:
     form = CausesForm(request.form)
     if not form.validate():
-        return {"message": form.errors["powod"]}
+        return {"message": form.errors["zgloszenie"]}
     values = dict(request.form)
     values.pop("zgloszenie")
     values["zgloszenie_id"] = form.zgloszenie_id
