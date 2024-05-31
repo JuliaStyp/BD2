@@ -115,7 +115,7 @@ class InspectionsForm(Form):
         return item_id.findall(self.powod.data)[0]
 
     def validate_data_zakonczenia(self, field):
-        if field.data < self.data_rozpoczecia:
+        if field.data < self.data_rozpoczecia.data:
             raise StopValidation(f"Nieprawidłowa data zakończenia")
 
 
