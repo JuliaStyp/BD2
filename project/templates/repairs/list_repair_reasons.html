@@ -2,20 +2,14 @@
 
 {% from "./repairs/macros.html" import render_pagination with context %}
 {% from "./repairs/macros.html" import better_none with context %}
+{% from "./repairs/macros.html" import render_messages with context %}
+
 
 {% block content %}
 
 <link href="{{ url_for('static', filename='css/repairs.css') }}" rel="stylesheet">
 
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul class=flashes>
-  {% for message in messages %}
-  <li>{{ message }}</li>
-  {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
+{{render_messages(get_flashed_messages(with_categories=true))}}
 
 <div id="repair_reasons_container" class="elements_container">
 
