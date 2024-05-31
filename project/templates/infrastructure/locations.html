@@ -10,12 +10,6 @@
 
 {% block content %}
     <link href="{{ url_for('static', filename='css/infrastructure.css') }}" rel="stylesheet">
-    {% if logged_in %}
-        <a class="logged-in-text"> Zalogowany z rolą {{ role_name }}</a>
-        <a class="logout-link" href="{{ url_for('auth_bp.logout') }}">Wyloguj</a>
-    {% else %}
-        <a class="login-link" href="{{ url_for('auth_bp.login') }}">Zaloguj</a>
-    {% endif %}
     <div class="elements_container">
         <h1 class="signature">Lista lokalizacji</h1>
         {% if 'flash_message' in session %}

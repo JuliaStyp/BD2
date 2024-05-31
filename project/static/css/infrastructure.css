@@ -62,27 +62,6 @@
     background-color: #218838;
 }
 
-.add_element_div {
-    text-align: left;
-    margin-bottom: 30px;
-    margin-top: 10px;
-}
-
-.add_element_div a {
-    padding: 10px 20px;
-    border: 1px solid #007bff;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-.add_element_div a:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
-
 .elements_container {
     /* margin: 20px 0; */
     padding: 20px;
@@ -94,35 +73,6 @@
     margin-right: auto;
     width: 1200px;
     font-family: Arial, sans-serif;
-}
-
-.no_elements {
-    font-size: 20px;
-    color: #777;
-    text-align: center;
-    padding: 20px;
-}
-
-.element {
-    margin: 20px 0;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    font-family: Arial, sans-serif;
-}
-
-.element_data {
-    margin-bottom: 10px;
-}
-
-.element_description {
-    font-weight: bold;
-    color: #333;
-}
-
-.element_value {
-    color: #555;
 }
 
 .delete_button {
