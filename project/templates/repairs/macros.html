@@ -34,4 +34,13 @@
   {% if object %} {{object}} {% else %} Brak {% endif %}
 {% endmacro %}
 
+{% macro render_messages(messages) %}
+  {% if messages %}
+    <div class=messages_wrapper>
+      {% for category, message in messages %}
+        <div class="message_{{category}}"> {{message}} </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endmacro %}
 
