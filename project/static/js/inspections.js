@@ -5,7 +5,7 @@ function fetchElements(api_url, fields, numeric_fields) {
             const list_container = document.getElementById('list-container');
             json.forEach(item => {
                 var ul = document.createElement('ul');
-                var item_class = api_url.split("/").slice(-1);
+                var item_class = API.split("/").slice(-1);
                 ul.className = "values-list " + item_class;
                 list_container.appendChild(ul);
                 fields.forEach(key => {
@@ -49,13 +49,29 @@ function deleteRequest(api_url, id) {
 
 }
 
-
 const popup = document.getElementById('popup');
 document.getElementById('popup-button').addEventListener("click", function () {
     popup.style.visibility = "hidden";
 })
 
-fetchElements(API, FIELDS, NUMERIC_FIELDS);
+document.getElementById('next-page').addEventListener("click", function () {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('page', parseInt(page) + 1);
+    window.location.href = currentUrl.toString();
+})
+
+document.getElementById('prev-page').addEventListener("click", function () {
+    const currentUrl = new URL(window.location.href);
+    if (page > 1) {
+        currentUrl.searchParams.set('page', parseInt(page) - 1);
+        window.location.href = currentUrl.toString();
+    }
+})
+
+var params = new URLSearchParams(window.location.search)
+page = params.has('page') ? params.get('page') : 1
+api = API + "?page=" + page;
+fetchElements(api, FIELDS, NUMERIC_FIELDS);
 
 
 

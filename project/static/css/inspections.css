@@ -4,6 +4,8 @@
     --color-dark-red: #c82333;
     --color-red: #dc3545;
     --color-gray: #efefef;
+    --color-green: #28a745;
+    --color-dark-green: #218838;
 }
 
 .container {
@@ -12,6 +14,10 @@
     align-items: flex-start;
     justify-content: flex-start;
     margin: 10px;
+}
+
+.page-buttons {
+    display: flex;
 }
 
 .a-button {
@@ -29,6 +35,14 @@
 
 .a-button:hover {
     background-color: var(--color-dark-blue);
+}
+
+.page {
+    background-color: var(--color-green);
+}
+
+.page:hover {
+    background-color: var(--color-dark-green);
 }
 
 .del-button {
