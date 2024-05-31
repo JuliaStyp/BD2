@@ -37,7 +37,7 @@ function addDeleteButton(api_url, ul, itemID) {
 }
 
 function deleteRequest(api_url, id) {
-    fetch(api_url + "/" + id, {
+    fetch(API + "/" + id, {
         method: "DELETE"
     })
         .then(response => response.json())

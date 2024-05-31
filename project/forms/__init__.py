@@ -8,3 +8,4 @@ from .infrastructure_forms import (
 )
 from .auth_forms import UzytkownikForm, RolaForm
 from .reports_forms import ReportForm
+from .inspections_forms import InspectionsForm

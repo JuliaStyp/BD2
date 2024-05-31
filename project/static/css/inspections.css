@@ -83,6 +83,15 @@
     visibility: hidden;
 }
 
+.submit-popup {
+    grid-template-rows:  auto auto 30px 30px;
+    grid-template-areas:
+        "message"
+        "id"
+        "."
+        "button";
+}
+
 .popup.show {
     visibility: visible;
   }
@@ -95,6 +104,12 @@
 #popup-msg {
     grid-area: message;
     text-align: center;
+}
+
+#popup-id {
+    grid-area: id;
+    text-align: center;
+    align-self: start;
 }
 
 .header {

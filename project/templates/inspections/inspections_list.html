@@ -10,7 +10,7 @@
 
 <div class="container">
     <h1>Przeglądy</h1>
-    <a class="a-button" id="add-item">Dodaj przegląd</a>
+    <a href="{{ url_for('inspections_ui.inspections_create') }}" class="a-button" id="add-item">Dodaj przegląd</a>
     <div class="header inspections" id="inspections-header">
         <span>Id</span>
         <span>Typ</span>

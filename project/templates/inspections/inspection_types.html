@@ -11,7 +11,7 @@
 
 <div class="container">
     <h1>Typy przeglądów</h1>
-    <a class="a-button" id="add-item">Dodaj typ</a>
+    <a href="{{ url_for('inspections_ui.types_create') }}"  class="a-button" id="add-item">Dodaj typ</a>
     <div class="header types" id="types-header">
         <span>Id</span>
         <span>Typ przeglądu</span>
