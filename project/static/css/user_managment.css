@@ -3,7 +3,7 @@
     margin-right: auto;
     margin-top: 20px;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -119,4 +119,45 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+}
+
+/* MESSAGES */
+
+/* Stylizacja kontenera wiadomości */
+.messages_wrapper {
+    width: 1200px;
+    padding: 20px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+/* Ogólna stylizacja wiadomości */
+.messages_wrapper > div {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #fff;
+    width: 100%;
+}
+
+/* Stylizacja wiadomości według kategorii */
+.message_success {
+    background-color: #4caf50; /* Zielony dla sukcesu */
+}
+
+.message_error {
+    background-color: #f44336; /* Czerwony dla błędów */
+}
+
+/* Ostatnia wiadomość bez marginesu na dole */
+.messages_wrapper > div:last-child {
+    margin-bottom: 0;
 }
